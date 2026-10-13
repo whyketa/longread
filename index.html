@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Авангард и вкус</title>
+<meta name="description" content="Интерактивный лонгрид о мейнстриме, отторжении и праве на собственный вкус">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+
+<!-- ЭКРАН 1: вопрос, картина на гвоздике и ползунок -->
+<section class="first" id="first" aria-label="Вопрос об авангарде">
+  <h1>Вы любите авангард?</h1>
+
+  <div class="art">
+    <svg viewBox="0 0 140 160" role="img" aria-label="Чёрный квадрат Малевича в белой раме, висит на гвозде">
+      <defs>
+        <filter id="craq" x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/>
+          <feColorMatrix in="n" type="matrix" values="0 0 0 0 .55  0 0 0 0 .52  0 0 0 0 .46  0 0 0 .9 -.62"/>
+          <feComposite in2="SourceGraphic" operator="in"/>
+        </filter>
+        <filter id="blur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3.2"/></filter>
+        <filter id="blur2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation=".7"/></filter>
+        <linearGradient id="lit" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#000" stop-opacity=".22"/><stop offset=".35" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".1"/>
+        </linearGradient>
+        <radialGradient id="metal" cx=".35" cy=".3" r=".8">
+          <stop offset="0" stop-color="#f4f1ea"/><stop offset=".5" stop-color="#9c9890"/><stop offset="1" stop-color="#3b3935"/>
+        </radialGradient>
+        <clipPath id="sqclip"><polygon points="35.6,46.4 104.8,45.4 105.6,115.4 36.2,114.6"/></clipPath>
+      </defs>
+
+      <!-- гвоздь: тень на стене и шляпка -->
+      <ellipse cx="72.2" cy="12.4" rx="3.4" ry="1.8" fill="#000" opacity=".4" filter="url(#blur2)"/>
+      <circle cx="70" cy="10" r="2.7" fill="url(#metal)"/>
+      <circle cx="69.3" cy="9.2" r=".8" fill="#fff" opacity=".7"/>
+
+      <g class="sway">
+        <!-- тень рамы на стене -->
+        <rect x="26" y="49" width="88" height="88" fill="#000" opacity=".5" filter="url(#blur)"/>
+        <!-- шнур -->
+        <path d="M70 10 L30 44 M70 10 L110 44" stroke="#1a1210" stroke-width=".9" fill="none" stroke-linecap="round"/>
+        <path d="M70 10 L30 44 M70 10 L110 44" stroke="#6d5a4c" stroke-width=".25" fill="none" stroke-linecap="round" opacity=".7"/>
+        <image href="img/square.jpg" x="20" y="38" width="100" height="100.6" preserveAspectRatio="none"/>
+        <polygon points="20,38 120,38 117,41 23,41" fill="#fff" opacity=".1"/>
+        <g id="glass"></g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="qa" id="qa" aria-live="polite"></div>
+
+  <div class="ctl">
+    <div class="slider" id="s1" role="slider" tabindex="0" aria-label="Вы любите авангард? От «не вижу в этом искусства» до «признанный шедевр»" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+      <div class="bar"></div><i class="thumb fresh"></i>
+    </div>
+    <div class="sl-ends"><span>Не вижу в этом искусства</span><span>Признанный шедевр</span></div>
+  </div>
+  <button type="button" class="cue" id="cue" aria-label="Читать дальше">↓</button>
+</section>
+
+<div id="after">
+
+<!-- ЭКРАН: предисловие и пощёчина -->
+<div class="pin" id="pin-ship">
+  <div class="sc">
+    <div class="sc-pre" id="sc-pre">
+      <div class="pre-in" id="pre-in">
+        <p>Когда авангард появился, публика приняла его не с радостью. Футуристов считали хулиганами, а «Чёрный квадрат» на выставке 1915 года вызвал у зрителей недоумение. Отторжение пришло раньше признания.</p>
+        <p class="red">Начнём с манифеста, который сам вызвал отторжение.</p>
+      </div>
+      
+    </div>
+    <div class="sc-text" id="sc-text">
+      <h2>1912. Пощёчина общественному вкусу</h2>
+      <p id="sc-p">В конце 1912 года группа молодых поэтов выпускает сборник с манифестом. Он называется «Пощёчина общественному вкусу». В нём предлагается сбросить Пушкина, Достоевского и Толстого «с парохода современности». Среди подписавших — Владимир Маяковский.</p>
+      <p id="sc-p2">В 1913 году появляются первые скандальные стихи Маяковского. Публика воспринимает его как хулигана. В 1913-м он — тот, от кого публика отвернулась.</p>
+    </div>
+    <div class="sc-art" id="sc-art" role="img" aria-label="Коллаж: гора разбитых гипсовых бюстов, по ней выезжает колёсный пароход «Медный павлин», на палубе человек в костюме. С палубы падает бюст Пушкина">
+      <img class="heap" src="img/heap.webp" alt="" width="1798" height="1037" decoding="async">
+      <div class="shipl" id="shipl">
+        <img src="img/ship.webp" alt="" width="1798" height="1037" decoding="async">
+        <img id="p-bust" class="pb" src="img/pushkin.png" alt="" width="316" height="428">
+      </div>
+    </div>
+  </div>
+</div>
+<section class="redpin" id="redpin" aria-label="Мысль">
+  <div class="redsc">
+    <p id="red-p"><span>Чтобы сбросить Пушкина, манифесту пришлось сначала назвать его по имени.</span> <span>Жест «против всех» ориентируется на то, что все уже считают ценным.</span> <span>Расстояние до большинства задано тем, где стоит большинство.</span> <span>Если бы большинство сдвинулось, сдвинулась бы и эта метка.</span></p>
+    <div class="rscale" id="rscale" aria-hidden="true"><div class="rline"></div><div class="rpair" id="rpair"><img class="rmay" src="img/mayak_head.png" alt="" width="328" height="459"><img class="rpus" src="img/pushkin_hd.png" alt="" width="412" height="689"></div></div>
+  </div>
+</section>
+
+<!-- ДВЕ ЛИНИИ -->
+<section style="padding-top:2rem">
+  <div class="col">
+    <h2>Две линии рядом</h2>
+    <p>Дальше идём по годам. Слева линия Маяковского, справа линия Малевича. Над текстом всегда видно, в каком статусе каждый из них сейчас.</p>
+  </div>
+  <div class="wide" style="max-width:44rem">
+    <div class="tl-head">
+      <div class="lanes"><span>Маяковский</span><span>Малевич</span></div>
+      <div class="chip"><b>Маяковский:</b> <span id="ms">—</span><br><b>Малевич:</b> <span id="ls">—</span></div>
+    </div>
+
+    <div class="row" data-m="отвергнут публикой" data-l="отвергнут публикой">
+      <div class="lane"><div class="seg rej"><i class="pt"></i></div><div class="seg rej"><i class="pt"></i></div></div>
+      <div class="rowtext"><div class="year">1913</div>
+        <p>В декабре в петербургском театре «Луна-парк» идут две футуристические постановки, в соседние дни. Казимир Малевич оформляет оперу «Победа над Солнцем». Владимир Маяковский играет главную роль в своей трагедии. Они ещё не знают, что через двадцать лет их будут оценивать по-разному.<span class="flag">проверить даты</span></p></div>
+    </div>
+    <div class="row" data-m="отвергнут публикой" data-l="отвергнут публикой">
+      <div class="lane"><div class="seg work"><i class="pt"></i></div><div class="seg work"><i class="pt"></i></div></div>
+      <div class="rowtext"><div class="year">1914</div>
+        <p>Начинается война, и они делают одно дело. В издательском проекте «Сегодняшний лубок» Малевич рисует агитационные лубочные листы, а Маяковский пишет к ним подписи. Два человека, которых публика считает хулиганами, вместе делают плакаты против германцев.</p></div>
+    </div>
+    <div class="row" data-m="отвергнут публикой" data-l="отвергнут публикой">
+      <div class="lane"><div class="seg rej"><i class="pt"></i></div><div class="seg rej"><i class="pt"></i></div></div>
+      <div class="rowtext"><div class="year">1915</div>
+        <div class="bsq" role="img" aria-label="Чёрный квадрат"></div>
+        <p>На «Последней футуристической выставке картин „0,10“» Малевич показывает «Чёрный квадрат». Он висит в «красном углу», там, где в русском доме обычно висела икона. Публика встречает его недоумением. Критик Александр Бенуа называет его иконой, которую футуристы предлагают взамен мадонн. В том же году выходит «Вам!» Маяковского, ещё один скандал.</p>
+        <p>Вернитесь к своей метке. Если бы вы стояли у этого квадрата в 1915-м, куда бы она сдвинулась?</p></div>
+    </div>
+    <div class="row" data-m="принят заказчиком, но ненадолго" data-l="принят заказчиком, но ненадолго">
+      <div class="lane"><div class="seg work"><i class="pt"></i></div><div class="seg work"><i class="pt"></i></div></div>
+      <div class="rowtext"><div class="year">1918</div>
+        <p>После революции меняется вопрос. Раньше авангард убедить публику не успевал. Теперь спрашивает не публика, а заказчик. Малевич оформляет «Мистерию-буфф», пьесу Маяковского о революции. Впервые оба работают на новую власть, и это всё ещё один спектакль.<span class="flag">проверить год</span></p></div>
+    </div>
+    <div class="row" data-m="работает на государство" data-l="работает на государство">
+      <div class="lane"><div class="seg state"><i class="pt"></i></div><div class="seg state"><i class="pt"></i></div></div>
+      <div class="rowtext"><div class="year">1919–1921</div>
+        <p>Маяковский делает «Окна РОСТА» — плакаты государственного телеграфного агентства, которые висят в витринах. Малевич в Витебске делает агитационные плакаты вместе с учениками (УНОВИС).<span class="flag">проверить</span> Два пути расходятся, а заказчик у них один.</p></div>
+    </div>
+    <div class="row" data-m="отвергнут государством" data-l="работает на государство">
+      <div class="lane"><div class="seg rej"><i class="pt"></i></div><div class="seg state"></div></div>
+      <div class="rowtext"><div class="year">1921</div>
+        <p>Ленин пишет Луначарскому о поэме Маяковского «150 000 000». Заказчик говорит «нет», даже тем, кто уже на него работает.<span class="flag">проверить год</span></p>
+        <div class="pq">«Как не стыдно голосовать за издание 150 000 000 Маяковского в 5000 экз.?»<small>Ленин, записка Луначарскому</small></div></div>
+    </div>
+    <div class="row" data-m="первая похвала от власти" data-l="работает на государство">
+      <div class="lane"><div class="seg part"><i class="pt"></i></div><div class="seg state"></div></div>
+      <div class="rowtext"><div class="year">1922</div>
+        <p>Тот же Ленин читает в «Известиях» стихотворение Маяковского «Прозаседавшиеся». Похвала идёт за конкретную вещь, а не за всё направление.<span class="flag">проверить</span></p>
+        <div class="pq">«…насчёт политики ручаюсь, что это совершенно правильно»<small>Ленин, 1922</small></div></div>
+    </div>
+    <div class="row" data-m="принят частично" data-l="институт закрыт">
+      <div class="lane"><div class="seg part"></div><div class="seg narrow"><i class="pt"></i></div></div>
+      <div class="rowtext"><div class="year">1926</div>
+        <p>Закрывают институт Малевича.</p></div>
+    </div>
+    <div class="row" data-m="всё ещё не свой" data-l="арестован, работы изъяты">
+      <div class="lane"><div class="seg narrow"><i class="pt"></i></div><div class="seg narrow"><i class="pt"></i></div></div>
+      <div class="rowtext"><div class="year">1930</div>
+        <p>Малевича арестовывают, его работы конфискуют. В том же году выставка Маяковского «20 лет работы» проходит без поддержки официальных литературных кругов.<span class="flag">проверить</span></p></div>
+    </div>
+    <div class="row" data-m="ещё не свой" data-l="авангард «не тот»">
+      <div class="lane"><div class="seg narrow"></div><div class="seg narrow"></div></div>
+      <div class="rowtext"><div class="year">1932–1934</div>
+        <p>До начала 1930-х в искусстве существуют разные группы, и они спорят между собой. В 1932 году художественные объединения распускают. В 1934-м на съезде писателей социалистический реализм объявляют методом. Авангард перестаёт быть направлением и становится «не тем».</p>
+        <p>Если всё решается сверху, что тогда меняется в отношении публики?</p></div>
+    </div>
+    <div class="row" data-m="признан сверху" data-l="в тени">
+      <div class="lane"><div class="seg rec"><i class="pt"></i></div><div class="seg shadow"></div></div>
+      <div class="rowtext"><div class="year">1935</div>
+        <p>17 декабря «Правда» публикует резолюцию Сталина. В тот же день Триумфальная площадь в Москве получает имя Маяковского.</p>
+        <div class="pq">«лучший, талантливейший поэт нашей советской эпохи»<small>Сталин о Маяковском, 1935</small></div>
+        <p>Проследите за линией целиком. 1913: хулиган. 1921: «как не стыдно». 1922: частичная похвала. 1935: «лучший». Стихи за эти годы не переписывались. Поменялся тот, кто решает, что считать ценным.</p>
+        <p>Рядом линия Малевича остаётся в тени. Такой резолюции он не получил. Возвращение «Чёрного квадрата» в музеи и в разговор займёт десятилетия.<span class="flag">вставить даты</span></p>
+        <p>Признание пришло не от публики, которая вдруг поняла. Оно пришло сверху, как решение.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- СЕГОДНЯ -->
+<section id="today">
+  <div class="col">
+    <h2>Сегодня</h2>
+    <p>Вернёмся к вопросу из начала. <span class="big">Вы любите авангард?</span> Поставьте метку ещё раз и сравните её с первой.</p>
+  </div>
+  <div class="wide" style="max-width:38rem">
+    <div class="slider" id="s2" role="slider" tabindex="0" aria-label="Вторая метка" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+      <div class="bar"></div><i class="mk m1" hidden></i><i class="thumb fresh"></i>
+    </div>
+    <div class="sl-ends"><span>Не вижу в этом искусства</span><span>Признанный шедевр</span></div>
+    <div class="lock" style="display:flex;margin-top:1rem">
+      <button type="button" class="go" id="lock2" hidden>Поставить вторую метку</button>
+    </div>
+    <div class="result" id="result" aria-live="polite"></div>
+  </div>
+  <div class="col">
+    <p style="margin-top:1.4rem">В двух рабочих программах по литературе для 11 класса, которые мы посмотрели, Маяковскому отведено 4 и 7 часов, футуризму — час, а слова «авангард» нет совсем. Малевич упомянут только рядом с кубистами. Это две программы, а не вся школа.</p>
+    <p>Почему отношение к авангарду такое, какое есть, мы не знаем: данных именно об авангарде у нас нет. Есть две гипотезы, и они вытекают из того, что вы только что прочитали.</p>
+    <ol class="hyp">
+      <li>Авангард стал для людей «знаком протеста». Оценивают они протест, а не саму работу.</li>
+      <li>У читателя нет «переводчика». Школа авангард почти не объясняет, поэтому ответ приходит от чужих мнений.</li>
+    </ol>
+    <p>Есть слово для того, что произошло с авангардом на этом пути: <span class="big">рекуперация</span>. Так называют ситуацию, когда жест протеста возвращается в ту систему, которую оспаривал, и начинает на неё работать. Посмотрите на свою метку в начале и в этом кадре. Если они разные, нужно ли спрашивать, что изменилось: сомнения или то, кто стоял рядом?</p>
+  </div>
+</section>
+
+<!-- ПОЛКА -->
+<section id="shelf-sec">
+  <div class="col">
+    <h2>Полка</h2>
+    <p>На полке стоят бюсты. Пушкин, Достоевский и Толстой, которых хотели сбросить с корабля. Маяковский, который сбрасывал.</p>
+    <p>Школьная программа поставила их в один ряд под именем «русская литература». Для современного читателя это уже не спор и не пощёчина. Это одна полка «уважаемых людей из прошлого», которым положено что-то чувствовать. Пушкин и Маяковский на ней просто соседи.</p>
+    <p>Малевича на этой полке нет.</p>
+  </div>
+  <div class="wide shelfwrap" style="max-width:48rem">
+    <div class="shelf">
+      <svg viewBox="0 0 900 340" role="group" aria-label="Полка с бюстами: Пушкин, Достоевский, Маяковский, Толстой и пустое место">
+        <rect x="20" y="268" width="860" height="14" fill="var(--hull)"/>
+        <rect x="20" y="282" width="860" height="3" fill="var(--line)"/>
+        <g id="b-push" role="button" tabindex="0" aria-label="Бюст Пушкина"><image href="img/pushkin.png" x="30" y="70" width="147" height="198" style="filter:grayscale(.45) sepia(.15)"/></g>
+        <g id="b-dost" role="button" tabindex="0" aria-label="Бюст Достоевского"><image href="img/dost.png" x="215" y="96" width="107" height="172" style="filter:grayscale(.3)"/></g>
+        <g id="b-maya" role="button" tabindex="0" aria-label="Бюст Маяковского"><image href="img/mayak.png" x="350" y="62" width="165" height="206"/></g>
+        <g id="b-tol" role="button" tabindex="0" aria-label="Бюст Толстого"><image href="img/tolstoy.png" x="545" y="52" width="147" height="216" style="filter:sepia(.25)"/></g>
+        <g id="b-mal" role="button" tabindex="0" aria-label="Пустое место на полке"><rect x="730" y="90" width="130" height="178" fill="none" stroke="var(--plaster-line)" stroke-dasharray="6 6" stroke-width="1.5"/></g>
+        <text class="svg-label" x="103" y="308" text-anchor="middle">Пушкин</text>
+        <text class="svg-label" x="268" y="308" text-anchor="middle">Достоевский</text>
+        <text class="svg-label" x="432" y="308" text-anchor="middle">Маяковский</text>
+        <text class="svg-label" x="618" y="308" text-anchor="middle">Толстой</text>
+        <text class="svg-small" x="795" y="308" text-anchor="middle">пусто</text>
+      </svg>
+    </div>
+    <div class="plaque" id="plaque" aria-live="polite">Нажмите на бюст.</div>
+  </div>
+  <div class="col">
+    <p style="margin-top:2.5rem">Вы прошли весь этот путь: от корабля, с которого сбросили один бюст, до полки, где он стоит рядом с тем, кто сбрасывал. Вот ваша метка из начала и метка из конца.</p>
+    <div class="slider locked" id="s3" style="pointer-events:none"><div class="bar"></div><i class="mk m1" hidden></i><i class="mk m2" hidden></i></div>
+    <div class="sl-ends"><span>Не вижу в этом искусства</span><span>Признанный шедевр</span></div>
+    <div class="result" id="result2" aria-live="polite"></div>
+    <p class="final">Если способ быть «против» уже стоит на полке, можно ли любить это по-своему?</p>
+  </div>
+</section>
+
+</div><!-- /after -->
+</main>
+<footer><div class="col">Проект о том, как отношение к вещи меняется вместе с представлением о том, как к ней относятся другие. Метки «проверить» отмечают места, где факт ещё не подтверждён по первоисточнику.</div></footer>
+<script src="js/main.js"></script>
+</body>
+</html>
