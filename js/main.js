@@ -1,6 +1,14 @@
 /* ---- блок 1 ---- */
+/* ?debug в адресе показывает ошибки скрипта прямо на странице */
 (function(){
-  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!/[?&]debug/.test(location.search)) return;
+  var box; function say(t){ if(!box){box=document.createElement('pre'); box.style.cssText='position:fixed;left:0;right:0;bottom:0;max-height:40vh;overflow:auto;margin:0;padding:8px 12px;background:#000;color:#ff8;font:12px/1.4 monospace;z-index:99999;white-space:pre-wrap'; document.body.appendChild(box)} box.textContent+=t+'\n' }
+  addEventListener('error',function(e){say('ERROR: '+e.message+' @'+(e.filename||'').split('/').pop()+':'+e.lineno)});
+  document.addEventListener('DOMContentLoaded',function(){say('main.js v28 загружен')});
+})();
+(function(){
+  /* анимации привязаны к скроллу читателя, поэтому системная настройка «уменьшить движение» их не отключает */
+  var reduce = false;
   var $ = function(id){return document.getElementById(id)};
   function clamp(x,a,b){return Math.max(a,Math.min(b,x))}
   var LS={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
@@ -8,11 +16,9 @@
 
   /* Мнения. Положение на шкале — оценка автора проекта по смыслу высказывания. */
   var OPS=[
-    {pos:.08,who:'Власть',name:'Ленин',text:'«Как не стыдно голосовать за издание 150 000 000 Маяковского в 5000 экз.?»',src:'записка Луначарскому о поэме Маяковского, около 1921'},
     {pos:.15,who:'Современник',name:'Художник Мильман',text:'«в сущности, хулиган»',src:'о Маяковском на выставке «Бубнового валета»; в пересказе Романа Якобсона, «Устная история»'},
-    {pos:.21,who:'Критик',name:'Александр Бенуа',text:'«та икона, которую господа футуристы предлагают взамен мадонн»',src:'о «Чёрном квадрате», 1915–1916'},
+    {pos:.21,who:'Критик',name:'Александр Бенуа',text:'«икона»',src:'так он назвал «Чёрный квадрат» в газете «Речь», январь 1916'},
     {pos:.30,who:'Обычный человек',name:'Иван Баженов, офицер',text:'«я воспитывался на Пушкине»',src:'о стихах Маяковского, «Устная история» через «Афишу Daily», 2018'},
-    {pos:.50,who:'Власть',name:'Ленин',text:'«…насчёт политики ручаюсь, что это совершенно правильно»',src:'о «Прозаседавшихся», 1922'},
     {pos:.66,who:'Современник',name:'Евгения Ланг, художница',text:'«молодой гений»',src:'о Маяковском, «Устная история» через «Афишу Daily», 2018'},
     {pos:.76,who:'Современник',name:'Роман Якобсон, лингвист',text:'«сразу останавливал на себе внимание»',src:'о Маяковском, «Устная история» через «Афишу Daily», 2018'},
     {pos:.90,who:'Слушатель',name:'Владимир Сосинский, литератор',text:'«потрясающей силы»',src:'о чтении Маяковского, «Устная история» через «Афишу Daily», 2018'}
@@ -72,12 +78,12 @@
       if(!u) return;
       S.m1=v; showNear(v); try{drawGlass(v)}catch(e){}
       [].forEach.call($('s1').querySelectorAll('.tick'),function(t,i){t.classList.toggle('on',Math.abs(OPS[i].pos-v)<=.095)});
-      reveal();
+      revealAfter();
     },
     onCommit:function(v){ LS.set('m1',String(v)) }});
-  function reveal(){
+  function revealAfter(){
     if($('after').hidden){ $('after').hidden=false; $('cue').hidden=false }
-    s2.mark('m1',S.m1); s3.mark('m1',S.m1);
+    s2.mark('m1',S.m1);
   }
   $('cue').onclick=function(){ $('after').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}) };
 
@@ -89,34 +95,34 @@
       var d=Math.round((S.m2-S.m1)*100);
       t=Math.abs(d)<5 ? 'Вторая метка почти совпала с первой.' : 'Вторая метка стоит на '+Math.abs(d)+'% '+(d>0?'ближе к «признанному шедевру»':'ближе к «не вижу искусства»')+', чем первая.';
     }
-    $('result').textContent=t; $('result2').textContent=t;
+    $('result').textContent=t;
   }
   /* ---------- second slider ---------- */
   var s2=mkSlider($('s2'),{onInput:function(v,u){ if(u) $('lock2').hidden=false }});
-  var s3=mkSlider($('s3'));
   $('lock2').onclick=function(){
-    S.m2=s2.value; s2.lock(); $('lock2').hidden=true; s2.mark('m2',null); s2.mark('m1',S.m1); s3.mark('m1',S.m1);
+    S.m2=s2.value; s2.lock(); $('lock2').hidden=true; s2.mark('m2',null); s2.mark('m1',S.m1);
     addMk2(S.m2);
-    s3.mark('m1',S.m1); s3.mark('m2',S.m2); LS.set('m2',String(S.m2)); describe();
+    LS.set('m2',String(S.m2)); describe();
   };
 
   /* restore marks from a previous visit (per-browser only) */
   var p1=LS.get('m1');
   if(p1!==null && p1!=='' && !isNaN(+p1)){
-    S.m1=+p1; s1.set(S.m1,true); reveal();
+    S.m1=+p1; s1.set(S.m1,true); revealAfter();
     var p2=LS.get('m2'); if(p2!==null && p2!=='' && !isNaN(+p2)){
       S.m2=+p2; s2.set(S.m2,true); s2.lock(); addMk2(S.m2);
-      $('lock2').hidden=true; s3.mark('m2',S.m2); describe();
+      $('lock2').hidden=true; describe();
     }
   }
 
   /* ---------- ship scene ---------- */
   var NS='http://www.w3.org/2000/svg';
-  var pin=$('pin-ship'), art=$('sc-art'), shipl=$('shipl'), pb=$('p-bust'), scp=$('sc-p'), scp2=$('sc-p2'), pre=$('sc-pre'), stx=$('sc-text');
+  var pin=$('pin-ship'), art=$('sc-art'), shipl=$('shipl'), pb=$('p-bust'), scp=$('sc-p'), pre=$('sc-pre'), stx=$('sc-text');
   var RIDE=[0.0, 1.5, 3.1, 4.6, 6.1, 7.7, 9.2, 10.7, 12.2, 13.8, 15.3, 16.8, 18.4, 19.9, 21.4, 23.0, 24.5, 26.0, 27.6, 29.1, 31.3, 34.7, 38.1, 41.4, 44.8, 48.1, 51.5, 54.9, 58.7, 62.5, 66.2, 70.0, 73.8, 77.5, 81.3, 85.0, 88.8, 93.7, 98.6, 103.5, 108.4, 113.3, 129.9, 137.0, 144.9, 151.9, 159.8, 174.0, 181.0, 188.0, 196.8, 202.0, 216.8, 224.8, 232.8], RSTEP=20, DX0=1046;
   function ride(dx){var f=dx/RSTEP,i=Math.floor(f),k=f-i; if(i>=RIDE.length-1) return RIDE[RIDE.length-1]; return RIDE[i]*(1-k)+RIDE[i+1]*k}
   function progressOf(el){var r=el.getBoundingClientRect(),t=r.height-window.innerHeight; return t<=0?0:clamp(-r.top/t,0,1)}
   function drawShip(){
+    if(!pin||!art||!shipl||!pb||!scp||!pre||!stx) return;
     var p=progressOf(pin); try{drawWords(p)}catch(e){}
     /* предисловие уходит, появляются пощёчина, гора и полосы */
     /* предисловие тает, появляется пощёчина */
@@ -127,28 +133,50 @@
     var q=clamp((p-.27)/.3,0,1), e=1-Math.pow(1-q,3), dx=DX0*(1-e);
     var W=art.clientWidth, s=W/1798;
     shipl.style.transform='translate('+(dx*s).toFixed(1)+'px,'+(ride(dx)*s).toFixed(1)+'px)';
-    scp.classList.toggle('on',p>=.6); scp2.classList.toggle('on',p>=.88);
+    scp.classList.toggle('on',p>=.6); 
     var rel=.66, t=clamp((p-rel)/.2,0,1), H=art.clientHeight, x=0, y=0, rot=0;
     if(p>=rel){ x=-.26*t*W; y=1.05*t*t*H; rot=-t*340 }
     pb.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) rotate('+rot.toFixed(1)+'deg)';
   }
 
-  /* ---------- timeline ---------- */
-  var rows=[].slice.call(document.querySelectorAll('.row'));
-  var ro=new IntersectionObserver(function(es){es.forEach(function(e){
-    if(e.isIntersecting){e.target.classList.add('on'); $('ms').textContent=e.target.dataset.m; $('ls').textContent=e.target.dataset.l}
-  })},{rootMargin:'-42% 0px -42% 0px'});
-  rows.forEach(function(r){ro.observe(r)});
+  /* ---------- экраны героев: фигура справа, «сам», свайп, «решили другие» ---------- */
+  var ords=[].slice.call(document.querySelectorAll('.ord')).map(function(el){
+    var ps=el.querySelector('.pane.self'), po=el.querySelector('.pane.other');
+    return {el:el, fig:el.querySelector('.fig'), self:ps, other:po,
+      si:[].slice.call(ps.querySelectorAll('.it')), oi:[].slice.call(po.querySelectorAll('.it')),
+      ph:[].slice.call(el.querySelectorAll('.ph'))};
+  });
+  function fitList(pane,items){
+    var last=null; items.forEach(function(it){if(it.classList.contains('on'))last=it});
+    var ol=pane.firstElementChild, off=0;
+    if(last){ off=Math.max(0,last.offsetTop+last.offsetHeight-pane.clientHeight) }
+    ol.style.transform='translateY('+(-off)+'px)';
+  }
+  function reveal(items,t0,t1,p){
+    var n=items.length, k=-1;
+    items.forEach(function(it,i){ var on=p>=t0+(t1-t0)*i/n; it.classList.toggle('on',on); if(on)k=i });
+    items.forEach(function(it,i){it.classList.toggle('past',i<k)});
+  }
+  function drawOrd(){
+    ords.forEach(function(o){
+      if(reduce){o.el.classList.add('static');return}
+      var p=progressOf(o.el), q=clamp(p/.09,0,1), e=1-Math.pow(1-q,3);
+      o.fig.style.setProperty('--fx',((1-e)*110).toFixed(1)+'%');
+      var sw=p>=.54;
+      o.el.classList.toggle('sw',sw);
+      o.ph[0].classList.toggle('on',!sw); o.ph[1].classList.toggle('on',sw);
+      reveal(o.si,.11,.5,p); reveal(o.oi,.6,.97,p);
+      o.fig.style.opacity=sw?(window.innerWidth<=640?.12:.35):'';
+      fitList(sw?o.other:o.self, sw?o.oi:o.si);
+    });
+  }
 
   /* ---------- shelf ---------- */
   var plaques={
-    'b-push':'<b>Пушкин.</b> В 1912 году манифест предлагал сбросить его с парохода современности. Сегодня он стоит на полке рядом с тем, кто подписал этот манифест.',
-    'b-dost':'<b>Достоевский.</b> Третий в списке манифеста 1912 года: «бросить Пушкина, Достоевского, Толстого с парохода современности». Сегодня он тоже стоит на полке «уважаемых людей из прошлого».',
-    'b-tol':'<b>Толстой.</b> Его манифест тоже предлагал сбросить с парохода. Теперь он рядом с теми, кто предлагал.',
-    'b-maya':'<b>Маяковский.</b> 1913: хулиган. 1921: «как не стыдно». 1935: «лучший, талантливейший». В двух программах 11 класса ему отведено 4 и 7 часов.',
-    'b-mal':'<b>Пустое место.</b> В тех же двух программах Малевич упомянут только рядом с кубистами. Слова «авангард» там нет.'
+    'b-push':'<b>Пушкин.</b> 1912: предложено сбросить с парохода современности. 1924: собеседник, который «живой, а не мумия».',
+    'b-maya':'<b>Маяковский.</b> 1924: спорит с превращением поэта в памятник. 1935: «лучший, талантливейший». После этого его стихи входят в школьные и вузовские программы.'
   };
-  function pick(id){['b-push','b-dost','b-maya','b-tol','b-mal'].forEach(function(k){$(k).classList.toggle('turn',k===id)}); setPlaque(plaques[id])}
+  function pick(id){['b-push','b-maya'].forEach(function(k){$(k).classList.toggle('turn',k===id)}); setPlaque(plaques[id])}
   function setPlaque(h){var pl=$('plaque'); pl.textContent=''; var m=/^<b>(.*?)<\/b>(.*)$/.exec(h); if(m){var b=document.createElement('b'); b.textContent=m[1]; pl.appendChild(b); pl.appendChild(document.createTextNode(m[2]))} else pl.textContent=h}
   Object.keys(plaques).forEach(function(id){
     var g=$(id); g.addEventListener('click',function(){pick(id)});
@@ -169,11 +197,18 @@
   /* ---------- red screen: sentences; Mayakovsky and Pushkin slide along the scale ---------- */
   var rp=$('redpin'), rsent=[].slice.call($('red-p').children), rsc=$('rscale'), rpair=$('rpair');
   function drawRed(){
+    if(!rp||!rsc||!rpair) return;
     var p=progressOf(rp), th=[.04,.18,.32,.5];
     rsent.forEach(function(sp,i){sp.classList.toggle('on',reduce||p>=th[i])});
     rsc.classList.toggle('on',reduce||p>=.32);
     var q=reduce?0:clamp((p-.45)/.5,0,1), pos=reduce?.5:.5-.5*Math.cos(q*3*Math.PI);
     rpair.style.transform='translateX('+(pos*(rsc.clientWidth-rpair.clientWidth)).toFixed(1)+'px)';
+  }
+  var jub=$('jub'), jsent=[].slice.call($('jub-p').children);
+  function drawJub(){
+    if(!jub||!jsent.length) return;
+    var p=progressOf(jub), n=jsent.length;
+    jsent.forEach(function(sp,i){sp.classList.toggle('on',reduce||p>=.04+.9*i/n)});
   }
 
   /* ---------- screen 1: realistic glass over the painting ---------- */
@@ -270,11 +305,25 @@
       s.g.style.transform=tr;
     });
   }
-  try{drawGlass(.5)}catch(e){}
+  try{drawGlass(S.m1!=null?S.m1:.5)}catch(e){}
 
-  var tick=false, rtick=false;
-  function onScroll(){if(tick)return;tick=true;requestAnimationFrame(function(){tick=false;drawShip()})}
-  addEventListener('scroll',function(){onScroll();if(!rtick){rtick=true;requestAnimationFrame(function(){rtick=false;try{drawRed()}catch(e){}})}},{passive:true}); addEventListener('resize',function(){onScroll();try{drawRed()}catch(e){}}); drawShip(); try{drawRed()}catch(e){}
+  /* Каждая сцена обновляется сама по себе и в своём try, поэтому сбой в одной
+     не останавливает остальные. Идёт от геометрии на экране, а не от события scroll,
+     чтобы работать и там, где scroll до страницы не доходит (встроенный просмотр, iframe). */
+  var SCENES=[drawShip,drawRed,drawJub,drawOrd];
+  function drawAll(){ for(var i=0;i<SCENES.length;i++){ try{SCENES[i]()}catch(e){} } }
+  /* перерисовываем только когда что-то сдвинулось: иначе каждый кадр лишние чтения/записи стилей и лаги */
+  var lastSig='';
+  function loop(){
+    var sig=(pin?pin.getBoundingClientRect().top.toFixed(1):'')+'|'+window.innerWidth+'|'+window.innerHeight;
+    if(sig!==lastSig){ lastSig=sig; drawAll(); }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+  addEventListener('scroll',drawAll,{passive:true});
+  addEventListener('resize',drawAll);
+  drawAll();
+  document.documentElement.classList.add('anim');
 })();
 
 /* ---- блок 2 ---- */
