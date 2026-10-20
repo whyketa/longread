@@ -8,15 +8,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=29">
+<link rel="stylesheet" href="css/style.css?v=30">
 </head>
 <body>
 <main>
 
 <!-- ЭКРАН 1: вопрос, картина на гвоздике и ползунок -->
 <section class="first" id="first" aria-label="Вопрос об авангарде">
-  <h1>Вы любите авангард?</h1>
-
   <div class="art">
     <svg viewBox="0 0 140 160" role="img" aria-label="Чёрный квадрат Малевича в белой раме, висит на гвозде">
       <defs>
@@ -49,144 +47,202 @@
         <path d="M70 10 L30 44 M70 10 L110 44" stroke="#6d5a4c" stroke-width=".25" fill="none" stroke-linecap="round" opacity=".7"/>
         <image href="img/square.jpg" x="20" y="38" width="100" height="100.6" preserveAspectRatio="none"/>
         <polygon points="20,38 120,38 117,41 23,41" fill="#fff" opacity=".1"/>
-        <g id="glass"></g>
       </g>
     </svg>
   </div>
 
+  <div class="fr">
+  <h1>Вы любите авангард?</h1>
+
   <div class="qa" id="qa" aria-live="polite"></div>
 
   <div class="ctl">
-    <div class="slider" id="s1" role="slider" tabindex="0" aria-label="Вы любите авангард? От «не вижу в этом искусства» до «признанный шедевр»" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+    <div class="slider" id="s1" role="slider" tabindex="0" aria-label="Вы любите авангард? От «не люблю» до «люблю»" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
       <div class="bar"></div><i class="thumb fresh"></i>
     </div>
-    <div class="sl-ends"><span>Не вижу в этом искусства</span><span>Признанный шедевр</span></div>
+    <div class="sl-ends"><span>Не люблю</span><span>Люблю</span></div>
+    <p class="qnote" id="qnote" hidden>Рядом с вашей меткой те, кто реагировал похоже: одни писали в тот момент, другие вспоминали потом. Дальше путь у всех один. К метке вы вернётесь в конце.</p>
   </div>
-  <button type="button" class="cue" id="cue" aria-label="Читать дальше">↓</button>
+  </div>
 </section>
 
 <div id="after">
 
-<!-- ЭКРАН: предисловие и пощёчина -->
+<!-- ЭКРАН: подводка и пощёчина -->
 <div class="pin" id="pin-ship">
   <div class="sc">
     <div class="sc-pre" id="sc-pre">
       <div class="pre-in" id="pre-in">
-        <p>Вы узнаёте этот квадрат. Вы знаете, что он Малевича, что ему больше ста лет и что это авангард. Теперь попробуйте сказать, что он предлагает.</p>
-        <p>С Маяковским так же: имя знакомо, а помните ли вы, что он говорил Пушкину?</p>
-        <p>Мы возьмём двоих и посмотрим, что происходит с жестом разрыва, когда новый порядок решает, какое искусство ему нужно.</p>
-        <p class="red">Начнём с жеста, который знают все.</p>
+        <div class="pre-b" id="pre-b">
+          <p class="pre-big" id="pre-big">На примере Малевича и Маяковского<br class="d"> изучим, что происходит с жестом<br class="d"> разрыва, когда новый порядок решает,<br class="d"> какое искусство ему нужно.</p>
+          <p class="pre-red" id="pre-red">Начнём с жеста, который знают&nbsp;все.</p>
+        </div>
       </div>
-      
     </div>
     <div class="sc-text" id="sc-text">
-      <h2>1912. Пощёчина общественному вкусу</h2>
-      <p id="sc-p">В конце 1912 года группа молодых поэтов выпускает сборник с манифестом. Он называется «Пощёчина общественному вкусу». В нём предлагается сбросить Пушкина, Достоевского и Толстого «с парохода современности». Среди подписавших — Владимир Маяковский.</p>
+      <h2>Пощёчина общественному<br class="d"> вкусу</h2>
+      <div class="yr">1912</div>
+      <p class="rev" id="sc-p">В конце 1912 года группа молодых поэтов<br class="d"> выпускает сборник с манифестом.<br class="d"> Он называется «Пощёчина общественному<br class="d"> вкусу». В нём предлагается сбросить Пушкина,<br class="d"> Достоевского и Толстого «с парохода<br class="d"> современности». Манифест подписали четверо:<br class="d"> Давид Бурлюк, Александр Крученых, Владимир<br class="d"> Маяковский и Велимир Хлебников.</p>
+      <p class="rev srcl"><a href="https://ru.wikisource.org/wiki/%D0%9F%D0%BE%D1%89%D1%91%D1%87%D0%B8%D0%BD%D0%B0_%D0%BE%D0%B1%D1%89%D0%B5%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D0%BE%D0%BC%D1%83_%D0%B2%D0%BA%D1%83%D1%81%D1%83" target="_blank" rel="noopener">Текст манифеста</a></p>
     </div>
-    <div class="sc-art" id="sc-art" role="img" aria-label="Коллаж: гора разбитых гипсовых бюстов, по ней выезжает колёсный пароход «Медный павлин», на палубе человек в костюме. С палубы падает бюст Пушкина">
-      <img class="heap" src="img/heap.webp" alt="" width="1798" height="1037" decoding="async">
+    <div class="sc-art" id="sc-art" role="img" aria-label="Коллаж: гора разбитых гипсовых бюстов, на ней колёсный пароход «Медный павлин», на палубе человек в костюме. С палубы падает бюст Пушкина">
       <div class="shipl" id="shipl">
-        <img src="img/ship.webp" alt="" width="1798" height="1037" decoding="async">
+        <img class="col" src="img/collage.webp" alt="" width="1181" height="863" decoding="async">
         <img id="p-bust" class="pb" src="img/pushkin.png" alt="" width="316" height="428">
       </div>
     </div>
+    </div>
   </div>
 </div>
-<section class="redpin" id="redpin" aria-label="Мысль">
+
+<!-- КРАСНЫЙ ЭКРАН: расстояние до большинства (схема) -->
+<section class="redpin rtyp" id="redpin" aria-label="Мысль">
   <div class="redsc">
-    <p id="red-p"><span>Чтобы сбросить Пушкина, манифесту пришлось сначала назвать его по имени.</span> <span>Жест «против всех» ориентируется на то, что все уже считают ценным.</span> <span>Расстояние до большинства задано тем, где стоит большинство.</span> <span>Если бы большинство сдвинулось, сдвинулась бы и эта метка.</span></p>
-    <div class="rscale" id="rscale" aria-hidden="true"><div class="rline"></div><div class="rpair" id="rpair"><img class="rmay" src="img/mayak_head.png" alt="" width="328" height="459"><img class="rpus" src="img/pushkin_hd.png" alt="" width="412" height="689"></div></div>
+    <div class="rgroup">
+      <p class="rtype" aria-hidden="true"><span id="rty">Бросать вызов можно только тому, что все узнают: удар по неизвестному никто бы не заметил. Поэтому жест «против всех» ориентируется на то, что все уже считают ценным. Расстояние до большинства задано тем, где стоит большинство. Если бы большинство сдвинулось, изменилось бы и это расстояние.</span><i class="caret"></i><span id="rtr" class="rest"></span></p>
+      <p class="sr" id="rfull" data-d="Бросать вызов можно только тому, что все узнают: удар&#10;по неизвестному никто бы не заметил. Поэтому жест «против&#10;всех» ориентируется на то, что все уже считают&#10;ценным. Расстояние до большинства задано тем, где стоит&#10;большинство. Если бы большинство сдвинулось, изменилось&#10;бы и это расстояние.">Бросать вызов можно только тому, что все узнают: удар по неизвестному никто бы не заметил. Поэтому жест «против всех» ориентируется на то, что все уже считают ценным. Расстояние до большинства задано тем, где стоит большинство. Если бы большинство сдвинулось, изменилось бы и это расстояние.</p>
+      <div class="rscale" id="rscale" role="img" aria-label="Схема: слева Маяковский стоит один, справа толпа во главе с памятником Пушкину. Между ними отмечено расстояние до большинства. Когда толпа сдвигается, расстояние меняется, хотя Маяковский не двигался.">
+      <svg viewBox="0 0 640 230" aria-hidden="true">
+        <defs>
+          <symbol id="pp" viewBox="0 0 20 46"><circle cx="10" cy="8" r="7"/><path d="M2 46V25a8 8 0 0 1 8-8 8 8 0 0 1 8 8v21z"/></symbol>
+        </defs>
+        <line class="gr" x1="8" y1="198" x2="632" y2="198"/>
+        <g class="dist">
+          <line id="dline" x1="106" y1="52" x2="300" y2="52"/>
+          <line x1="106" y1="44" x2="106" y2="60"/>
+          <line id="dtick" x1="300" y1="44" x2="300" y2="60"/>
+          <text id="dlab" x="203" y="38" text-anchor="middle">расстояние до большинства</text>
+        </g>
+        <image class="cut" href="img/mayak_head.png" x="14" y="76" width="86" height="120" preserveAspectRatio="xMidYMax meet"/>
+        <g id="crowd">
+          <g class="ppl b3"><use href="#pp" x="418" y="132" width="20" height="46"/><use href="#pp" x="452" y="132" width="20" height="46"/><use href="#pp" x="486" y="132" width="20" height="46"/><use href="#pp" x="520" y="132" width="20" height="46"/><use href="#pp" x="554" y="132" width="20" height="46"/><use href="#pp" x="588" y="132" width="20" height="46"/></g>
+          <g class="ppl b2"><use href="#pp" x="400" y="144" width="22" height="50"/><use href="#pp" x="436" y="144" width="22" height="50"/><use href="#pp" x="470" y="144" width="22" height="50"/><use href="#pp" x="504" y="144" width="22" height="50"/><use href="#pp" x="538" y="144" width="22" height="50"/><use href="#pp" x="572" y="144" width="22" height="50"/></g>
+          <g class="ppl b1"><use href="#pp" x="382" y="152" width="24" height="46"/><use href="#pp" x="420" y="152" width="24" height="46"/><use href="#pp" x="456" y="152" width="24" height="46"/><use href="#pp" x="492" y="152" width="24" height="46"/><use href="#pp" x="528" y="152" width="24" height="46"/><use href="#pp" x="564" y="152" width="24" height="46"/><use href="#pp" x="600" y="152" width="24" height="46"/></g>
+          <image class="cut" href="img/pushkin_hd.png" x="296" y="68" width="78" height="130" preserveAspectRatio="xMidYMax meet"/>
+        </g>
+      </svg>
+    </div>
+    </div>
+    <p class="rquote mx" id="rquote">«Чтобы сбросить Пушкина, манифесту<br class="d"> пришлось сначала назвать его по имени.»</p>
   </div>
 </section>
 
 <!-- 1924: ЮБИЛЕЙНОЕ -->
-<section class="redpin lines" id="jub" aria-label="1924. Юбилейное">
-  <div class="redsc">
-    <h2 class="jh">1924. Юбилейное</h2>
-    <p id="jub-p"><span>Двенадцать лет спустя Маяковский пишет стихотворение к 125-летию Пушкина.</span> <span class="q">«Александр Сергеевич, разрешите представиться. Маяковский.»</span> <span>Пушкин здесь собеседник, а не груз на борту.</span> <span class="q">«Я люблю вас, но живого, а не мумию.»</span> <span>Он спорит с тем, что сделали с поэтом: «навели хрестоматийный глянец».</span> <span>В 1912 году мишенью был классик как образец вкуса. В 1924-м мишень сместилась на глянец, которым классика покрыли.</span> <span class="q">Что изменилось: Пушкин или то, против чего направлен жест?</span></p>
+<section class="jubpin" id="jub" aria-label="1924. Юбилейное">
+  <div class="jsc">
+    <div class="jtrack" id="jtrack">
+      <div class="jp grey"><div class="jin"><h2 class="jh">Юбилейное</h2><div class="jy">1924</div><p class="js">Двенадцать лет спустя, в 1924 году, Маяковский пишет<br class="d"> стихотворение «Юбилейное» к 125-летию<br class="d"> Пушкина. Теперь он обращается к поэту лично:</p><p class="jq">«Александр Сергеевич, разрешите<br class="d"> представиться. Маяковский».</p></div></div>
+      <div class="jp grey"><div class="jin"><h2 class="jh">Юбилейное</h2><div class="jy">1924</div><p class="js">Пушкин здесь собеседник, а не груз на борту. Мумию<br class="d"> он не любит:</p><p class="jq">«Я люблю вас, но живого, а не мумию».</p></div></div>
+      <div class="jp grey"><div class="jin"><h2 class="jh">Юбилейное</h2><div class="jy">1924</div><p class="js">Спорит он теперь с тем, что сделали с поэтом:</p><p class="jq">«навели хрестоматийный глянец».</p></div></div>
+      <div class="jp red"><div class="jin"><p class="jr" id="jr">«В 1912 году мишенью был классик<br class="d"> как образец вкуса. В&nbsp;1924-м мишень<br class="d"> сместилась на глянец, которым<br class="d"> классика покрыли. Что изменилось:<br class="d"> Пушкин или то, против чего<br class="d"> направлен жест?»</p>
+        <p class="srcline">«Юбилейное», журнал «ЛЕФ», № 2, 1924. <a href="https://cyclowiki.org/wiki/%D0%AE%D0%B1%D0%B8%D0%BB%D0%B5%D0%B9%D0%BD%D0%BE%D0%B5_(%D0%9C%D0%B0%D1%8F%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9)" target="_blank" rel="noopener">О стихотворении</a> · <a href="https://ru.wikisource.org/wiki/%D0%9C%D0%B0%D1%8F%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9" target="_blank" rel="noopener">Тексты Маяковского в Викитеке</a></p></div></div>
+    </div>
   </div>
 </section>
 
-<!-- МАЛЕВИЧ -->
-<section id="mal">
-  <div class="col">
-    <h2>1922. Бог не скинут</h2>
-    <p>В Витебске Малевич издаёт брошюру «Бог не скинут. Искусство, церковь, фабрика». Название перекликается с «сбросить с парохода».</p>
-    <p>Исследователи цитируют из неё: «Бог – покой, покой – совершенство», «…то скинуть Бога нельзя». Беспредметность Малевич называет признаком искусства, к которому идёт.</p>
-    <p class="note">Цитаты по статье А. Малей о трактате Малевича; сама брошюра в этом проекте пока не прочитана.</p>
-    <p class="q2">Чем отличается жест, который не сбрасывает, от жеста, который сбрасывает?</p>
+<!-- МАЛЕВИЧ: пять экранов по макету (Figma, кадры 15, 16, 10, 18, 19, 20) -->
+<div id="malseq">
+
+<!-- серые кадры 15 и 16: высказывания сменяют друг друга -->
+<section class="mpin mgrey" id="mgrey" aria-label="Переход к Малевичу">
+  <div class="msc">
+    <p class="mx" id="mg1">По логике модерна дальше<br class="d"> под вопросом оказывается сакральное:<br class="d"> если можно усомниться в Пушкине<br class="d"> и Толстом, следующим на очереди<br class="d"> будет <span class="acc">Бог</span>.</p>
+    <p class="mx" id="mg2">Малевича упрекали в том, что чёрный<br class="d"> квадрат отменяет всё светлое и доброе.<br>Так, например, писала Татьяна Толстая<br class="d"> в эссе о «Чёрном квадрате».</p>
   </div>
 </section>
+
+<!-- красный кадр 10: «Бог не скинут» -->
+<!-- красный кадр 10 → серый кадр 18: горизонтальный переход внутри одной закреплённой сцены -->
+<section class="mpin mhz" id="mhz" aria-label="Бог не скинут и супрематизм">
+<div class="msc"><div class="mtrack">
+<div class="mpanel mred" id="mred">
+    <img class="mcross" id="mcross" src="img/cross.webp" alt="" width="662" height="1091">
+    <div class="mhead mx" id="mr1"><h2>Бог не скинут</h2><p class="yr">1922</p></div>
+    <p class="mquote mx" id="mr2">«Бог – покой, покой – совершенство»</p>
+    <div class="mnote mx" id="mr3">
+      <p>Но в 1922 году в Витебске Малевич издаёт брошюру<br class="d"> «Бог не скинут. Искусство, церковь, фабрика». Название<br class="d"> перекликается с «сбросить с парохода». Была ли эта<br class="d"> перекличка намеренной, мы не знаем.</p>
+      <p class="src">Цитата по статье А. Малей. Саму брошюру мы пока не читали: <a href="https://monoskop.org/log/?p=3949" target="_blank" rel="noopener">текст на Monoskop</a>.</p>
+    </div>
+  </div>
+<div class="mpanel msup" id="msup">
+    <div class="msup-in">
+      <h2 class="mx" id="ms1">супрематизм</h2>
+      <p class="sub mx" id="ms2">от латинского <span class="lat">supremus</span>, «высший»</p>
+      <p class="mnote2 mx" id="ms3">Так называя своё направление, Малевич считал его высшей ступенью, когда искусству больше не нужна предметность.</p>
+    </div>
+  </div>
+</div></div>
+</section>
+
+<!-- красные кадры 19 и 20: текст печатается прямо на экране, потом остаётся вопрос -->
+<section class="mpin mtype" id="mtype" aria-label="Интерпретация и вопрос">
+  <div class="msc">
+    <div class="ttext mx" id="mfield">
+      <p class="tkick" id="mflabel">Интерпретация</p>
+      <p class="tline" aria-hidden="true"><span id="ty">Малевич продолжает апофатическую линию богословия: о высшем можно говорить, лишь отказываясь от образов. Эта линия идёт от Псевдо-Дионисия Ареопагита к мастеру Экхарту, Якобу Бёме и автору «Облака неведения». Читал ли он их, неизвестно, скорее всего, он пришёл к похожему интуитивно. Его презрение к вещественному миру напоминает мне ещё и платоническое, гностическое отвращение к плоти.</span><i class="caret"></i><span id="tr" class="rest"></span></p>
+      <p class="sr" id="mfull" data-d="Малевич продолжает апофатическую линию богословия:&#10;о высшем можно говорить, лишь отказываясь от образов.&#10;Эта линия идёт от Псевдо-Дионисия Ареопагита к мастеру&#10;Экхарту, Якобу Бёме и автору «Облака неведения».&#10;Читал ли он их, неизвестно, скорее всего, он пришёл к похожему&#10;интуитивно. Его презрение к вещественному миру напоминает&#10;мне ещё и платоническое, гностическое отвращение к плоти.">Малевич продолжает апофатическую линию богословия: о высшем можно говорить, лишь отказываясь от образов. Эта линия идёт от Псевдо-Дионисия Ареопагита к мастеру Экхарту, Якобу Бёме и автору «Облака неведения». Читал ли он их, неизвестно, скорее всего, он пришёл к похожему интуитивно. Его презрение к вещественному миру напоминает мне ещё и платоническое, гностическое отвращение к плоти.</p>
+    </div>
+    <p class="mq mx" id="mq">«Если искусство облачает церковь<br class="d"> и фабрику, это ещё жест против<br class="d"> порядка или уже служба ему?»</p>
+  </div>
+</section>
+
+</div>
 
 <!-- ДВА ПУТИ: ЧТО ДЕЛАЛ САМ И ЧТО РЕШИЛИ ДРУГИЕ -->
 <section id="orders">
-  <div class="col">
-    <h2>Что сделал сам и что решили другие</h2>
-    <p>У каждого из двоих два списка. Сначала то, что автор делал сам. Потом то, что решали за него: заказчик, власть, редакторы, музей.</p>
-  </div>
-  <div class="ord maya">
-    <div class="ordstage">
-      <img class="fig" src="img/mayakovsky.webp" alt="Портрет Маяковского" width="560" height="932">
-      <div class="ordhead"><h3>Маяковский</h3><div class="phase"><span class="ph on">Сам</span><span class="ph">Решили другие</span></div></div>
-      <div class="pane self"><ol>
+  <!-- подводка ко второй части: кадры 29 и 30 -->
+  <div class="mpin mlead" id="mlead" aria-label="Что сделал сам и что решили другие"><div class="msc">
+    <div class="ml1">
+      <h2 class="mx" id="ml-h">Что сделал сам и что решили другие</h2>
+      <p class="mx" id="ml-p">Вопрос про церковь и фабрику не решить по одним намерениям автора. Жест сначала делает человек, а потом его берут заказчик, власть, редакторы, музей.</p>
+    </div>
+    <p class="ml2 mx" id="ml-t">Один и тот же жест может остаться против порядка, а может стать его украшением, и решает это <b>не только автор.</b></p>
+  </div></div>
+  <div class="ords" id="ords">
+   <div class="ordstage">
+    <div class="pfig" id="pf-l"><img class="fig" src="img/malevich_o.webp" alt="Портрет Малевича" width="758" height="794"></div>
+    <div class="pfig" id="pf-m"><img class="fig" src="img/mayakovsky_o.webp" alt="Портрет Маяковского" width="642" height="665"></div>
+    <div class="ordhead" aria-hidden="true"><h3 id="hn-m">Маяковский</h3><h3 id="hn-l">Малевич</h3></div>
+    <div class="otrack" id="otrack">
+    <div class="opanel"><h3 class="fallh">Маяковский</h3><p class="plab">Сделал сам</p>
+<div class="pane self"><ol>
         <li class="it"><div class="y">1912</div><p>Подписывает манифест «Пощёчина общественному вкусу».</p></li>
         <li class="it"><div class="y">1921</div><p>Выпускает поэму «150 000 000».</p></li>
         <li class="it"><div class="y">1924</div><p>«Юбилейное»: спорит с глянцем, которым покрыли Пушкина.</p></li>
-      </ol></div>
-      <div class="pane other"><ol>
+      </ol></div></div>
+    <div class="opanel"><p class="plab">Решили другие</p>
+<div class="pane other"><ol>
         <li class="it"><div class="y">1921</div><div class="who">Ленин</div><p>Пишет о поэме «150 000 000»: «Как не стыдно голосовать за издание 150 000 000 Маяковского в 5000 экз.?»</p></li>
         <li class="it"><div class="y">1935</div><div class="who">Сталин</div><p>Лиля Брик жалуется, что поэта не издают. Сталин пишет Ежову: «Маяковский был и остаётся лучшим, талантливейшим поэтом нашей советской эпохи. Безразличие к его памяти и его произведениям — преступление.»</p></li>
         <li class="it"><div class="y">1935–1938</div><div class="who">Государство и школа</div><p>Площади и улицы получают его имя, выходят миллионные тиражи, стихи входят в школьные и вузовские программы. Музей открывается 15 октября 1938 года.</p></li>
         <li class="it"><div class="y">1950-е</div><div class="who">Театры</div><p>Пьесы «Баня» и «Клоп» начинают широко ставить только теперь.</p></li>
-      </ol></div>
-    </div>
-  </div>
-  <div class="col"><p class="q2">Какого Маяковского выбрали для учебника, а какой дожидался сцены до 1950-х?</p></div>
-  <div class="ord mal">
-    <div class="ordstage">
-      <img class="fig" src="img/malevich.webp" alt="Портрет Малевича" width="442" height="500">
-      <div class="ordhead"><h3>Малевич</h3><div class="phase"><span class="ph on">Сам</span><span class="ph">Решили другие</span></div></div>
-      <div class="pane self"><ol>
+      </ol></div></div>
+    <div class="opanel oq"><p class="qbig">Какого Маяковского выбрали для учебника, а какой дожидался сцены до 1950-х?</p>
+      <p class="note">«Клоп» (1928) и «Баня» (1929) — сатирические пьесы Маяковского.</p></div>
+    <div class="opanel"><h3 class="fallh">Малевич</h3><p class="plab">Сделал сам</p>
+<div class="pane self"><ol>
         <li class="it"><div class="y">1915</div><p>Показывает «Чёрный квадрат» на выставке «0,10». Картину вешают в «красном углу».</p></li>
         <li class="it"><div class="y">1919</div><p>Приезжает в Витебск, где работает до лета 1922 года.</p></li>
         <li class="it"><div class="y">1922</div><p>Выходит «Бог не скинут».</p></li>
-      </ol></div>
-      <div class="pane other"><ol>
+      </ol></div></div>
+    <div class="opanel"><p class="plab">Решили другие</p>
+<div class="pane other"><ol>
         <li class="it"><div class="y">Декабрь 1919</div><div class="who">Заказчик</div><p>Первый крупный заказ ученикам Малевича, группе УНОВИС: оформить годовщину Комитета по борьбе с безработицей.</p></li>
         <li class="it"><div class="y">1920</div><div class="who">Город</div><p>Уновисы оформляют город к праздникам, в том числе к Первомаю.</p></li>
         <li class="it"><div class="y">7 ноября 1920</div><div class="who">Власти</div><p>Отказываются от проектов УНОВИСа по оформлению города.</p></li>
         <li class="it"><div class="y">1927</div><div class="who">Власти</div><p>Отзывают Малевича из Берлина, его картины остаются в Германии.</p></li>
         <li class="it"><div class="y">1929</div><div class="who">Третьяковская галерея</div><p>Ему устраивают ретроспективу. Взамен оставшихся в Германии работ он пишет «сорок новых полотен».</p></li>
-      </ol></div>
+      </ol></div></div>
+    <div class="opanel oq"><p class="qbig">Заказчик принимал одно и отказывался от другого. По какому признаку?</p></div>
     </div>
-  </div>
-  <div class="col"><p class="q2">Заказчик принимал одно и отказывался от другого. По какому признаку?</p></div>
-</section>
-
-<!-- СЕГОДНЯ -->
-<section id="today">
-  <div class="col">
-    <h2>Сегодня</h2>
-    <p>Вернёмся к вопросу из начала. <span class="big">Вы любите авангард?</span> Поставьте метку ещё раз и сравните её с первой.</p>
-  </div>
-  <div class="wide" style="max-width:38rem">
-    <div class="slider" id="s2" role="slider" tabindex="0" aria-label="Вторая метка" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
-      <div class="bar"></div><i class="mk m1" hidden></i><i class="thumb fresh"></i>
-    </div>
-    <div class="sl-ends"><span>Не вижу в этом искусства</span><span>Признанный шедевр</span></div>
-    <div class="lock" style="display:flex;margin-top:1rem">
-      <button type="button" class="go" id="lock2" hidden>Поставить вторую метку</button>
-    </div>
-    <div class="result" id="result" aria-live="polite"></div>
-  </div>
-  <div class="col">
-    <p style="margin-top:1.4rem">Посмотрите на свою метку в начале и сейчас. Если они разные, что их сдвинуло: чьё-то решение, документ или ваши собственные доводы?</p>
+   </div>
   </div>
 </section>
 
 <!-- СЛЕДУЮЩИЙ ЧИТАТЕЛЬ -->
 <section id="shelf-sec">
   <div class="col">
+    <p class="kicker">Ваш ход: нажмите на бюст</p>
     <h2>Следующий читатель</h2>
     <p>Он встречает обоих уже готовыми. Квадрат узнаётся, Маяковский входит в программу. Ему не нужно ничего сбрасывать, ему предлагают прочитать.</p>
   </div>
@@ -195,7 +251,7 @@
       <svg viewBox="0 0 600 340" role="group" aria-label="Полка с двумя бюстами: Пушкин и Маяковский">
         <rect x="20" y="268" width="560" height="14" fill="var(--hull)"/>
         <rect x="20" y="282" width="560" height="3" fill="var(--line)"/>
-        <g id="b-push" role="button" tabindex="0" aria-label="Бюст Пушкина"><image href="img/pushkin.png" x="90" y="70" width="147" height="198" style="filter:grayscale(.45) sepia(.15)"/></g>
+        <g id="b-push" role="button" tabindex="0" aria-label="Бюст Пушкина"><image href="img/pushkin.png" x="90" y="70" width="147" height="198" style="filter:grayscale(.6) sepia(.25) contrast(1.05)"/></g>
         <g id="b-maya" role="button" tabindex="0" aria-label="Бюст Маяковского"><image href="img/mayak.png" x="330" y="62" width="165" height="206"/></g>
         <text class="svg-label" x="163" y="308" text-anchor="middle">Пушкин</text>
         <text class="svg-label" x="412" y="308" text-anchor="middle">Маяковский</text>
@@ -203,14 +259,62 @@
     </div>
     <div class="plaque" id="plaque" aria-live="polite">Нажмите на бюст.</div>
   </div>
+</section>
+
+<!-- СЕГОДНЯ: возвращение к первому вопросу -->
+<section id="today" class="wall">
   <div class="col">
+    <p class="kicker">Ваш ход: вернитесь к началу</p>
+    <h2>Вопрос тот же</h2>
+    <p><span class="big">Вы любите авангард?</span> Поставьте метку ещё раз. Первая останется на шкале рядом с новой. Если ничего не изменилось, так и оставьте.</p>
+  </div>
+  <div class="wide ctl2">
+    <div class="slider" id="s2" role="slider" tabindex="0" aria-label="Вы любите авангард? Вторая метка. От «не люблю» до «люблю»" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+      <div class="bar"></div><i class="mk m1" hidden></i><i class="thumb fresh"></i>
+    </div>
+    <div class="sl-ends"><span>Не люблю</span><span>Люблю</span></div>
+    <div class="lock">
+      <button type="button" class="go" id="lock2" hidden>Поставить вторую метку</button>
+      <button type="button" class="go ghost" id="keep" hidden>Оставить метку на месте</button>
+    </div>
+    <div class="result" id="result" aria-live="polite"></div>
+    <div class="comp" id="comp" hidden>
+      <label for="understand">Теперь я понимаю…</label>
+      <textarea id="understand" rows="2" maxlength="300" placeholder="…то, что не помещается на шкалу. Можно оставить пустым."></textarea>
+    </div>
+  </div>
+  <div class="col">
+    <p class="why">Вы не обязаны любить ни квадрат, ни Маяковского. Но теперь вы знаете, что место в учебнике и в музее кто-то назначил. Дальше решать вам: принять это место или спорить с ним.</p>
     <p class="final">Что остаётся от жеста, когда место ему уже назначено?</p>
+    <p class="caveat">Прочтения «Юбилейного» и Малевича здесь мои, это не факты. Сверяйте со своим.</p>
   </div>
 </section>
 
 </div><!-- /after -->
 </main>
-<footer><div class="col">Проект о том, что происходит с жестом разрыва, когда новый порядок решает, какое искусство ему нужно.</div></footer>
-<script src="js/main.js?v=29"></script>
+
+<footer class="colophon">
+  <div class="col">
+    <h2>Источники и примечания</h2>
+    <h3>Тексты</h3>
+    <ul>
+      <li>Манифест «Пощёчина общественному вкусу», 1912. Коллективное авторство: Д. Бурлюк, А. Крученых, В. Маяковский, В. Хлебников. <a href="https://ru.wikisource.org/wiki/%D0%9F%D0%BE%D1%89%D1%91%D1%87%D0%B8%D0%BD%D0%B0_%D0%BE%D0%B1%D1%89%D0%B5%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D0%BE%D0%BC%D1%83_%D0%B2%D0%BA%D1%83%D1%81%D1%83" target="_blank" rel="noopener">Викитека</a>.</li>
+      <li>В. Маяковский, «Юбилейное», журнал «ЛЕФ», № 2, 1924. <a href="https://cyclowiki.org/wiki/%D0%AE%D0%B1%D0%B8%D0%BB%D0%B5%D0%B9%D0%BD%D0%BE%D0%B5_(%D0%9C%D0%B0%D1%8F%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9)" target="_blank" rel="noopener">Справка о стихотворении</a>, тексты в <a href="https://ru.wikisource.org/wiki/%D0%9C%D0%B0%D1%8F%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9" target="_blank" rel="noopener">Викитеке</a>.</li>
+      <li>К. Малевич, «Бог не скинут. Искусство, церковь, фабрика», Витебск: УНОВИС, 1922, 2000 экз. <a href="https://monoskop.org/log/?p=3949" target="_blank" rel="noopener">Monoskop</a>, <a href="https://garagemca.org/en/catalogue/L12163" target="_blank" rel="noopener">каталог Музея «Гараж»</a>, <a href="https://ls.vanabbemuseum.nl/M/malevich/pages/1922bog.htm" target="_blank" rel="noopener">описание издания в Van Abbemuseum</a>.</li>
+      <li>Слова Александра Бенуа об «иконе»: газета «Речь», январь 1916. Дословный текст статьи мы пока не открывали, цитата дана по справочным статьям.</li>
+      <li>Голоса современников и слушателей Маяковского: «Устная история», по публикации «Афиши Daily», 2018.</li>
+      <li class="todo">В работе: ссылки на публикации резолюции Сталина (1935), записки Ленина (1921) и справки о музее Маяковского.</li>
+    </ul>
+    <h3>Об иллюстрациях и схемах</h3>
+    <ul>
+      <li class="todo">В работе: автор изображений, способ получения (коллаж, ИИ-генерация, архивный источник) и использование ИИ при подготовке проекта.</li>
+      <li>Схема «расстояние до большинства» условна, это не реконструкция сцены.</li>
+      <li>Стекло перед «Чёрным квадратом» на первом экране — наш образ, а не реконструкция того, как картину показывали в 1915 году.</li>
+    </ul>
+    <h3>Автор</h3>
+    <p>Дарина Ломухина. Учебный проект «Авангард и вкус».</p>
+  </div>
+</footer>
+<script src="js/main.js?v=30"></script>
 </body>
 </html>

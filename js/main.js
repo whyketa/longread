@@ -4,7 +4,7 @@
   if(!/[?&]debug/.test(location.search)) return;
   var box; function say(t){ if(!box){box=document.createElement('pre'); box.style.cssText='position:fixed;left:0;right:0;bottom:0;max-height:40vh;overflow:auto;margin:0;padding:8px 12px;background:#000;color:#ff8;font:12px/1.4 monospace;z-index:99999;white-space:pre-wrap'; document.body.appendChild(box)} box.textContent+=t+'\n' }
   addEventListener('error',function(e){say('ERROR: '+e.message+' @'+(e.filename||'').split('/').pop()+':'+e.lineno)});
-  document.addEventListener('DOMContentLoaded',function(){say('main.js v28 загружен')});
+  document.addEventListener('DOMContentLoaded',function(){say('main.js v30 загружен')});
 })();
 (function(){
   /* анимации привязаны к скроллу читателя, поэтому системная настройка «уменьшить движение» их не отключает */
@@ -14,14 +14,28 @@
   var LS={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
   var S={m1:null,m2:null};
 
+  /* Неразрывные пробелы: после предлогов и союзов из 1–2 букв, после коротких служебных слов и перед тире.
+     Два прохода, чтобы цепочки вроде «и в доме» тоже склеивались. */
+  var NBRE=/(^|\s)([А-Яа-яЁё]{1,2}|для|без|над|под|при|про|что|как|или)\s+(?=\S)/gi;
+  function nb(t){
+    for(var i=0;i<2;i++) t=t.replace(NBRE,'$1$2\u00a0');
+    return t.replace(/\s+([—–])/g,'\u00a0$1');
+  }
+  try{
+    var tw=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+      var p=n.parentNode&&n.parentNode.nodeName; return (p==='SCRIPT'||p==='STYLE'||p==='TEXTAREA')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}});
+    var nodes=[]; while(tw.nextNode()) nodes.push(tw.currentNode);
+    nodes.forEach(function(n){ var v=nb(n.nodeValue); if(v!==n.nodeValue) n.nodeValue=v });
+  }catch(e){}
+
   /* Мнения. Положение на шкале — оценка автора проекта по смыслу высказывания. */
   var OPS=[
-    {pos:.15,who:'Современник',name:'Художник Мильман',text:'«в сущности, хулиган»',src:'о Маяковском на выставке «Бубнового валета»; в пересказе Романа Якобсона, «Устная история»'},
-    {pos:.21,who:'Критик',name:'Александр Бенуа',text:'«икона»',src:'так он назвал «Чёрный квадрат» в газете «Речь», январь 1916'},
-    {pos:.30,who:'Обычный человек',name:'Иван Баженов, офицер',text:'«я воспитывался на Пушкине»',src:'о стихах Маяковского, «Устная история» через «Афишу Daily», 2018'},
-    {pos:.66,who:'Современник',name:'Евгения Ланг, художница',text:'«молодой гений»',src:'о Маяковском, «Устная история» через «Афишу Daily», 2018'},
-    {pos:.76,who:'Современник',name:'Роман Якобсон, лингвист',text:'«сразу останавливал на себе внимание»',src:'о Маяковском, «Устная история» через «Афишу Daily», 2018'},
-    {pos:.90,who:'Слушатель',name:'Владимир Сосинский, литератор',text:'«потрясающей силы»',src:'о чтении Маяковского, «Устная история» через «Афишу Daily», 2018'}
+    {pos:.15,who:'Современник',t:'вспоминает позже',name:'Художник Мильман',text:'«в сущности, хулиган»',src:'о Маяковском на выставке «Бубнового валета»; в пересказе Романа Якобсона, «Устная история»'},
+    {pos:.21,who:'Критик',t:'пишет в тот момент',name:'Александр Бенуа',text:'«икона»',src:'так он назвал «Чёрный квадрат» в газете «Речь», январь 1916'},
+    {pos:.30,who:'Обычный человек',t:'вспоминает позже',name:'Иван Баженов, офицер',text:'«я воспитывался на Пушкине»',src:'о стихах Маяковского, «Устная история» через «Афишу Daily», 2018'},
+    {pos:.66,who:'Современник',t:'вспоминает позже',name:'Евгения Ланг, художница',text:'«молодой гений»',src:'о Маяковском, «Устная история» через «Афишу Daily», 2018'},
+    {pos:.76,who:'Современник',t:'вспоминает позже',name:'Роман Якобсон, лингвист',text:'«сразу останавливал на себе внимание»',src:'о Маяковском, «Устная история» через «Афишу Daily», 2018'},
+    {pos:.90,who:'Слушатель',t:'вспоминает позже',name:'Владимир Сосинский, литератор',text:'«потрясающей силы»',src:'о чтении Маяковского, «Устная история» через «Афишу Daily», 2018'}
   ];
 
   /* ---------- slider ---------- */
@@ -66,86 +80,85 @@
     qa.textContent='';
     near.forEach(function(o){
       var d=document.createElement('div'); d.className='qc';
-      var a=document.createElement('div'); a.className='who'; a.textContent=o.who;
+      var a=document.createElement('div'); a.className='who'; a.textContent=o.who+' · '+o.t;
       var b=document.createElement('div'); b.className='nm'; b.textContent=o.name;
-      var c=document.createElement('div'); c.className='tx'; c.textContent=o.text;
-      var s=document.createElement('div'); s.className='src'; s.textContent=o.src;
+      var c=document.createElement('div'); c.className='tx'; c.textContent=nb(o.text);
+      var s=document.createElement('div'); s.className='src'; s.textContent=nb(o.src);
       d.appendChild(a); d.appendChild(b); d.appendChild(c); d.appendChild(s); qa.appendChild(d);
     });
   }
   var s1=mkSlider($('s1'),{ticks:OPS.map(function(o){return o.pos}),
     onInput:function(v,u){
       if(!u) return;
-      S.m1=v; showNear(v); try{drawGlass(v)}catch(e){}
+      S.m1=v; showNear(v);
       [].forEach.call($('s1').querySelectorAll('.tick'),function(t,i){t.classList.toggle('on',Math.abs(OPS[i].pos-v)<=.095)});
-      revealAfter();
+      revealAfter(); $('qnote').hidden=false;
     },
     onCommit:function(v){ LS.set('m1',String(v)) }});
   function revealAfter(){
-    if($('after').hidden){ $('after').hidden=false; $('cue').hidden=false }
-    s2.mark('m1',S.m1);
+    if($('after').hidden){ $('after').hidden=false }
+    s2.mark('m1',S.m1); if(!s2.locked) $('keep').hidden=false;
   }
-  $('cue').onclick=function(){ $('after').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}) };
 
   function addMk2(v){var i=document.createElement('i'); i.className='mk m2'; i.style.left=(v*100)+'%'; s2.root.appendChild(i)}
   function describe(){
     var t='';
     if(S.m1==null && S.m2!=null) t='Первой метки у вас нет, так что сравнивать пока не с чем.';
     else if(S.m1!=null && S.m2!=null){
-      var d=Math.round((S.m2-S.m1)*100);
-      t=Math.abs(d)<5 ? 'Вторая метка почти совпала с первой.' : 'Вторая метка стоит на '+Math.abs(d)+'% '+(d>0?'ближе к «признанному шедевру»':'ближе к «не вижу искусства»')+', чем первая.';
+      var d=S.m2-S.m1;
+      t=Math.abs(d)<.03 ? 'Метка осталась на месте. Это тоже ответ.' : 'Вторая метка стоит '+(Math.abs(d)<.2?'чуть ':'')+'ближе к «'+(d>0?'люблю':'не люблю')+'», чем первая.';
     }
-    $('result').textContent=t;
+    $('result').textContent=nb(t);
   }
   /* ---------- second slider ---------- */
-  var s2=mkSlider($('s2'),{onInput:function(v,u){ if(u) $('lock2').hidden=false }});
-  $('lock2').onclick=function(){
-    S.m2=s2.value; s2.lock(); $('lock2').hidden=true; s2.mark('m2',null); s2.mark('m1',S.m1);
-    addMk2(S.m2);
-    LS.set('m2',String(S.m2)); describe();
-  };
+  var s2=mkSlider($('s2'),{onInput:function(v,u){ if(u && !s2.locked) $('lock2').hidden=false }});
+  function finish2(){
+    S.m2=s2.value; s2.lock(); $('lock2').hidden=true; $('keep').hidden=true; s2.mark('m2',null); s2.mark('m1',S.m1);
+    addMk2(S.m2); LS.set('m2',String(S.m2)); describe(); $('comp').hidden=false;
+  }
+  $('lock2').onclick=finish2;
+  $('keep').onclick=function(){ if(S.m1==null) return; s2.set(S.m1,true); finish2() };
+  var und=$('understand');
+  und.value=LS.get('u')||'';
+  und.addEventListener('input',function(){ LS.set('u',und.value) });
 
   /* restore marks from a previous visit (per-browser only) */
   var p1=LS.get('m1');
   if(p1!==null && p1!=='' && !isNaN(+p1)){
-    S.m1=+p1; s1.set(S.m1,true); revealAfter();
+    S.m1=+p1; s1.set(S.m1,true); revealAfter(); $('qnote').hidden=false;
     var p2=LS.get('m2'); if(p2!==null && p2!=='' && !isNaN(+p2)){
       S.m2=+p2; s2.set(S.m2,true); s2.lock(); addMk2(S.m2);
-      $('lock2').hidden=true; describe();
+      $('lock2').hidden=true; $('keep').hidden=true; describe(); $('comp').hidden=false;
     }
   }
 
   /* ---------- ship scene ---------- */
   var NS='http://www.w3.org/2000/svg';
-  var pin=$('pin-ship'), art=$('sc-art'), shipl=$('shipl'), pb=$('p-bust'), scp=$('sc-p'), pre=$('sc-pre'), stx=$('sc-text');
+  var pin=$('pin-ship'), art=$('sc-art'), shipl=$('shipl'), pb=$('p-bust'), scols=[].slice.call(document.querySelectorAll('.sc-text .rev')), pre=$('sc-pre'), pbig=$('pre-big'), pred=$('pre-red'), stx=$('sc-text');
   var RIDE=[0.0, 1.5, 3.1, 4.6, 6.1, 7.7, 9.2, 10.7, 12.2, 13.8, 15.3, 16.8, 18.4, 19.9, 21.4, 23.0, 24.5, 26.0, 27.6, 29.1, 31.3, 34.7, 38.1, 41.4, 44.8, 48.1, 51.5, 54.9, 58.7, 62.5, 66.2, 70.0, 73.8, 77.5, 81.3, 85.0, 88.8, 93.7, 98.6, 103.5, 108.4, 113.3, 129.9, 137.0, 144.9, 151.9, 159.8, 174.0, 181.0, 188.0, 196.8, 202.0, 216.8, 224.8, 232.8], RSTEP=20, DX0=1046;
   function ride(dx){var f=dx/RSTEP,i=Math.floor(f),k=f-i; if(i>=RIDE.length-1) return RIDE[RIDE.length-1]; return RIDE[i]*(1-k)+RIDE[i+1]*k}
   function progressOf(el){var r=el.getBoundingClientRect(),t=r.height-window.innerHeight; return t<=0?0:clamp(-r.top/t,0,1)}
   function drawShip(){
-    if(!pin||!art||!shipl||!pb||!scp||!pre||!stx) return;
-    var p=progressOf(pin); try{drawWords(p)}catch(e){}
-    /* предисловие уходит, появляются пощёчина, гора и полосы */
-    /* предисловие тает, появляется пощёчина */
-    var f=clamp((p-.22)/.07,0,1);
-    pre.style.opacity=String(1-clamp((p-.17)/.07,0,1)); pre.style.visibility=p>=.25?'hidden':'visible';
-    art.style.opacity=String(f); stx.style.opacity=String(f);
+    if(!pin||!art||!pre||!stx||!shipl||!pb) return;
+    var p=progressOf(pin), W=window.innerWidth;
+    var xa=seg(p,.016,.08), xb=seg(p,.12,.17); if(pbig&&pred){ pbig.style.opacity=String(xa); pred.style.opacity=String(xb) }
+    /* горизонтальный переход: подводка уходит влево, слайд с кораблём приходит справа */
+    var h=sm(seg(p,.26,.40));
+    pre.style.transform='translateX('+(-h*W).toFixed(1)+'px)';
+    var tx='translateX('+((1-h)*W).toFixed(1)+'px)';
+    stx.style.transform=tx; art.style.transform=tx;
+    pre.style.visibility=h>=1?'hidden':'visible';
     /* корабль выезжает по горе справа */
-    var q=clamp((p-.27)/.3,0,1), e=1-Math.pow(1-q,3), dx=DX0*(1-e);
-    var W=art.clientWidth, s=W/1798;
-    shipl.style.transform='translate('+(dx*s).toFixed(1)+'px,'+(ride(dx)*s).toFixed(1)+'px)';
-    scp.classList.toggle('on',p>=.6); 
-    var rel=.66, t=clamp((p-rel)/.2,0,1), H=art.clientHeight, x=0, y=0, rot=0;
-    if(p>=rel){ x=-.26*t*W; y=1.05*t*t*H; rot=-t*340 }
+    var q=seg(p,.42,.66), e=1-Math.pow(1-q,3);
+    shipl.style.transform='translate('+((1-e)*art.clientWidth*.9).toFixed(1)+'px,'+((1-e)*art.clientHeight*.12).toFixed(1)+'px)';
+    var on=p>=.66; scols.forEach(function(el){el.classList.toggle('on',on)});
+    /* бюст Пушкина падает с парохода */
+    var t=clamp((p-.78)/.2,0,1), x=0, y=0, rot=0;
+    if(t>0){ x=-.26*t*art.clientWidth; y=1.05*t*t*art.clientHeight; rot=-t*340 }
     pb.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) rotate('+rot.toFixed(1)+'deg)';
   }
 
   /* ---------- экраны героев: фигура справа, «сам», свайп, «решили другие» ---------- */
-  var ords=[].slice.call(document.querySelectorAll('.ord')).map(function(el){
-    var ps=el.querySelector('.pane.self'), po=el.querySelector('.pane.other');
-    return {el:el, fig:el.querySelector('.fig'), self:ps, other:po,
-      si:[].slice.call(ps.querySelectorAll('.it')), oi:[].slice.call(po.querySelectorAll('.it')),
-      ph:[].slice.call(el.querySelectorAll('.ph'))};
-  });
   function fitList(pane,items){
     var last=null; items.forEach(function(it){if(it.classList.contains('on'))last=it});
     var ol=pane.firstElementChild, off=0;
@@ -157,18 +170,27 @@
     items.forEach(function(it,i){ var on=p>=t0+(t1-t0)*i/n; it.classList.toggle('on',on); if(on)k=i });
     items.forEach(function(it,i){it.classList.toggle('past',i<k)});
   }
+  var ordsEl=$('ords'), otrack=$('otrack'), pfm=$('pf-m'), pfl=$('pf-l'), hnm=$('hn-m'), hnl=$('hn-l');
+  var opanels=ordsEl?[].slice.call(ordsEl.querySelectorAll('.opanel')):[];
+  var OP=opanels.map(function(el){var pn=el.querySelector('.pane');
+    return {el:el, pane:pn, items:pn?[].slice.call(pn.querySelectorAll('.it')):[], q:el.querySelector('.qbig'), n:el.querySelector('.note')}});
+  var PANS=[[.17,.21],[.37,.41],[.48,.54],[.66,.70],[.89,.93]];
+  function sm(t){return t*t*(3-2*t)}
   function drawOrd(){
-    ords.forEach(function(o){
-      if(reduce){o.el.classList.add('static');return}
-      var p=progressOf(o.el), q=clamp(p/.09,0,1), e=1-Math.pow(1-q,3);
-      o.fig.style.setProperty('--fx',((1-e)*110).toFixed(1)+'%');
-      var sw=p>=.54;
-      o.el.classList.toggle('sw',sw);
-      o.ph[0].classList.toggle('on',!sw); o.ph[1].classList.toggle('on',sw);
-      reveal(o.si,.11,.5,p); reveal(o.oi,.6,.97,p);
-      o.fig.style.opacity=sw?(window.innerWidth<=640?.12:.35):'';
-      fitList(sw?o.other:o.self, sw?o.oi:o.si);
-    });
+    if(!ordsEl||!otrack||!document.documentElement.classList.contains('anim')) return;
+    var p=progressOf(ordsEl), W=ordsEl.clientWidth, idx=0;
+    PANS.forEach(function(r){ idx+=sm(seg(p,r[0],r[1])) });
+    otrack.style.transform='translateX('+(-idx*W).toFixed(1)+'px)';
+    var en=1-Math.pow(1-seg(p,0,.04),3), sw=sm(seg(p,.48,.54));
+    pfm.style.transform='translate('+((1-en)*110).toFixed(1)+'%,'+(sw*window.innerHeight).toFixed(1)+'px)';
+    pfl.style.transform='translate(0,'+(-(1-sw)*window.innerHeight).toFixed(1)+'px)';
+    var hm=seg(p,0,.04)*(1-seg(p,.46,.52)), hl=seg(p,.5,.56);
+    put(hnm,hm,-(1-hm)*14+0); put(hnl,hl,(1-hl)*-24);
+    reveal(OP[0].items,.04,.16,p); reveal(OP[1].items,.21,.36,p);
+    reveal(OP[3].items,.54,.65,p); reveal(OP[4].items,.7,.88,p);
+    [0,1,3,4].forEach(function(k){ fitList(OP[k].pane,OP[k].items) });
+    var q1=seg(p,.41,.46), q2=seg(p,.93,.97);
+    put(OP[2].q,q1,(1-q1)*24); put(OP[2].n,seg(p,.45,.5),0); put(OP[5].q,q2,(1-q2)*24);
   }
 
   /* ---------- shelf ---------- */
@@ -177,140 +199,93 @@
     'b-maya':'<b>Маяковский.</b> 1924: спорит с превращением поэта в памятник. 1935: «лучший, талантливейший». После этого его стихи входят в школьные и вузовские программы.'
   };
   function pick(id){['b-push','b-maya'].forEach(function(k){$(k).classList.toggle('turn',k===id)}); setPlaque(plaques[id])}
-  function setPlaque(h){var pl=$('plaque'); pl.textContent=''; var m=/^<b>(.*?)<\/b>(.*)$/.exec(h); if(m){var b=document.createElement('b'); b.textContent=m[1]; pl.appendChild(b); pl.appendChild(document.createTextNode(m[2]))} else pl.textContent=h}
+  function setPlaque(h){var pl=$('plaque'); pl.textContent=''; var m=/^<b>(.*?)<\/b>(.*)$/.exec(h); if(m){var b=document.createElement('b'); b.textContent=m[1]; pl.appendChild(b); pl.appendChild(document.createTextNode(nb(m[2])))} else pl.textContent=nb(h)}
   Object.keys(plaques).forEach(function(id){
     var g=$(id); g.addEventListener('click',function(){pick(id)});
     g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(id)}});
   });
 
-  /* ---------- text animation: preface words light up with scroll ---------- */
-  var words=[];
-  try{[].forEach.call(pre.querySelectorAll('p'),function(par){
-    var parts=par.textContent.split(/\s+/).filter(Boolean); par.textContent='';
-    parts.forEach(function(w,i){var sp=document.createElement('span'); sp.className='wd'; sp.textContent=w; par.appendChild(sp); if(i<parts.length-1) par.appendChild(document.createTextNode(' ')); words.push(sp)});
-  })}catch(e){words=[]}
-  function drawWords(p){
-    var pr=reduce?1:clamp(p/.095,0,1), n=words.length;
-    for(var i=0;i<n;i++){var o=.16+.84*clamp(pr*(n+5)-i,0,5)/5; words[i].style.opacity=o.toFixed(2)}
-  }
-
-  /* ---------- red screen: sentences; Mayakovsky and Pushkin slide along the scale ---------- */
-  var rp=$('redpin'), rsent=[].slice.call($('red-p').children), rsc=$('rscale'), rpair=$('rpair');
+  function typedText(id){var e=$(id); if(!e) return ''; var d=e.getAttribute('data-d'); return nb(d&&window.matchMedia('(min-width:861px)').matches?d:e.textContent)}
+  /* ---------- красный экран: фразы по скроллу и схема дистанции ---------- */
+  var rp=$('redpin'), rty=$('rty'), rtr=$('rtr'), rquote=$('rquote'), rfull=typedText('rfull'), rlast=-1, rcar=rty?rty.nextElementSibling:null, rsc=$('rscale'), crowd=$('crowd'), dline=$('dline'), dtick=$('dtick'), dlab=$('dlab');
   function drawRed(){
-    if(!rp||!rsc||!rpair) return;
-    var p=progressOf(rp), th=[.04,.18,.32,.5];
-    rsent.forEach(function(sp,i){sp.classList.toggle('on',reduce||p>=th[i])});
-    rsc.classList.toggle('on',reduce||p>=.32);
-    var q=reduce?0:clamp((p-.45)/.5,0,1), pos=reduce?.5:.5-.5*Math.cos(q*3*Math.PI);
-    rpair.style.transform='translateX('+(pos*(rsc.clientWidth-rpair.clientWidth)).toFixed(1)+'px)';
+    if(!rp||!rsc||!crowd||!rfull||!rcar||!document.documentElement.classList.contains('anim')) return;
+    var p=progressOf(rp);
+    /* текст набирается (.04–.46), держится, стирается (.66–.82), на этом месте всплывает вывод */
+    var n=Math.round(rfull.length*(seg(p,.04,.46)-seg(p,.66,.82)));
+    if(n!==rlast){ rlast=n; rty.textContent=rfull.slice(0,n); rtr.textContent=rfull.slice(n) }
+    rcar.style.visibility=(n===0&&p>.3)?'hidden':'';
+    rsc.classList.toggle('on',p>=.16&&p<.7);
+    /* когда набрана последняя фраза, большинство сдвигается к Маяковскому, он стоит на месте: расстояние меняется само */
+    var q=clamp((p-.47)/.14,0,1), sh=q*q*(3-2*q)*120, x2=300-sh;
+    crowd.setAttribute('transform','translate('+(-sh).toFixed(1)+' 0)');
+    dline.setAttribute('x2',x2.toFixed(1)); dtick.setAttribute('x1',x2.toFixed(1)); dtick.setAttribute('x2',x2.toFixed(1));
+    dlab.setAttribute('x',((106+x2)/2).toFixed(1));
+    var qi=seg(p,.86,.94);
+    rquote.style.opacity=qi.toFixed(3); rquote.style.transform='translateY(calc(-50% + '+((1-qi)*30).toFixed(1)+'px))';
   }
-  var jub=$('jub'), jsent=[].slice.call($('jub-p').children);
+  var jub=$('jub'), jtrack=$('jtrack'), jps=[].slice.call(document.querySelectorAll('.jp'));
   function drawJub(){
-    if(!jub||!jsent.length) return;
-    var p=progressOf(jub), n=jsent.length;
-    jsent.forEach(function(sp,i){sp.classList.toggle('on',reduce||p>=.04+.9*i/n)});
+    if(!jub||!jtrack) return;
+    var p=progressOf(jub), W=jub.clientWidth;
+    var pan=sm(seg(p,.20,.30))+sm(seg(p,.46,.56))+sm(seg(p,.72,.82));
+    jtrack.style.transform='translateX('+(-pan*W).toFixed(1)+'px)';
+    function T(el,a,b){ if(el) el.style.opacity=String(seg(p,a,b)) }
+    var s=jps[0].querySelector.bind(jps[0]);
+    var el=function(i,c){return jps[i].querySelector(c)};
+    T(el(0,'.js'),.02,.08); T(el(0,'.jq'),.10,.17);
+    T(el(1,'.js'),.31,.37); T(el(1,'.jq'),.38,.44);
+    T(el(2,'.js'),.57,.63); T(el(2,'.jq'),.64,.70);
+    T(el(3,'.jr'),.83,.91); T(el(3,'.srcline'),.9,.96);
   }
-
-  /* ---------- screen 1: realistic glass over the painting ---------- */
-  var NSV='http://www.w3.org/2000/svg', glass=$('glass'), shards=[], GR={x0:25,y0:43,x1:115,y1:133}, gbase;
-  function el(n,at,par){var e=document.createElementNS(NSV,n); for(var k in at) e.setAttribute(k,at[k]); if(par) par.appendChild(e); return e}
-  try{(function(){
-    var seed=77; function rn(){seed=(seed*16807)%2147483647; return seed/2147483647}
-    function hash(a,b,c,d){var x=Math.sin(a*12.9898+b*78.233+c*37.719+d*4.581)*43758.5453; return x-Math.floor(x)}
-    function onB(p,q){return (Math.abs(p[0]-GR.x0)<1e-6&&Math.abs(q[0]-GR.x0)<1e-6)||(Math.abs(p[0]-GR.x1)<1e-6&&Math.abs(q[0]-GR.x1)<1e-6)||(Math.abs(p[1]-GR.y0)<1e-6&&Math.abs(q[1]-GR.y0)<1e-6)||(Math.abs(p[1]-GR.y1)<1e-6&&Math.abs(q[1]-GR.y1)<1e-6)}
-    /* общий для соседних осколков рваный край */
-    function jag(p,q){
-      if(onB(p,q)) return [];
-      var sw=(p[0]>q[0]||(p[0]===q[0]&&p[1]>q[1])), a=sw?q:p, b=sw?p:q, dx=b[0]-a[0], dy=b[1]-a[1], len=Math.sqrt(dx*dx+dy*dy)||1, nx=-dy/len, ny=dx/len, amp=Math.min(len*.2,1.5), out=[];
-      [[.28,0],[.52,1],[.76,2]].forEach(function(t){var o=(hash(a[0],a[1],b[0],b[1]+t[1])-.5)*amp*2; out.push([a[0]+dx*t[0]+nx*o, a[1]+dy*t[0]+ny*o])});
-      return sw?out.reverse():out;
-    }
-    function clip(poly){
-      [[0,1,GR.x0],[0,-1,GR.x1],[1,1,GR.y0],[1,-1,GR.y1]].forEach(function(e){
-        var ax=e[0],sg=e[1],lim=e[2],out=[], inside=function(p){return sg>0?p[ax]>=lim:p[ax]<=lim};
-        for(var i=0;i<poly.length;i++){var a=poly[i],b=poly[(i+1)%poly.length],ia=inside(a),ib=inside(b); if(ia) out.push(a); if(ia!==ib){var t=(lim-a[ax])/(b[ax]-a[ax]); out.push([a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t])}}
-        poly=out;
-      });
-      return poly;
-    }
-    var N=14, R=[0,5,11,19,30,44,62,86,118], I=[60,76], V=[];
-    for(var i=0;i<N;i++){V[i]=[]; var th=(i+(rn()-.5)*.4)*2*Math.PI/N;
-      for(var j=0;j<R.length;j++){var r=R[j]*(j?1+(rn()-.5)*.3:0), a=th+(rn()-.5)*.12; V[i][j]=[I[0]+r*Math.cos(a),I[1]+r*Math.sin(a)]}}
-    var defs=el('defs',{},glass);
-    function lg(id,x1,y1,x2,y2,stops){var g=el('linearGradient',{id:id,x1:x1,y1:y1,x2:x2,y2:y2},defs); stops.forEach(function(t){el('stop',{offset:t[0],'stop-color':t[1],'stop-opacity':t[2]},g)})}
-    lg('gl',0,0,1,1,[[0,'#fff',.30],[.5,'#cfe9e2',.04],[1,'#fff',.2]]);
-    lg('stk',0,0,1,0,[[0,'#fff',0],[.5,'#fff',.2],[1,'#fff',0]]);
-    lg('sky',0,0,.75,1,[[0,'#fff',.2],[.42,'#fff',.05],[1,'#0a2a26',.1]]);
-    el('rect',{x:25,y:43,width:90,height:90},el('clipPath',{id:'gclip'},defs));
-    el('feGaussianBlur',{stdDeviation:2.2},el('filter',{id:'gblur',x:'-20%',y:'-20%',width:'140%',height:'140%'},defs));
-    el('feDropShadow',{dx:.5,dy:1.1,stdDeviation:.7,'flood-color':'#000','flood-opacity':.55},el('filter',{id:'gsh',x:'-20%',y:'-20%',width:'140%',height:'140%'},defs));
-    var pane=el('g',{filter:'url(#gsh)'},glass);
-    /* целое стекло: блики, фаска, пыль */
-    gbase=el('g',{'clip-path':'url(#gclip)'},glass); gbase.id='gbase'; gbase.style.transition='opacity .5s';
-    el('rect',{x:25,y:43,width:90,height:90,fill:'url(#sky)'},gbase);
-    el('polygon',{points:'27,46 62,46 45,78 27,86',fill:'#fff','fill-opacity':.1,filter:'url(#gblur)'},gbase);
-    var st=el('g',{'class':'streak'},gbase); el('polygon',{points:'52,43 70,43 48,133 30,133',fill:'url(#stk)'},st); el('polygon',{points:'84,43 90,43 68,133 62,133',fill:'url(#stk)',opacity:.7},st);
-    el('rect',{x:25.35,y:43.35,width:89.3,height:89.3,fill:'none',stroke:'#9fe3cf','stroke-opacity':.38,'stroke-width':.7},gbase);
-    el('path',{d:'M25.7 132.3 V43.7 H114.3',fill:'none',stroke:'#fff','stroke-opacity':.7,'stroke-width':.28},gbase);
-    el('path',{d:'M114.4 44 V132.4 H26',fill:'none',stroke:'#000','stroke-opacity':.28,'stroke-width':.4},gbase);
-    for(var d=0;d<14;d++) el('circle',{cx:(27+rn()*86).toFixed(1),cy:(45+rn()*86).toFixed(1),r:(.12+rn()*.22).toFixed(2),fill:'#fff','fill-opacity':(.25+rn()*.4).toFixed(2)},gbase);
-    function addShard(pts,j){
-      var poly=clip(pts); if(poly.length<3) return;
-      var full=[]; for(var i=0;i<poly.length;i++){var p=poly[i],q=poly[(i+1)%poly.length]; full.push(p); jag(p,q).forEach(function(x){full.push(x)})}
-      var cx=0,cy=0; full.forEach(function(p){cx+=p[0];cy+=p[1]}); cx/=full.length; cy/=full.length;
-      var pts_s=full.map(function(p){return p[0].toFixed(2)+','+p[1].toFixed(2)}).join(' ');
-      var idx=shards.length, cp=el('clipPath',{id:'cp'+idx},defs); el('polygon',{points:pts_s},cp);
-      var g=el('g',{'class':'sh'},pane); g.style.transformBox='view-box'; g.style.transformOrigin=cx.toFixed(1)+'px '+cy.toFixed(1)+'px';
-      var rg=el('g',{'clip-path':'url(#cp'+idx+')'},g);
-      var img=el('image',{href:'img/square.jpg',x:20,y:38,width:100,height:100.6,preserveAspectRatio:'none'},rg);
-      var body=el('polygon',{points:pts_s,fill:'url(#gl)','fill-opacity':0},g);
-      var tint=el('polygon',{points:pts_s,fill:rn()>.5?'#fff':'#000','fill-opacity':0},g);
-      var sh=el('polygon',{points:pts_s,fill:'none',stroke:'#000','stroke-opacity':0,'stroke-width':.34,transform:'translate(.2 .22)'},g);
-      var hi=el('polygon',{points:pts_s,fill:'none',stroke:'#f4fffb','stroke-opacity':0,'stroke-width':.2},g);
-      var br=null;
-      if(rn()<.4){ var k=Math.floor(rn()*poly.length), a=poly[k], b=poly[(k+1)%poly.length], m=[(a[0]+b[0])/2,(a[1]+b[1])/2], tx=cx-m[0], ty=cy-m[1], f=.35+rn()*.45, e2=[m[0]+tx*f+(rn()-.5)*2, m[1]+ty*f+(rn()-.5)*2], mid=[(m[0]+e2[0])/2+(rn()-.5)*1.2,(m[1]+e2[1])/2+(rn()-.5)*1.2];
-        br=el('path',{d:'M'+m[0].toFixed(2)+' '+m[1].toFixed(2)+' L'+mid[0].toFixed(2)+' '+mid[1].toFixed(2)+' L'+e2[0].toFixed(2)+' '+e2[1].toFixed(2),fill:'none',stroke:'#f4fffb','stroke-width':.13,'stroke-opacity':0},g) }
-      var dx=cx-I[0], dy=cy-I[1], dd=Math.sqrt(dx*dx+dy*dy)||1;
-      shards.push({g:g,rg:rg,img:img,body:body,tint:tint,sh:sh,hi:hi,br:br,j:j,thr:Math.max(0,(j-1)/R.length*.85),dx:dx/dd,dy:dy/dd,rot:(rn()-.5)*2,dist:dd,r1:rn(),r2:rn(),r3:rn(),r4:rn()-.5,r5:rn()-.5,chip:(j===1&&rn()<.45)});
-    }
-    for(var i=0;i<N;i++){var i2=(i+1)%N;
-      addShard([I,V[i][1],V[i2][1]],1);
-      for(var j=1;j<R.length-1;j++) addShard([V[i][j],V[i2][j],V[i2][j+1],V[i][j+1]],j+1);
-    }
-  })();}catch(e){shards=[]}
-  function drawGlass(v){
-    var c=clamp((.42-v)/.30,0,1), fall=v<.1;
-    gbase.style.opacity=fall?0:String(1-c*.55);
-    shards.forEach(function(s){
-      var vis=clamp((c*1.35-s.thr)/.16,0,1), gone=fall||(s.chip&&c>.55);
-      var so=(vis*.95).toFixed(2);
-      s.hi.setAttribute('stroke-opacity',so); s.sh.setAttribute('stroke-opacity',(vis*.5).toFixed(2));
-      if(s.br) s.br.setAttribute('stroke-opacity',(vis*.8).toFixed(2));
-      s.body.setAttribute('fill-opacity',(vis*(.5+.4*s.r1)).toFixed(2));
-      s.tint.setAttribute('fill-opacity',(vis*.05*(1+s.r2)).toFixed(3));
-      /* преломление: картина под осколком чуть смещается */
-      var rx=s.r4*1.5*c, ry=s.r5*1.5*c, lift=c*(.2+.9*s.r1), rot=s.rot*c*2.4, tr, d=gone?(fall?0:.05):0;
-      s.img.style.transition='transform .6s, opacity .25s'; s.img.style.transform='translate('+rx.toFixed(2)+'px,'+ry.toFixed(2)+'px)';
-      s.rg.style.transition='opacity .25s'; s.rg.style.opacity=gone?'0':String(vis);
-      if(gone){
-        var big=fall?1:.35, fx=s.dx*(6+s.r2*16)*big+(s.r3-.5)*14*big, fy=(fall?70+s.r1*95+(1-s.dist/118)*30:30+s.r1*40), fr=(s.rot>0?1:-1)*(140+s.r2*320);
-        tr='translate('+fx.toFixed(1)+'px,'+fy.toFixed(1)+'px) rotate('+fr.toFixed(0)+'deg) scale('+(.8+s.r3*.2).toFixed(2)+')';
-        var dl=fall?(s.dist/118*.35+s.r2*.25):s.r2*.1;
-        s.g.style.transition='transform '+(1.05+s.r1*.6).toFixed(2)+'s cubic-bezier(.55,.05,.9,.6) '+dl.toFixed(2)+'s, opacity .45s ease-in '+(.7+dl).toFixed(2)+'s';
-        s.g.style.opacity='0';
-      } else {
-        tr='translate('+(s.dx*lift).toFixed(2)+'px,'+(s.dy*lift).toFixed(2)+'px) rotate('+rot.toFixed(2)+'deg)';
-        s.g.style.transition='transform .6s cubic-bezier(.3,.8,.3,1), opacity .35s'; s.g.style.opacity='1';
-      }
-      s.g.style.transform=tr;
-    });
-  }
-  try{drawGlass(S.m1!=null?S.m1:.5)}catch(e){}
 
   /* Каждая сцена обновляется сама по себе и в своём try, поэтому сбой в одной
      не останавливает остальные. Идёт от геометрии на экране, а не от события scroll,
      чтобы работать и там, где scroll до страницы не доходит (встроенный просмотр, iframe). */
-  var SCENES=[drawShip,drawRed,drawJub,drawOrd];
+  /* ---------- Малевич: экраны по макету, всё по скроллу ---------- */
+  function seg(p,a,b){return clamp((p-a)/(b-a),0,1)}
+  function put(el,o,dy,dx){ if(!el) return; el.style.opacity=o.toFixed(3); el.style.transform='translate('+((dx||0)).toFixed(1)+'px,'+(dy||0).toFixed(1)+'px)' }
+  var mg=$('mgrey'), mg1=$('mg1'), mg2=$('mg2');
+  function drawMgrey(){
+    if(!mg||!mg1||!mg2) return;
+    var p=progressOf(mg), i1=seg(p,.04,.16), o1=seg(p,.42,.52), i2=seg(p,.58,.7);
+    put(mg1,i1*(1-o1),0);
+    put(mg2,i2,0);
+  }
+  var mhz=$('mhz'), mtrack=document.querySelector('.mtrack'), mr1=$('mr1'), mr2=$('mr2'), mr3=$('mr3'), mcross=$('mcross');
+  var ms1=$('ms1'), ms2=$('ms2'), ms3=$('ms3');
+  function drawMhz(){
+    if(!mhz||!mtrack||!mr1) return;
+    var p=progressOf(mhz), W=mhz.clientWidth;
+    var x=seg(p,.0,.1), a=seg(p,.04,.12), b=seg(p,.12,.2), c=seg(p,.2,.28);
+    var h=seg(p,.42,.66); h=h*h*(3-2*h);            // горизонтальный ход: красная панель уезжает влево
+    var s1=seg(p,.64,.74), s2=seg(p,.72,.82), s3=seg(p,.8,.9);
+    put(mr1,a,(1-a)*30); put(mr2,b,(1-b)*30); put(mr3,c,(1-c)*30);
+    mcross.style.transform='translateX('+(Math.pow(1-x,3)*W*.28).toFixed(1)+'px)';
+    mtrack.style.transform='translateX('+(-h*W).toFixed(1)+'px)';
+    put(ms1,s1,0,(1-s1)*140); put(ms2,s2,0,(1-s2)*120); put(ms3,s3,0,(1-s3)*100);
+  }
+  var mt=$('mtype'), mf=$('mfield'), mq=$('mq'), tyE=$('ty'), trE=$('tr'), tfull=typedText('mfull'), lastN=-1;
+  function drawMtype(){
+    if(!mt||!mf||!tfull||!document.documentElement.classList.contains('anim')) return;
+    var p=progressOf(mt), fi=seg(p,0,.04), qi=seg(p,.8,.9);
+    // печатается (.06–.44), держится, стирается в обратную сторону (.54–.76), на этом же месте появляется вопрос
+    var n=Math.round(tfull.length*(seg(p,.06,.44)-seg(p,.54,.76)));
+    mf.style.opacity=(fi*(1-seg(p,.74,.8))).toFixed(3); mf.style.visibility=(p>.8)?'hidden':'visible';
+    if(n!==lastN){ lastN=n; tyE.textContent=tfull.slice(0,n); trE.textContent=tfull.slice(n) }
+    mq.style.opacity=qi.toFixed(3); mq.style.transform='translateY(calc(-50% + '+((1-qi)*30).toFixed(1)+'px))';
+  }
+  var mld=$('mlead'), mlh=$('ml-h'), mlp=$('ml-p'), mlt=$('ml-t');
+  function drawMlead(){
+    if(!mld||!mlh) return;
+    var p=progressOf(mld), W=mld.clientWidth, d=Math.min(W*.18,260);
+    var a=seg(p,.04,.2), b=seg(p,.14,.32), o=seg(p,.5,.62), t=seg(p,.6,.76);
+    var ea=1-Math.pow(1-a,3), eb=1-Math.pow(1-b,3);
+    put(mlh,a*(1-o),-o*18,-(1-ea)*d-o*d*.4);
+    put(mlp,b*(1-o),-o*18,(1-eb)*d+o*d*.4);
+    put(mlt,t,(1-t)*30,0);
+  }
+  var SCENES=[drawShip,drawRed,drawJub,drawMgrey,drawMhz,drawMtype,drawMlead,drawOrd];
   function drawAll(){ for(var i=0;i<SCENES.length;i++){ try{SCENES[i]()}catch(e){} } }
   /* перерисовываем только когда что-то сдвинулось: иначе каждый кадр лишние чтения/записи стилей и лаги */
   var lastSig='';
