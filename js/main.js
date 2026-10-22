@@ -4,7 +4,7 @@
   if(!/[?&]debug/.test(location.search)) return;
   var box; function say(t){ if(!box){box=document.createElement('pre'); box.style.cssText='position:fixed;left:0;right:0;bottom:0;max-height:40vh;overflow:auto;margin:0;padding:8px 12px;background:#000;color:#ff8;font:12px/1.4 monospace;z-index:99999;white-space:pre-wrap'; document.body.appendChild(box)} box.textContent+=t+'\n' }
   addEventListener('error',function(e){say('ERROR: '+e.message+' @'+(e.filename||'').split('/').pop()+':'+e.lineno)});
-  document.addEventListener('DOMContentLoaded',function(){say('main.js v30 загружен')});
+  document.addEventListener('DOMContentLoaded',function(){say('main.js v41 загружен')});
 })();
 (function(){
   /* анимации привязаны к скроллу читателя, поэтому системная настройка «уменьшить движение» их не отключает */
@@ -28,15 +28,6 @@
     nodes.forEach(function(n){ var v=nb(n.nodeValue); if(v!==n.nodeValue) n.nodeValue=v });
   }catch(e){}
 
-  /* Мнения. Положение на шкале — оценка автора проекта по смыслу высказывания. */
-  var OPS=[
-    {pos:.15,who:'Современник',t:'вспоминает позже',name:'Художник Мильман',text:'«в сущности, хулиган»',src:'о Маяковском на выставке «Бубнового валета»; в пересказе Романа Якобсона, «Устная история»'},
-    {pos:.21,who:'Критик',t:'пишет в тот момент',name:'Александр Бенуа',text:'«икона»',src:'так он назвал «Чёрный квадрат» в газете «Речь», январь 1916'},
-    {pos:.30,who:'Обычный человек',t:'вспоминает позже',name:'Иван Баженов, офицер',text:'«я воспитывался на Пушкине»',src:'о стихах Маяковского, «Устная история» через «Афишу Daily», 2018'},
-    {pos:.66,who:'Современник',t:'вспоминает позже',name:'Евгения Ланг, художница',text:'«молодой гений»',src:'о Маяковском, «Устная история» через «Афишу Daily», 2018'},
-    {pos:.76,who:'Современник',t:'вспоминает позже',name:'Роман Якобсон, лингвист',text:'«сразу останавливал на себе внимание»',src:'о Маяковском, «Устная история» через «Афишу Daily», 2018'},
-    {pos:.90,who:'Слушатель',t:'вспоминает позже',name:'Владимир Сосинский, литератор',text:'«потрясающей силы»',src:'о чтении Маяковского, «Устная история» через «Афишу Daily», 2018'}
-  ];
 
   /* ---------- slider ---------- */
   function mkSlider(root,opt){
@@ -71,66 +62,32 @@
     return api;
   }
 
-  /* ---------- screen 1: opinions appear near the thumb ---------- */
-  var qa=$('qa'), shown='';
-  function showNear(v){
-    var near=OPS.filter(function(o){return Math.abs(o.pos-v)<=.095}).sort(function(a,b){return Math.abs(a.pos-v)-Math.abs(b.pos-v)}).slice(0,2);
-    var key=near.map(function(o){return o.pos}).join(',');
-    if(key===shown) return; shown=key;
-    qa.textContent='';
-    near.forEach(function(o){
-      var d=document.createElement('div'); d.className='qc';
-      var a=document.createElement('div'); a.className='who'; a.textContent=o.who+' · '+o.t;
-      var b=document.createElement('div'); b.className='nm'; b.textContent=o.name;
-      var c=document.createElement('div'); c.className='tx'; c.textContent=nb(o.text);
-      var s=document.createElement('div'); s.className='src'; s.textContent=nb(o.src);
-      d.appendChild(a); d.appendChild(b); d.appendChild(c); d.appendChild(s); qa.appendChild(d);
-    });
+  /* ---------- первый экран: после движения шкалы печатается мой текст ---------- */
+  var TXA=nb('Я всегда считала, что это нечто советское и безликое… в смысле, лишённое индивидуальности.');
+  var TXB=nb('Как может выражать протест то, что принадлежит всем?\nНо в этом я ошиблась. Так было не всегда, а вернее никогда так не было.');
+  var ftE=$('fty'), frE=$('ftr'), ftBox=$('ftext'), ftWrap=$('ftbox'), tState=0, restoring=false;
+  function setT(t,n){ if(!ftE||!frE) return; ftE.textContent=t.slice(0,n); frE.textContent=t.slice(n) }
+  function typeT(t,done){ var i=0; (function step(){ i++; setT(t,i); if(i<t.length) setTimeout(step,24+Math.random()*26); else if(done) setTimeout(done,2400) })() }
+  function eraseT(t,done){ var i=t.length; (function step(){ i=Math.max(0,i-2); setT(t,i); if(i>0) setTimeout(step,12); else setTimeout(done,350) })() }
+  /* блок под шкалой растёт плавно, колонка с вопросом и шкалой сдвигается вверх сама */
+  function growTo(t){ if(!ftWrap||!ftBox) return; setT(t,0); ftWrap.style.height=ftBox.offsetHeight+'px' }
+  /* место под оба текста освобождаем сразу: вопрос и шкала поднимаются один раз, потом печатаем */
+  function reserve(){ if(!ftWrap||!ftBox) return; setT(TXA,0); var a=ftBox.offsetHeight; setT(TXB,0); var b=ftBox.offsetHeight; ftWrap.style.height=Math.max(a,b)+'px'; setT(TXA,0) }
+  function startTyping(){
+    if(tState||!ftE||!ftBox) return; tState=1;
+    setTimeout(function(){ reserve() },900);
+    setTimeout(function(){ typeT(TXA,function(){ eraseT(TXA,function(){ setT(TXB,0); typeT(TXB,function(){ ftBox.classList.add('done'); tState=2 }) }) }) },2900);
   }
-  var s1=mkSlider($('s1'),{ticks:OPS.map(function(o){return o.pos}),
-    onInput:function(v,u){
-      if(!u) return;
-      S.m1=v; showNear(v);
-      [].forEach.call($('s1').querySelectorAll('.tick'),function(t,i){t.classList.toggle('on',Math.abs(OPS[i].pos-v)<=.095)});
-      revealAfter(); $('qnote').hidden=false;
-    },
-    onCommit:function(v){ LS.set('m1',String(v)) }});
+  var s1=mkSlider($('s1'),{
+    ticks:[.15,.21,.30,.66,.76,.90],
+    onInput:function(v,u){ if(!u) return; S.m1=v; revealAfter() },
+    onCommit:function(){ startTyping() },
+    });
   function revealAfter(){
     if($('after').hidden){ $('after').hidden=false }
-    s2.mark('m1',S.m1); if(!s2.locked) $('keep').hidden=false;
   }
 
-  function addMk2(v){var i=document.createElement('i'); i.className='mk m2'; i.style.left=(v*100)+'%'; s2.root.appendChild(i)}
-  function describe(){
-    var t='';
-    if(S.m1==null && S.m2!=null) t='Первой метки у вас нет, так что сравнивать пока не с чем.';
-    else if(S.m1!=null && S.m2!=null){
-      var d=S.m2-S.m1;
-      t=Math.abs(d)<.03 ? 'Метка осталась на месте. Это тоже ответ.' : 'Вторая метка стоит '+(Math.abs(d)<.2?'чуть ':'')+'ближе к «'+(d>0?'люблю':'не люблю')+'», чем первая.';
-    }
-    $('result').textContent=nb(t);
-  }
-  /* ---------- second slider ---------- */
-  var s2=mkSlider($('s2'),{onInput:function(v,u){ if(u && !s2.locked) $('lock2').hidden=false }});
-  function finish2(){
-    S.m2=s2.value; s2.lock(); $('lock2').hidden=true; $('keep').hidden=true; s2.mark('m2',null); s2.mark('m1',S.m1);
-    addMk2(S.m2); LS.set('m2',String(S.m2)); describe(); $('comp').hidden=false;
-  }
-  $('lock2').onclick=finish2;
-  $('keep').onclick=function(){ if(S.m1==null) return; s2.set(S.m1,true); finish2() };
-  var und=$('understand');
-  und.value=LS.get('u')||'';
-  und.addEventListener('input',function(){ LS.set('u',und.value) });
-
-  /* restore marks from a previous visit (per-browser only) */
-  var p1=LS.get('m1');
-  if(p1!==null && p1!=='' && !isNaN(+p1)){
-    S.m1=+p1; s1.set(S.m1,true); revealAfter(); $('qnote').hidden=false;
-    var p2=LS.get('m2'); if(p2!==null && p2!=='' && !isNaN(+p2)){
-      S.m2=+p2; s2.set(S.m2,true); s2.lock(); addMk2(S.m2);
-      $('lock2').hidden=true; $('keep').hidden=true; describe(); $('comp').hidden=false;
-    }
-  }
+  /* метки прошлых визитов не восстанавливаем: каждый заход начинается с чистого первого экрана */
 
   /* ---------- ship scene ---------- */
   var NS='http://www.w3.org/2000/svg';
@@ -140,7 +97,7 @@
   function progressOf(el){var r=el.getBoundingClientRect(),t=r.height-window.innerHeight; return t<=0?0:clamp(-r.top/t,0,1)}
   function drawShip(){
     if(!pin||!art||!pre||!stx||!shipl||!pb) return;
-    var p=progressOf(pin), W=window.innerWidth;
+    var pr=pin.getBoundingClientRect(), p=clamp(-pr.top/Math.max(1,pr.height-2*window.innerHeight),0,1), W=window.innerWidth;
     var xa=seg(p,.016,.08), xb=seg(p,.12,.17); if(pbig&&pred){ pbig.style.opacity=String(xa); pred.style.opacity=String(xb) }
     /* горизонтальный переход: подводка уходит влево, слайд с кораблём приходит справа */
     var h=sm(seg(p,.26,.40));
@@ -148,14 +105,18 @@
     var tx='translateX('+((1-h)*W).toFixed(1)+'px)';
     stx.style.transform=tx; art.style.transform=tx;
     pre.style.visibility=h>=1?'hidden':'visible';
-    /* корабль выезжает по горе справа */
-    var q=seg(p,.42,.66), e=1-Math.pow(1-q,3);
-    shipl.style.transform='translate('+((1-e)*art.clientWidth*.9).toFixed(1)+'px,'+((1-e)*art.clientHeight*.12).toFixed(1)+'px)';
+    shipl.style.transform='none';
     var on=p>=.66; scols.forEach(function(el){el.classList.toggle('on',on)});
-    /* бюст Пушкина падает с парохода */
-    var t=clamp((p-.78)/.2,0,1), x=0, y=0, rot=0;
-    if(t>0){ x=-.26*t*art.clientWidth; y=1.05*t*t*art.clientHeight; rot=-t*340 }
-    pb.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) rotate('+rot.toFixed(1)+'deg)';
+    /* рука берёт бюст Пушкина двумя пальцами, поднимает и выбрасывает */
+    var hd=$('p-hand'); if(!hd) return;
+    var bw=pb.offsetWidth, bh=pb.offsetHeight, hw=hd.offsetWidth, hh=hd.offsetHeight, AW=art.clientWidth, AH=art.clientHeight;
+    var hx=pb.offsetLeft+bw*.5-.32*hw, hy=pb.offsetTop+bh*.03-.85*hh;
+    var ein=1-Math.pow(1-seg(p,.70,.78),3), lift=sm(seg(p,.80,.85)), fl=sm(seg(p,.86,.90)), th=seg(p,.89,1), ex=sm(seg(p,.94,1)); pb.style.opacity=sm(seg(p,.66,.70)).toFixed(3);
+    var sw=Math.sin(Math.PI*clamp(th/.4,0,1)), fa=sm(clamp((th-.2)/.8,0,1)), fy=Math.pow(clamp((th-.2)/.8,0,1),2);
+    var ox=(1-ein)*.3*AW+fl*.03*AW+.06*AW*sw+ex*.25*AW, oy=-(1-ein)*(hy+hh+40)-lift*.3*bh-fl*.07*AH-ex*.6*AH;
+    hd.style.transform='translate('+(hx+ox).toFixed(1)+'px,'+(hy+oy).toFixed(1)+'px) rotate('+(-fl*7).toFixed(2)+'deg)';
+    var bx=.12*AW*sw-.46*AW*fa, by=-lift*.3*bh-.04*AH*sw+1.3*AH*fy, rot=-lift*7+25*sw-340*fa;
+    pb.style.transform='translate('+bx.toFixed(1)+'px,'+by.toFixed(1)+'px) rotate('+rot.toFixed(1)+'deg)';
   }
 
   /* ---------- экраны героев: фигура справа, «сам», свайп, «решили другие» ---------- */
@@ -207,27 +168,53 @@
 
   function typedText(id){var e=$(id); if(!e) return ''; var d=e.getAttribute('data-d'); return nb(d&&window.matchMedia('(min-width:861px)').matches?d:e.textContent)}
   /* ---------- красный экран: фразы по скроллу и схема дистанции ---------- */
-  var rp=$('redpin'), rty=$('rty'), rtr=$('rtr'), rquote=$('rquote'), rfull=typedText('rfull'), rlast=-1, rcar=rty?rty.nextElementSibling:null, rsc=$('rscale'), crowd=$('crowd'), dline=$('dline'), dtick=$('dtick'), dlab=$('dlab');
+  var rp=$('redpin'), rty=$('rty'), rtr=$('rtr'), rfull=typedText('rfull'), rlast=-1, rcar=rty?rty.nextElementSibling:null, rsc=$('rscale'), crowd=$('crowd'), dline=$('dline'), dtick=$('dtick');
+  var RQ=nb(window.matchMedia('(min-width:861px)').matches?'Чтобы сбросить Пушкина, манифесту\nпришлось сначала назвать его по имени.':'Чтобы сбросить Пушкина, манифесту пришлось сначала назвать его по имени.');
+  var rsc2=rp?rp.querySelector('.redsc'):null;
   function drawRed(){
     if(!rp||!rsc||!crowd||!rfull||!rcar||!document.documentElement.classList.contains('anim')) return;
-    var p=progressOf(rp);
-    /* текст набирается (.04–.46), держится, стирается (.66–.82), на этом месте всплывает вывод */
-    var n=Math.round(rfull.length*(seg(p,.04,.46)-seg(p,.66,.82)));
-    if(n!==rlast){ rlast=n; rty.textContent=rfull.slice(0,n); rtr.textContent=rfull.slice(n) }
-    rcar.style.visibility=(n===0&&p>.3)?'hidden':'';
+    /* вход: красный слайд приезжает справа поверх закреплённого предыдущего экрана */
+    var rr=rp.getBoundingClientRect(), vhh=window.innerHeight;
+    if(rsc2){ if(rr.top>0){ var ent=seg(clamp(1-rr.top/vhh,0,1),.2,.52); rsc2.style.transform='translate('+((1-sm(ent))*window.innerWidth).toFixed(1)+'px,'+(-rr.top).toFixed(1)+'px)' } else rsc2.style.transform='' }
+    var p=clamp(-rr.top/Math.max(1,rr.height-2*vhh),0,1);
+    /* текст набирается (.04–.46), держится, стирается (.66–.82), потом набирается вывод */
+    var inQ=p>=.83, n=inQ?Math.round(RQ.length*seg(p,.84,.92)):Math.round(rfull.length*(seg(p,.04,.46)-seg(p,.66,.82))), key=(inQ?'q':'a')+n;
+    if(key!==rlast){ rlast=key; var src=inQ?RQ:rfull; rty.textContent=src.slice(0,n); rtr.textContent=src.slice(n) }
+    rcar.style.visibility=(n===0&&p>.3&&p<.83)?'hidden':'';
     rsc.classList.toggle('on',p>=.16&&p<.7);
     /* когда набрана последняя фраза, большинство сдвигается к Маяковскому, он стоит на месте: расстояние меняется само */
-    var q=clamp((p-.47)/.14,0,1), sh=q*q*(3-2*q)*120, x2=300-sh;
+    var q=clamp((p-.47)/.14,0,1), sh=q*q*(3-2*q)*80, x2=360-sh;
     crowd.setAttribute('transform','translate('+(-sh).toFixed(1)+' 0)');
     dline.setAttribute('x2',x2.toFixed(1)); dtick.setAttribute('x1',x2.toFixed(1)); dtick.setAttribute('x2',x2.toFixed(1));
-    dlab.setAttribute('x',((106+x2)/2).toFixed(1));
-    var qi=seg(p,.86,.94);
-    rquote.style.opacity=qi.toFixed(3); rquote.style.transform='translateY(calc(-50% + '+((1-qi)*30).toFixed(1)+'px))';
+    
+    /* в конце красный фон плавно становится серым, а цитата гаснет: дальше идёт серый экран */
+    var g=sm(seg(p,.95,1)), rt=$('rtype');
+    if(rsc2) rsc2.style.background='';
+    if(rt) rt.style.opacity='';
+  }
+  /* ---------- 1917: корабль налетает на гору, Маяковский падает ---------- */
+  var fp=$('fallpin'), ftx=$('ftx'), fheap=$('fheap'), fship=$('fship'), fmaya=$('fmaya');
+  function drawFall(){
+    if(!fp||!ftx||!fheap||!fship||!fmaya||!document.documentElement.classList.contains('anim')) return;
+    var fr=fp.getBoundingClientRect(), fsc=fp.querySelector('.fallsc');
+    if(fsc){ if(fr.top>0){ var fe=seg(clamp(1-fr.top/window.innerHeight,0,1),.2,.52); fsc.style.transform='translate('+((1-sm(fe))*window.innerWidth).toFixed(1)+'px,'+(-fr.top).toFixed(1)+'px)' } else fsc.style.transform='' }
+    var p=progressOf(fp), vw=window.innerWidth/100, vh=window.innerHeight/100;
+    var eH=sm(seg(p,0,.05)), eS=sm(seg(p,0,.2)), st=seg(p,.36,.6), stE=st*st*(3-2*st), fl=seg(p,.6,.84), W=window.innerWidth, H=window.innerHeight;
+    ftx.style.opacity=sm(seg(p,0,.06)).toFixed(3);
+    var fh=fheap.offsetHeight, peek=Math.max(0,fh-(parseFloat(getComputedStyle(fheap).bottom)*-1)-0.1*window.innerHeight), rise=sm(seg(p,.32,.6));
+    fheap.style.transform='translateY('+(((1-eH)*fh*.95)+(1-rise)*peek).toFixed(1)+'px)';
+    var ang=((1-eS)*5)-stE*54, th=ang*Math.PI/180;
+    fship.style.transform='translate('+(((1-eS)*60*vw)-stE*(vw*100>860?10:6)*vw).toFixed(1)+'px,'+((stE*1*vh)+(1-rise)*(11.5*vh+76)).toFixed(1)+'px) rotate('+ang.toFixed(2)+'deg)';
+    /* Маяковский слетает с палубы по дуге в левый угол; путь считаем в экранных осях и переводим в оси корабля */
+    var wx=-fl*(W>860?.46:.6)*W, wy=fl*.42*H-4*.12*H*fl*(1-fl), lx=wx*Math.cos(th)+wy*Math.sin(th), ly=-wx*Math.sin(th)+wy*Math.cos(th);
+    fmaya.style.transform='translate('+lx.toFixed(1)+'px,'+ly.toFixed(1)+'px) rotate('+(-fl*430).toFixed(1)+'deg)';
   }
   var jub=$('jub'), jtrack=$('jtrack'), jps=[].slice.call(document.querySelectorAll('.jp'));
+  var jtext='', jlast=-1;
   function drawJub(){
     if(!jub||!jtrack) return;
-    var p=progressOf(jub), W=jub.clientWidth;
+    var jr0=jub.getBoundingClientRect(), jtot=Math.max(1,jr0.height-window.innerHeight), jext=Math.min(jtot*.45,2.2*window.innerHeight), jraw=-jr0.top;
+    var p=clamp(jraw/Math.max(1,jtot-jext),0,1), jq=clamp((jraw-(jtot-jext))/Math.max(1,jext),0,1), W=jub.clientWidth;
     var pan=sm(seg(p,.20,.30))+sm(seg(p,.46,.56))+sm(seg(p,.72,.82));
     jtrack.style.transform='translateX('+(-pan*W).toFixed(1)+'px)';
     function T(el,a,b){ if(el) el.style.opacity=String(seg(p,a,b)) }
@@ -236,7 +223,12 @@
     T(el(0,'.js'),.02,.08); T(el(0,'.jq'),.10,.17);
     T(el(1,'.js'),.31,.37); T(el(1,'.jq'),.38,.44);
     T(el(2,'.js'),.57,.63); T(el(2,'.jq'),.64,.70);
+    var jo=1-seg(jq,0,.15);
     T(el(3,'.jr'),.83,.91); T(el(3,'.srcline'),.9,.96);
+    el(3,'.jr').style.opacity=(seg(p,.83,.91)*jo).toFixed(3); el(3,'.srcline').style.opacity=(seg(p,.9,.96)*.7*jo).toFixed(3);
+    var jt=$('jt'), jty=$('jty'), jtr=$('jtr');
+    if(jt&&jty&&jtr){ var JT=jtext||(jtext=nb($('jfull').textContent)), jn=Math.round(JT.length*seg(jq,.2,.92)); jt.style.opacity=seg(jq,.15,.2).toFixed(3);
+      if(jn!==jlast){ jlast=jn; jty.textContent=JT.slice(0,jn); jtr.textContent=JT.slice(jn) } }
   }
 
   /* Каждая сцена обновляется сама по себе и в своём try, поэтому сбой в одной
@@ -253,27 +245,31 @@
     put(mg2,i2,0);
   }
   var mhz=$('mhz'), mtrack=document.querySelector('.mtrack'), mr1=$('mr1'), mr2=$('mr2'), mr3=$('mr3'), mcross=$('mcross');
-  var ms1=$('ms1'), ms2=$('ms2'), ms3=$('ms3');
+  var ms1=$('ms1'), ms2=$('ms2'), ms3=$('ms3'), ms4=$('ms4'), ms5=$('ms5');
   function drawMhz(){
     if(!mhz||!mtrack||!mr1) return;
     var p=progressOf(mhz), W=mhz.clientWidth;
     var x=seg(p,.0,.1), a=seg(p,.04,.12), b=seg(p,.12,.2), c=seg(p,.2,.28);
     var h=seg(p,.42,.66); h=h*h*(3-2*h);            // горизонтальный ход: красная панель уезжает влево
-    var s1=seg(p,.64,.74), s2=seg(p,.72,.82), s3=seg(p,.8,.9);
+    var s1=seg(p,.62,.7), s2=seg(p,.68,.76), s3=seg(p,.74,.82), s4=seg(p,.8,.9);
     put(mr1,a,(1-a)*30); put(mr2,b,(1-b)*30); put(mr3,c,(1-c)*30);
     mcross.style.transform='translateX('+(Math.pow(1-x,3)*W*.28).toFixed(1)+'px)';
     mtrack.style.transform='translateX('+(-h*W).toFixed(1)+'px)';
-    put(ms1,s1,0,(1-s1)*140); put(ms2,s2,0,(1-s2)*120); put(ms3,s3,0,(1-s3)*100);
+    put(ms1,s1,0,(1-s1)*140); put(ms2,s2,0,(1-s2)*120); put(ms3,s3,0,(1-s3)*100); put(ms4,s4,0,(1-s4)*90); put(ms5,s4,0,(1-s4)*90);
   }
-  var mt=$('mtype'), mf=$('mfield'), mq=$('mq'), tyE=$('ty'), trE=$('tr'), tfull=typedText('mfull'), lastN=-1;
+  var mt=$('mtype'), mf=$('mfield'), mq=$('mq'), tyE=$('ty'), trE=$('tr'), tfull=typedText('mfull'), tfull2=typedText('mfull2'), tfull3=typedText('mfull3'), lastN=-1;
   function drawMtype(){
-    if(!mt||!mf||!tfull||!document.documentElement.classList.contains('anim')) return;
-    var p=progressOf(mt), fi=seg(p,0,.04), qi=seg(p,.8,.9);
-    // печатается (.06–.44), держится, стирается в обратную сторону (.54–.76), на этом же месте появляется вопрос
-    var n=Math.round(tfull.length*(seg(p,.06,.44)-seg(p,.54,.76)));
-    mf.style.opacity=(fi*(1-seg(p,.74,.8))).toFixed(3); mf.style.visibility=(p>.8)?'hidden':'visible';
-    if(n!==lastN){ lastN=n; tyE.textContent=tfull.slice(0,n); trE.textContent=tfull.slice(n) }
-    mq.style.opacity=qi.toFixed(3); mq.style.transform='translateY(calc(-50% + '+((1-qi)*30).toFixed(1)+'px))';
+    if(!mt||!mf||!tfull||!tfull2||!tfull3||!document.documentElement.classList.contains('anim')) return;
+    var p=progressOf(mt), fi=seg(p,0,.04), qi=seg(p,.66,.72)*(1-seg(p,.8,.84));
+    /* абзац 1 печатается и стирается, на его месте печатается абзац 2, он гаснет, появляется фраза про Бога, она гаснет, печатается абзац 3 */
+    var ph=p>=.7?2:(p>=.4?1:0), src=ph===2?tfull3:(ph===1?tfull2:tfull), n;
+    if(ph===0) n=Math.round(tfull.length*(seg(p,.04,.24)-seg(p,.3,.4)));
+    else if(ph===1) n=Math.round(tfull2.length*seg(p,.42,.56));
+    else n=Math.round(tfull3.length*seg(p,.86,.97));
+    var op=ph===2?seg(p,.84,.86):(1-seg(p,.62,.66));
+    mf.style.opacity=(fi*op).toFixed(3); mf.style.visibility=(p>.66&&p<.84)?'hidden':'visible';
+    var key=ph+':'+n; if(key!==lastN){ lastN=key; tyE.textContent=src.slice(0,n); trE.textContent=src.slice(n) }
+    if(mq){ mq.style.opacity=qi.toFixed(3); mq.style.transform='translateY(calc(-50% + '+((1-seg(p,.66,.72))*30).toFixed(1)+'px))' }
   }
   var mld=$('mlead'), mlh=$('ml-h'), mlp=$('ml-p'), mlt=$('ml-t');
   function drawMlead(){
@@ -285,7 +281,19 @@
     put(mlp,b*(1-o),-o*18,(1-eb)*d+o*d*.4);
     put(mlt,t,(1-t)*30,0);
   }
-  var SCENES=[drawShip,drawRed,drawJub,drawMgrey,drawMhz,drawMtype,drawMlead,drawOrd];
+  /* ---------- открывающий блок: серый кадр, горизонтальный переход, фраза, затем картина со шкалой ---------- */
+  var fst=$('first'), ftk=$('ftrack'), fq1=$('fq1'), fmain=$('fmain');
+  function drawFirst(){
+    if(!fst||!ftk||!fq1||!fmain) return;
+    var p=progressOf(fst), W=fst.clientWidth;
+    var h=sm(seg(p,.1,.3));
+    ftk.style.transform='translateX('+(-h*W).toFixed(1)+'px)';
+    var a=seg(p,.3,.38), b=seg(p,.48,.56), c=seg(p,.54,.64);
+    put(fq1,a*(1-b),-b*18);
+    put(fmain,c,(1-c)*24);
+    fmain.style.pointerEvents=c>.5?'auto':'none';
+  }
+  var SCENES=[drawFirst,drawShip,drawRed,drawFall,drawJub,drawMgrey,drawMhz,drawMtype,drawMlead,drawOrd];
   function drawAll(){ for(var i=0;i<SCENES.length;i++){ try{SCENES[i]()}catch(e){} } }
   /* перерисовываем только когда что-то сдвинулось: иначе каждый кадр лишние чтения/записи стилей и лаги */
   var lastSig='';
@@ -299,20 +307,4 @@
   addEventListener('resize',drawAll);
   drawAll();
   document.documentElement.classList.add('anim');
-})();
-
-/* ---- блок 2 ---- */
-/* вступление стартует, когда страницу действительно видно */
-(function(){
-  var f=document.getElementById('first'); if(!f) return;
-  f.classList.add('wait');
-  var done=false;
-  function go(){ if(done) return; done=true; setTimeout(function(){ f.classList.remove('wait') },450) }
-  function vis(){ return document.visibilityState!=='hidden' }
-  try{
-    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && vis()) go() }) },{threshold:.3});
-    io.observe(f);
-  }catch(e){ go() }
-  document.addEventListener('visibilitychange',function(){ if(vis()&&f.getBoundingClientRect().top<innerHeight*.7) go() });
-  setTimeout(go,6000);
 })();
