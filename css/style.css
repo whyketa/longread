@@ -35,7 +35,7 @@ section{padding-block:clamp(3rem,9vh,6rem)}
 .sl-ends span:last-child{text-align:right}
 
 /* ---------- screen 1 ---------- */
-.first{--fg:#C0C0C0;--hi:#C0C0C0;color:var(--fg);background:var(--wall);margin-inline:-16px;padding-inline:16px;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:1rem;padding-block:clamp(1.2rem,4vh,2.4rem)}
+.first{--fg:#C0C0C0;--hi:#C0C0C0;color:var(--fg);background:var(--wall);margin-inline:-16px;padding-inline:16px;min-height:100vh;min-height:calc(100*var(--sv,1svh));display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:1rem;padding-block:clamp(1.2rem,4vh,2.4rem)}
 .first h1{font-size:clamp(2rem,6.5vw,3.6rem);text-align:center;margin:0}
 .art{flex:0 0 auto;display:flex;justify-content:center;position:relative;z-index:5}
 .art svg{width:min(44vh,22rem);height:auto;display:block;overflow:visible}
@@ -93,7 +93,7 @@ section{padding-block:clamp(3rem,9vh,6rem)}
 
 /* ---------- pinned ship ---------- */
 .pin{position:relative;margin-inline:-16px}
-.stage{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;justify-content:center;gap:1rem}
+.stage{position:sticky;top:0;height:100vh;height:calc(100*var(--sv,1svh));display:flex;flex-direction:column;justify-content:center;gap:1rem}
 .stage svg{width:100%;height:auto;max-height:62vh;display:block}
 .cap{min-height:5.5rem;font-size:1.25rem;font-weight:700;max-width:38rem;margin-inline:auto;text-align:center}
 .cap span{display:none}
@@ -110,7 +110,7 @@ section{padding-block:clamp(3rem,9vh,6rem)}
 
 /* ---------- ship scene ---------- */
 .pin{height:620vh}
-.sc{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.sc{position:sticky;top:0;height:100vh;height:calc(100*var(--sv,1svh));overflow:hidden}
 .sc-pre{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:left;padding:2rem 1.5rem;z-index:3}
 .pre-in{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;width:min(40rem,100%)}
 .sc-pre .kicker{margin-bottom:1.2rem}
@@ -122,7 +122,7 @@ section{padding-block:clamp(3rem,9vh,6rem)}
 .sc-text h2{margin:0}
 .sc-text p{font-size:clamp(.95rem,1.25vw,1.1rem);margin:0;opacity:0;transform:translateY(12px);transition:opacity .7s,transform .7s}
 .sc-text p.on{opacity:1;transform:none}
-.sc-art{position:absolute;right:0;bottom:0;width:min(82vw,calc(88svh*1.7336));aspect-ratio:1798/1037;opacity:0}
+.sc-art{position:absolute;right:0;bottom:0;width:min(82vw,calc(calc(88*var(--sv,1svh))*1.7336));aspect-ratio:1798/1037;opacity:0}
 .sc-art img.heap,.shipl{position:absolute;inset:0;width:100%;height:100%}
 .shipl{will-change:transform}
 .shipl>img:first-child{position:absolute;inset:0;width:100%;height:100%;display:block}
@@ -130,7 +130,7 @@ section{padding-block:clamp(3rem,9vh,6rem)}
 .shipl .pb{position:absolute;left:40%;top:10%;width:9.66%;height:auto;filter:grayscale(1) contrast(1.05) drop-shadow(0 6px 8px rgba(0,0,0,.35));will-change:transform}
 .rscale .cut{filter:grayscale(1) contrast(1.05) drop-shadow(1.5px 0 0 #C0C0C0) drop-shadow(-1.5px 0 0 #C0C0C0) drop-shadow(0 1.5px 0 #C0C0C0) drop-shadow(0 -1.5px 0 #C0C0C0) drop-shadow(0 5px 7px rgba(0,0,0,.35))}
 .redpin{height:380vh;position:relative;margin-inline:-16px;padding-block:0}
-.redsc{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:1.4rem;padding:2rem 1.5rem;background:var(--wall);color:#C0C0C0}
+.redsc{position:sticky;top:0;height:100vh;height:calc(100*var(--sv,1svh));display:flex;flex-direction:column;justify-content:center;align-items:center;gap:1.4rem;padding:2rem 1.5rem;background:var(--wall);color:#C0C0C0}
 .redsc p{width:min(40rem,100%);margin:0;text-align:left;font-weight:700;font-size:clamp(1.1rem,2.1vw,1.55rem);line-height:1.4;text-wrap:pretty}
 .redsc p>span{opacity:.2;transition:opacity .5s}
 .redsc p>span.on{opacity:1}
@@ -188,32 +188,32 @@ footer{padding-block:3rem 5rem;color:var(--mute);font-size:.85rem}
 .ords .qbig{border-left-color:var(--ink)}
 .pfig,.ordhead{display:none}
 .anim .ords{height:1100vh}
-.anim .ordstage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;padding:0}
+.anim .ordstage{position:sticky;top:0;height:100vh;height:calc(100*var(--sv,1svh));overflow:hidden;padding:0}
 .anim .fallh{display:none}
-.anim .pfig{--ph:min(88svh,720px);display:block;position:absolute;right:0;bottom:0;height:var(--ph);max-width:52vw;z-index:0;pointer-events:none;will-change:transform}
+.anim .pfig{--ph:min(calc(88*var(--sv,1svh)),720px);display:block;position:absolute;right:0;bottom:0;height:var(--ph);max-width:52vw;z-index:0;pointer-events:none;will-change:transform}
 .anim .pfig .fig{display:block;height:100%;width:auto;max-width:52vw;object-fit:contain;object-position:right bottom;}
 #pf-l{z-index:1}
 #pf-m{height:calc(var(--ph) * 0.927)}
-.anim .ordhead{display:grid;position:absolute;z-index:2;left:var(--mx);top:7svh;right:16px}
+.anim .ordhead{display:grid;position:absolute;z-index:2;left:var(--mx);top:calc(7*var(--sv,1svh));right:16px}
 .anim .ordhead h3{grid-area:1/1;font-size:clamp(2.2rem,7vw,4.6rem);font-weight:800;letter-spacing:-.025em;line-height:1;margin:0;opacity:0}
 .anim .otrack{position:absolute;inset:0;width:600%;display:flex;will-change:transform;z-index:1}
 .anim .opanel{flex:0 0 calc(100% / 6);position:relative;height:100%;max-width:none;margin:0;padding:0}
-.anim .plab{position:absolute;left:var(--mx);top:calc(7svh + 6.2rem);margin:0}
-.anim .pane{position:absolute;left:var(--mx);top:calc(7svh + 8.2rem);bottom:4svh;width:min(40rem,calc(100vw - 32px),calc(100vw - 48vw));overflow:hidden}
+.anim .plab{position:absolute;left:var(--mx);top:calc(calc(7*var(--sv,1svh)) + 6.2rem);margin:0}
+.anim .pane{position:absolute;left:var(--mx);top:calc(calc(7*var(--sv,1svh)) + 8.2rem);bottom:calc(4*var(--sv,1svh));width:min(40rem,calc(100vw - 32px),calc(100vw - 48vw));overflow:hidden}
 .anim .oq .qbig,.anim .oq .note{position:absolute;left:var(--mx);width:min(34rem,calc(100vw - 32px),calc(100vw - 48vw));margin:0;opacity:0}
-.anim .oq .qbig{top:calc(7svh + 8.2rem)}
-.anim .oq .note{top:calc(7svh + 8.2rem + 11rem)}
+.anim .oq .qbig{top:calc(calc(7*var(--sv,1svh)) + 8.2rem)}
+.anim .oq .note{top:calc(calc(7*var(--sv,1svh)) + 8.2rem + 11rem)}
 .anim .it{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
 .anim .it.on{opacity:1;transform:none}
 .anim .it.past{opacity:.55}
 @media (max-width:640px){
-  .anim .pfig{--ph:62svh;max-width:70vw;opacity:.22}
+  .anim .pfig{--ph:calc(62*var(--sv,1svh));max-width:70vw;opacity:.22}
   .anim .pfig .fig{max-width:70vw}
   .anim .pane,.anim .oq .qbig,.anim .oq .note{width:calc(100vw - 32px)}
-  .anim .plab{top:calc(7svh + 5.2rem)}
-  .anim .pane{top:calc(7svh + 7.2rem)}
-  .anim .oq .qbig{top:calc(7svh + 7.2rem)}
-  .anim .oq .note{top:calc(7svh + 7.2rem + 13rem)}
+  .anim .plab{top:calc(calc(7*var(--sv,1svh)) + 5.2rem)}
+  .anim .pane{top:calc(calc(7*var(--sv,1svh)) + 7.2rem)}
+  .anim .oq .qbig{top:calc(calc(7*var(--sv,1svh)) + 7.2rem)}
+  .anim .oq .note{top:calc(calc(7*var(--sv,1svh)) + 7.2rem + 13rem)}
   .it .y{font-size:1.2rem}
   .it p{font-size:.95rem;line-height:1.4}
 }
@@ -265,10 +265,10 @@ footer{padding-block:3rem 5rem;color:var(--mute);font-size:.85rem}
    Цвета макета: серый #C0C0C0, красный #61030D. Это отдельные «сцены» со своей палитрой, одинаковой в светлой и тёмной теме. */
 :root{--mx:max(20px,8.333vw);--mgrey:#C0C0C0;--mred:#61030D;--mink:#0C0C0C}
 .mpin{position:relative;margin-inline:-16px;padding-block:0}
-.msc{position:relative;overflow:hidden;min-height:100svh;display:flex;flex-direction:column;justify-content:center;gap:2rem;padding:4rem var(--mx)}
+.msc{position:relative;overflow:hidden;min-height:calc(100*var(--sv,1svh));display:flex;flex-direction:column;justify-content:center;gap:2rem;padding:4rem var(--mx)}
 .anim .mpin{height:300vh}
 .anim .mtype{height:520vh}
-.anim .msc{position:sticky;top:0;height:100svh;display:block;padding:0}
+.anim .msc{position:sticky;top:0;height:calc(100*var(--sv,1svh));display:block;padding:0}
 .mgrey .msc{background:var(--mgrey);color:var(--mink)}
 .mtype .msc{background:var(--mred);color:var(--mgrey)}
 .mx{margin:0}
@@ -291,7 +291,7 @@ footer{padding-block:3rem 5rem;color:var(--mute);font-size:.85rem}
 .anim .mred .mhead,.anim .mred .mquote,.anim .mred .mnote{position:relative;z-index:1}
 
 /* кадр 18 */
-.msup .msup-in{width:100%;height:100%;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:4rem var(--mx)}
+.msup .msup-in{width:100%;height:100%;min-height:calc(100*var(--sv,1svh));display:flex;flex-direction:column;justify-content:center;padding:4rem var(--mx)}
 .msup h2{font-size:clamp(2.3rem,9.5vw,9rem);font-weight:700;letter-spacing:-.035em;line-height:1;color:var(--mred);margin:0}
 .msup .sub{font-size:clamp(1.3rem,3.2vw,3rem);font-weight:500;color:var(--mred);margin:.6rem 0 1.8rem;letter-spacing:-.015em}
 .msup .lat{font-style:normal}
@@ -311,7 +311,7 @@ footer{padding-block:3rem 5rem;color:var(--mute);font-size:.85rem}
 /* горизонтальный переход: красная панель уезжает влево, серая «супрематизм» приезжает справа */
 .mhz .msc{background:var(--mgrey)}
 .mtrack{display:flex;flex-direction:column}
-.mpanel{position:relative;overflow:hidden;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:4rem var(--mx)}
+.mpanel{position:relative;overflow:hidden;min-height:calc(100*var(--sv,1svh));display:flex;flex-direction:column;justify-content:center;padding:4rem var(--mx)}
 .mpanel.mred{background:var(--mred);color:var(--mgrey)}
 .mpanel.msup{background:var(--mgrey);color:var(--mink);padding:0}
 .anim .mhz{height:460vh}
@@ -402,7 +402,7 @@ html:not(.anim) .sc-pre .pre-b{margin-top:2rem}
 .sc-text .yr{font-size:clamp(1.5rem,2.6vw,2.8rem);font-weight:500;color:var(--mred);margin:.2rem 0 .8rem}
 .sc-text p.rev{font-size:clamp(.95rem,1.8vw,1.8rem);font-weight:500;line-height:1.35;color:var(--mink);margin:0}
 .sc-text p.srcl{font-size:.85rem;margin-top:.8rem}
-.sc-art{right:-4vw;bottom:-2svh;width:min(62vw,calc(80svh*1.7336));height:auto;aspect-ratio:1798/1037;opacity:1;will-change:transform}
+.sc-art{right:-4vw;bottom:-calc(2*var(--sv,1svh));width:min(62vw,calc(calc(80*var(--sv,1svh))*1.7336));height:auto;aspect-ratio:1798/1037;opacity:1;will-change:transform}
 .sc-art img{display:block}
 .sc-art img.heap{position:absolute;inset:0;width:100%;height:100%}
 .shipl .pb{filter:grayscale(1) contrast(1.05) drop-shadow(0 6px 8px rgba(0,0,0,.35))}
@@ -414,7 +414,7 @@ html:not(.anim) .sc-text p.rev{opacity:1;transform:none}
 html:not(.anim) .sc-art{position:static;opacity:1;width:100%;height:auto}
 @media (max-width:860px){
   .sc-text{width:auto;right:var(--mx);top:1.2rem;bottom:auto;justify-content:flex-start}
-  .sc-art{width:150vw;height:auto;right:-40vw;bottom:-2svh}
+  .sc-art{width:150vw;height:auto;right:-40vw;bottom:-calc(2*var(--sv,1svh))}
 }
 
 @media (min-width:861px){.sc-text h2{white-space:nowrap}}
@@ -422,7 +422,7 @@ html:not(.anim) .sc-art{position:static;opacity:1;width:100%;height:auto}
 /* ---- Юбилейное: горизонтальные слайды (кадры 54–58) ---- */
 .jubpin{position:relative;margin-inline:-16px}
 .jsc{background:var(--mgrey)}
-.jp{box-sizing:border-box;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:4rem var(--mx)}
+.jp{box-sizing:border-box;min-height:calc(100*var(--sv,1svh));display:flex;flex-direction:column;justify-content:center;padding:4rem var(--mx)}
 .jp.grey{background:var(--mgrey);color:var(--mink)}
 .jp.red{background:var(--mred);color:var(--mgrey)}
 .jin{display:grid;align-content:center;justify-items:start;width:min(100%,70vw)}
@@ -434,37 +434,37 @@ html:not(.anim) .sc-art{position:static;opacity:1;width:100%;height:auto}
 .jp .srcline{font-size:.8rem;font-weight:500;line-height:1.4;opacity:.7;margin:2rem 0 0}
 .jp .srcline a{color:inherit}
 .anim .jubpin{height:420vh}
-.anim .jsc{position:sticky;top:0;height:100svh;overflow:hidden}
+.anim .jsc{position:sticky;top:0;height:calc(100*var(--sv,1svh));overflow:hidden}
 .anim .jtrack{display:flex;width:400%;height:100%;will-change:transform}
 .anim .jp{flex:0 0 25%;width:25%;height:100%;min-height:0;padding-block:0}
 .anim .js,.anim .jq,.anim .jr,.anim .jp .srcline{opacity:0}
 html:not(.anim) .jp{min-height:auto;padding-block:3rem}
 @media (max-width:860px){.jin{width:100%}}
-.anim .jp.grey{justify-content:flex-start;padding-top:max(3rem,17svh)}
+.anim .jp.grey{justify-content:flex-start;padding-top:max(3rem,calc(17*var(--sv,1svh)))}
 @media (min-width:861px){.mtype .mq{font-size:clamp(1.4rem,3.4vw,3.8rem);max-width:none;text-wrap:wrap;line-height:1.3}}
 
 /* коллаж с обводкой: целиком выезжает, бюст падает отдельным слоем */
-.sc-art{right:-9vw;bottom:-4svh;width:min(66vw,calc(92svh*1.3685));aspect-ratio:1181/863;height:auto}
+.sc-art{right:-9vw;bottom:-calc(4*var(--sv,1svh));width:min(66vw,calc(calc(92*var(--sv,1svh))*1.3685));aspect-ratio:1181/863;height:auto}
 .sc-art .shipl{position:absolute;inset:0}
 .sc-art .shipl img.col{position:absolute;inset:0;width:100%;height:100%}
 .sc-art .shipl .pb{left:25.5%;top:11%;width:12%;filter:grayscale(.6) sepia(.35) contrast(1.05) drop-shadow(0 0 2px #e9e1cf) drop-shadow(0 5px 7px rgba(0,0,0,.35))}
-@media (max-width:860px){.sc-art{width:150vw;right:-40vw;bottom:-2svh}}
-.sc-art{right:-13vw;bottom:-6svh;width:min(76vw,calc(104svh*1.3685))}
+@media (max-width:860px){.sc-art{width:150vw;right:-40vw;bottom:-calc(2*var(--sv,1svh))}}
+.sc-art{right:-13vw;bottom:-calc(6*var(--sv,1svh));width:min(76vw,calc(calc(104*var(--sv,1svh))*1.3685))}
 .sc-art .shipl .pb{left:28.5%;top:13%;width:10.5%}
-@media (max-width:860px){.sc-art{width:170vw;right:-55vw;bottom:-2svh}}
+@media (max-width:860px){.sc-art{width:170vw;right:-55vw;bottom:-calc(2*var(--sv,1svh))}}
 .sc-art .shipl img.col{left:0;top:0;right:auto;bottom:auto;width:100%;height:100%;max-width:none;margin:0;object-fit:fill}
-.sc-art{right:-6vw;bottom:-5svh;width:min(64vw,calc(94svh*1.3685))}
-@media (max-width:860px){.sc-art{width:170vw;right:-55vw;bottom:-2svh}}
-.sc-art{right:-6vw;bottom:-8svh;width:min(68vw,calc(102svh*1.3685))}
+.sc-art{right:-6vw;bottom:-calc(5*var(--sv,1svh));width:min(64vw,calc(calc(94*var(--sv,1svh))*1.3685))}
+@media (max-width:860px){.sc-art{width:170vw;right:-55vw;bottom:-calc(2*var(--sv,1svh))}}
+.sc-art{right:-6vw;bottom:-calc(8*var(--sv,1svh));width:min(68vw,calc(calc(102*var(--sv,1svh))*1.3685))}
 @media (min-width:861px){.sc-text h2{font-size:clamp(2.4rem,4.1vw,4.6rem)}}
-@media (max-width:860px){.sc-art{width:170vw;right:-55vw;bottom:-2svh}}
-@media (max-width:860px){.sc-art{width:110vw;right:-25vw;bottom:-5svh}.sc-text p.rev{font-size:.82rem;line-height:1.3}.sc-text h2{font-size:clamp(1.9rem,8vw,2.6rem)}.sc-text .yr{font-size:1.2rem}}
+@media (max-width:860px){.sc-art{width:170vw;right:-55vw;bottom:-calc(2*var(--sv,1svh))}}
+@media (max-width:860px){.sc-art{width:110vw;right:-25vw;bottom:-calc(5*var(--sv,1svh))}.sc-text p.rev{font-size:.82rem;line-height:1.3}.sc-text h2{font-size:clamp(1.9rem,8vw,2.6rem)}.sc-text .yr{font-size:1.2rem}}
 
 
 /* ---------- первый экран по новой концепции: серый кадр → красный кадр с фразой → картина, вопрос, шкала ---------- */
 .open{padding:0;margin-inline:-16px;position:relative}
 .osc{background:var(--mred)}
-.fpanel{box-sizing:border-box;min-height:100svh;display:flex;align-items:center;padding:0 var(--mx)}
+.fpanel{box-sizing:border-box;min-height:calc(100*var(--sv,1svh));display:flex;align-items:center;padding:0 var(--mx)}
 .fgrey{background:var(--mgrey);color:var(--mred)}
 .ftitle{font-size:clamp(3.2rem,9vw,9rem);font-weight:700;letter-spacing:-.035em;line-height:1;color:var(--mred);margin:0}
 .fsub{font-size:clamp(1.1rem,2.1vw,2.1rem);font-weight:500;line-height:1.3;letter-spacing:-.01em;color:var(--mred);margin:1.1rem 0 0;max-width:30em}
@@ -492,7 +492,7 @@ html:not(.anim) .jp{min-height:auto;padding-block:3rem}
 }
 /* закреплённый экран работает, когда скрипт включил анимации; без него идёт обычная колонка */
 .anim .open{height:340vh}
-.anim .osc{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.anim .osc{position:sticky;top:0;height:100vh;height:calc(100*var(--sv,1svh));overflow:hidden}
 .anim .ftrack{display:flex;width:200%;height:100%;will-change:transform}
 .anim .fpanel{flex:0 0 50%;height:100%;min-height:0}
 .anim .fq1,.anim .fmain{opacity:0}
@@ -523,11 +523,11 @@ html:not(.anim) .fred{flex-direction:column;align-items:flex-start;justify-conte
 
 /* 1917: корабль, гора, падение Маяковского */
 .fallpin{height:340vh;position:relative;margin-inline:-16px}
-.fallsc{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#C0C0C0;color:#61030D}
+.fallsc{position:sticky;top:0;height:100vh;height:calc(100*var(--sv,1svh));overflow:hidden;background:#C0C0C0;color:#61030D}
 .fst{position:absolute;inset:0}
 .ftx{position:absolute;z-index:1;left:var(--mx);top:calc(50% + 38px);transform:translateY(-50%);margin:0;width:min(62vw,56rem);font-weight:500;font-size:clamp(1.25rem,2.5vw,2.4rem);line-height:1.28;letter-spacing:-.015em;text-wrap:pretty}
 .fheap{position:absolute;z-index:2;right:-4%;bottom:calc(-5vw - 53px);width:62vw;height:auto;display:block;will-change:transform}
-.fship{position:absolute;z-index:3;left:74%;bottom:calc(21% - 38px);width:min(38.6vw,64svh);aspect-ratio:673/566;transform-origin:12% 78%;will-change:transform}
+.fship{position:absolute;z-index:3;left:74%;bottom:calc(21% - 38px);width:min(38.6vw,calc(64*var(--sv,1svh)));aspect-ratio:673/566;transform-origin:12% 78%;will-change:transform}
 .fship .fsh{position:absolute;inset:0;width:100%;height:100%;display:block}
 .fship .fmaya{position:absolute;left:16.05%;top:-9.8%;width:23.2%;height:58%;transform-origin:50% 50%;will-change:transform}
 @media (max-width:860px){
@@ -536,7 +536,7 @@ html:not(.anim) .fred{flex-direction:column;align-items:flex-start;justify-conte
   .fship{left:50%;bottom:21%;width:62vw}
 }
 html:not(.anim) .fallpin{height:auto}
-html:not(.anim) .fallsc{position:relative;height:90svh;min-height:30rem}
+html:not(.anim) .fallsc{position:relative;height:calc(90*var(--sv,1svh));min-height:30rem}
 html:not(.anim) .fship{transform:translate(-10vw,1vh) rotate(-54deg)}
 html:not(.anim) .fmaya{transform:translate(-46vw,42vh) rotate(-430deg)}
 
@@ -628,8 +628,191 @@ html:not(.anim) .jt .caret{display:none}
 
 .qbig.qconc{font-weight:700;font-size:clamp(1.15rem,2.1vw,1.7rem);line-height:1.35;text-wrap:pretty;text-align:left}
 
-#shelf-sec{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-block:clamp(2rem,6vh,4rem)}
-#shelf-sec .col p{font-size:clamp(1.15rem,2.1vw,1.7rem);line-height:1.4;font-weight:600;text-wrap:pretty}
-#shelf-sec .shelfwrap{width:100%}
 .plaque{min-height:0}
 .plaque:empty{border-top:0;padding-top:0;margin-top:0}
+
+.qbig.qconc,.ords .qbig.qconc{border-left:0;padding-left:0;font-weight:500;font-size:clamp(1.35rem,3.1vw,2.9rem);line-height:1.28;letter-spacing:-.015em;text-wrap:pretty}
+@media(min-width:641px){.anim .oq .qbig.qconc{width:min(54vw,calc(100vw - 32px))}}
+
+
+
+
+
+/* заключение: серый экран и красный экран с набирающимся текстом */
+#shelf-sec .col{width:100%;max-width:none;padding-inline:var(--mx);margin:0}
+#shelf-sec .cpanel{display:flex;align-items:center;min-height:calc(100*var(--sv,1svh));padding-block:3rem}
+#shelf-sec .cp1{background:var(--mgrey);color:var(--mink)}
+#shelf-sec .cp2{background:var(--wall);color:#C0C0C0}
+#shelf-sec p.conc{font-weight:500;font-size:clamp(1.25rem,2.7vw,2.5rem);line-height:1.28;letter-spacing:-.015em;margin:0 0 1.6rem;max-width:68vw;text-wrap:pretty}
+#shelf-sec p.ctyped{white-space:pre-line;margin:0}
+#shelf-sec #ctr{opacity:0}
+@media(max-width:860px){#shelf-sec p.conc{max-width:none} #shelf-sec p.conc br.d{display:none}}
+.anim #shelf-sec{height:460vh}
+.anim #shelf-sec .cstage{position:sticky;top:0;height:100vh;height:calc(100*var(--sv,1svh));overflow:hidden}
+.anim #shelf-sec .ctrack{position:absolute;inset:0;width:200%;display:flex;will-change:transform}
+.anim #shelf-sec .cpanel{flex:0 0 50%;height:100%;min-height:0;padding-block:0}
+#shelf-sec{margin-inline:-16px}
+.anim #shelf-sec{padding:0;min-height:0;display:block}
+
+
+/* ===== ТРИ ТЕКСТОВЫХ СТИЛЯ (макет 1440×900): заголовок 100 / Bold, крупный 48 / SemiBold, мелкий 30 / Regular ===== */
+:root{
+  --t1:clamp(2.2rem,6.944vw,9rem); --t2:clamp(1.25rem,3.333vw,4.5rem); --t3:clamp(.95rem,2.083vw,2.6rem);
+}
+/* 1. Заголовок */
+h1.ftitle,.fh,.fh span,#sc-text h2,.jh,.mhead h2,#ms1,#ml-h,.ordhead h3,.fallh{
+  font-size:var(--t1)!important;font-weight:700!important;line-height:1!important;letter-spacing:-.025em!important;text-transform:none!important;font-style:normal!important}
+/* 2. Крупный текст */
+.fq1,.pre-big,.rtype,.rtype span,.rquote,.rquote span,.ftx,.jq,.jr,.jt,.jt span,.mx#mg1,.mx#mg2,#mg1 .acc,.mquote,#ms2,#ms2 .lat,.tline,.tline span,.mq,.ml2,.qbig.qconc,.conc,.yr,.jy,footer.colophon h2{
+  font-size:var(--t2)!important;font-weight:400!important;line-height:1.28!important;letter-spacing:-.015em!important;text-transform:none!important;font-style:normal!important}
+.ml2 b,.jr b,.ftx b{font-weight:400!important}
+/* 3. Мелкий текст */
+.fsub,.sl-ends,.sl-ends span,.pre-red,#sc-p,.srcl,.srcl a,.srcline,.srcline a,.js,.mnote p,.mnote2,.src,.src a,#ml-p,.plab,.it .y,.it .who,.it p,footer.colophon h3,footer.colophon li,footer.colophon a,footer.colophon p{
+  font-size:var(--t3)!important;font-weight:400!important;line-height:1.4!important;letter-spacing:0!important;text-transform:none!important;font-style:normal!important}
+
+
+/* ===== подгонка вёрстки под три стиля (десктоп) ===== */
+@media (min-width:861px){
+  /* первый экран: вопрос рядом с картиной */
+  .open .fr{width:min(60vw,66rem);margin-left:-8vw}
+  .fh{white-space:normal}
+  /* пощёчина */
+  .sc-text{width:min(70vw,62rem)}
+  .sc-text h2{white-space:normal}
+  /* красный экран набора и «Юбилейное» */
+  .rtyp .rtype{width:86vw;max-width:86vw}
+  .jin{width:min(100%,86vw)}
+  .rtyp .rquote{max-width:none}
+  /* Малевич: красная панель и супрематизм */
+  .mred .mnote{max-width:none}
+  .mred .mnote p{max-width:56vw}
+  .mred .mquote{max-width:none;white-space:normal}
+  .msup .mnote2{max-width:58vw}
+  .mred .mnote .src{max-width:56vw}
+  /* Малевич: набор А/Б/В */
+  .anim .mtype .ttext{right:auto;width:86vw;max-width:86vw}
+  .anim .mtype .mq,.mtype .mq{max-width:none}
+  .mlead .ml2{max-width:none}
+  /* два пути: шапка, подпись и список */
+  .anim .plab{top:calc(7*var(--sv,1svh) + 7.4rem)}
+  .anim .pane{top:calc(7*var(--sv,1svh) + 10.8rem)}
+  .anim .oq .qbig{top:calc(7*var(--sv,1svh) + 8.6rem)}
+}
+
+@media (min-width:861px){
+  .open .fr{width:min(56vw,64rem);margin-left:-14vw}
+  .sc-pre .pre-in{width:min(100%,90vw)}
+  .jin{width:min(100%,86vw)}
+}
+
+@media (min-width:861px){
+  .anim .jt{width:min(86vw,calc(100% - 2*var(--mx)));max-width:none}
+  .jt{max-width:none}
+  .mnote br,.mnote2 br{display:none}
+}
+
+@media (min-width:861px){ #shelf-sec p.conc{max-width:88vw} }
+
+/* вопрос первого экрана: выравнивание по левому краю, вторая строка под первой */
+.open .fh,.fh{display:block;text-align:left;margin-left:0}
+.fh .fa,.fh .ft{display:inline}
+.fh .fa{margin-right:.28em}
+
+
+/* набирающийся текст: везде мелкий стиль (30 / Regular) */
+.ftext,.ftext span,.rtype,.rtype span,.jt,.jt span,.tline,.tline span,p.conc.ctyped,p.conc.ctyped span{
+  font-size:var(--t3)!important;font-weight:400!important;line-height:1.4!important;letter-spacing:0!important;text-transform:none!important;font-style:normal!important}
+@media (min-width:861px){
+  .rtyp .rtype{width:62vw;max-width:62vw}
+  .anim .jt{width:min(62vw,calc(100% - 2*var(--mx)))}
+  .anim .mtype .ttext{width:62vw;max-width:62vw}
+  #shelf-sec p.ctyped{max-width:62vw}
+}
+
+
+/* ===== правка: размеры −5 px (макет 1440), сноски мелкие серые, единый отступ между заголовками и абзацами ===== */
+:root{
+  --t1:clamp(2.1rem,6.597vw,8.5rem); --t2:clamp(1.2rem,2.986vw,4rem); --t3:clamp(.9rem,1.736vw,2.3rem);
+  --tf:clamp(.75rem,.972vw,1.1rem); --gap:clamp(1rem,2.222vw,2.6rem);
+}
+/* сноски: маленький серый размер */
+.srcl,.srcl a,.srcline,.srcline a,.src,.src a,footer.colophon li,footer.colophon a,footer.colophon p,footer.colophon h3,footer.colophon .todo{
+  font-size:var(--tf)!important;font-weight:400!important;line-height:1.5!important;letter-spacing:0!important;text-transform:none!important}
+.srcl,.srcline,.src,footer.colophon li,footer.colophon p,footer.colophon h3{opacity:.7}
+footer.colophon a{opacity:1}
+/* единый отступ */
+.fin>*,.sc-text>*,.jin>*,.msup-in>*,.ml1>*,#shelf-sec .col>*,.mnote>*,.mhead>*{margin:0 0 var(--gap)!important}
+.fin>*:last-child,.sc-text>*:last-child,.jin>*:last-child,.msup-in>*:last-child,.ml1>*:last-child,#shelf-sec .col>*:last-child,.mnote>*:last-child,.mhead>*:last-child{margin-bottom:0!important}
+.sc-text{gap:0!important}
+.mred .mhead,.mred .mquote{margin:0 0 var(--gap)!important}
+.fh{margin:0 0 var(--gap)!important}
+.srcl,.srcline,.src{margin-top:calc(-.5*var(--gap))!important}
+footer.colophon h2{margin:0 0 var(--gap)!important}
+footer.colophon h3{margin:var(--gap) 0 calc(var(--gap)/2)!important}
+@media (min-width:861px){
+  .anim .plab{top:calc(7*var(--sv,1svh) + var(--t1) + var(--gap))}
+  .anim .pane{top:calc(7*var(--sv,1svh) + var(--t1) + var(--t3)*1.4 + 2*var(--gap))}
+  .anim .oq .qbig{top:calc(7*var(--sv,1svh) + var(--t1) + var(--gap))}
+}
+
+:root{--t1:clamp(2rem,6.25vw,8rem); --t2:clamp(1.15rem,2.639vw,3.6rem); --t3:clamp(.85rem,1.389vw,2rem)}
+
+/* первый экран: фото выставки «0,10» (1915) как фон с параллаксом за мышью */
+#fp1{position:relative;overflow:hidden}
+.fphoto{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.fphoto img{position:absolute;left:-7%;top:-7%;width:114%;height:114%;max-width:none;object-fit:cover;opacity:.3;mix-blend-mode:multiply;will-change:transform}
+#fp1 .fin{position:relative;z-index:1}
+
+/* красная панель первого экрана: без картинки, вопрос и шкала по центру экрана */
+#fmain .art{display:none!important}
+#fmain{display:flex!important;flex-direction:column;align-items:center;justify-content:center}
+#fmain .fr{margin-left:0!important;justify-self:center;align-self:center;width:min(86vw,64rem)!important}
+
+/* «Бог не скинут»: картина Малевича фоном с параллаксом за мышью */
+.mbg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.mbg .mcross,.mcross{position:absolute!important;left:-6%!important;top:-8%!important;right:auto!important;width:112%!important;height:116%!important;aspect-ratio:auto!important;max-width:none;object-fit:cover;object-position:50% 30%;opacity:.4!important;mix-blend-mode:multiply;will-change:transform}
+.mbg .mcross,.mcross{left:auto!important;right:2%!important;top:-6%!important;width:auto!important;height:112%!important;aspect-ratio:900/985!important;object-fit:fill;opacity:.55!important}
+@media (max-width:860px){.mbg .mcross,.mcross{right:-30%!important;opacity:.4!important}}
+.mbg .mcross,.mcross{left:-4%!important;width:135%!important;top:-8%!important;height:116%!important;object-position:50% 28%}
+/* «Бог не скинут»: картина на весь экран, правее, тон запечён в картинку */
+.mbg .mcross,.mcross{position:absolute!important;left:-4%!important;right:auto!important;top:-8%!important;width:135%!important;height:116%!important;aspect-ratio:auto!important;max-width:none;object-fit:cover!important;object-position:50% 28%;opacity:1!important;mix-blend-mode:normal!important}
+
+/* подводка: узнаваемое остаётся чётким, остальное уходит в туман, «поняла…» наводится на резкость */
+.sc-pre .pre-big .f{filter:blur(calc(var(--fog,0)*6px));opacity:calc(1 - var(--fog,0)*.62)}
+.sc-pre .pre-big .u{filter:blur(calc(var(--fogu,0)*6px));opacity:calc(1 - var(--fogu,0)*.62)}
+
+/* «Малевича упрекали…»: «светлое и доброе» светится, потом чёрный квадрат наползает справа и гасит его */
+.mshade{display:none}
+.anim .mgrey .mshade{display:block;position:absolute;top:0;bottom:0;right:0;width:36vw;background:var(--mink);transform-origin:100% 50%;transform:scaleX(0);z-index:0;pointer-events:none}
+.anim .mgrey .mx{position:relative;z-index:1}
+.mgrey .lt{text-shadow:0 0 calc(var(--glow,0)*.7em) rgba(255,255,255,calc(var(--glow,0)*.95)),0 0 calc(var(--glow,0)*.25em) rgba(255,255,255,calc(var(--glow,0)*.9));opacity:calc(1 - var(--dim,0)*.85)}
+
+/* чёрный квадрат вырастает от слов «чёрный квадрат» до правой половины экрана; положение считает JS */
+.anim .mgrey .mshade{left:0;right:auto;top:0;bottom:auto;width:0;height:0;transform:none;opacity:0}
+#mg2 br.d{display:none}
+@media (min-width:861px){#mg2{max-width:calc(50vw - var(--mx) - 3rem)!important}}
+
+/* «Малевича упрекали…»: экран чернеет, остаётся белое «всё светлое и доброе», в конце его перечёркивает красная линия */
+.anim .mgrey .mshade{left:0!important;top:0!important;width:100%!important;height:100%!important;background:#0C0C0C;opacity:0}
+#mg2{color:rgba(12,12,12,calc(1 - var(--blk,0)))}
+#mg2 .lt{color:color-mix(in srgb,#0C0C0C calc((1 - var(--blk,0))*100%),#fff);text-shadow:none!important;opacity:1!important;
+  background:linear-gradient(#E01B2F,#E01B2F) no-repeat 0 58%/calc(var(--strike,0)*100%) .09em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+
+/* итоговые абзацы: строки длиннее, переносы по ширине, а не по ручным разрывам */
+#c1 br.d,#c2 br.d{display:none!important}
+@media (min-width:861px){#c1,#c2{max-width:min(66vw,70rem)!important;text-wrap:pretty}}
+
+/* слова про Татьяну Толстую: мелко и красным, отдельной строкой */
+#mg2 .tt{display:block;margin-top:var(--gap);font-size:var(--t3)!important;font-weight:400;line-height:1.4;color:rgba(97,3,13,calc(1 - var(--blk,0)))}
+/* красная полоса поверх текста (псевдоэлемент над буквами), слово не переносится */
+#mg2 .lt{background:none!important;position:relative;white-space:nowrap}
+#mg2 .lt::after{content:"";position:absolute;left:-.04em;top:56%;height:.1em;width:calc(var(--strike,0)*(100% + .08em));background:#E01B2F;z-index:2;pointer-events:none}
+
+/* открытку отменили; визитка: реплика печатается, затем тонкая рамка с скруглёнными углами вырисовывается вокруг неё */
+.jp.grey{background-color:var(--mgrey)!important}
+.jp.grey::before,.jp.grey::after,.j125{display:none!important}
+.jp:first-child .jq{transform:none;position:relative;display:inline-block;padding:.55em .9em;margin-left:-.9em;max-width:min(62vw,46rem)}
+.jq .jcardsvg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.jq .jcardsvg rect{fill:none;stroke:#61030D;stroke-width:1.5;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1}
+.jq .caret{display:inline-block}
+.jp:first-child .jin .jq{margin-left:-.9em!important}
