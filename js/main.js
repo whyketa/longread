@@ -238,11 +238,10 @@
     var el=function(i,c){return jps[i].querySelector(c)};
     T(el(0,'.js'),.02,.08);
     var q0=el(0,'.jq');
-    if(!q0._t){ q0._t=nb(q0.textContent.replace(/\s+/g,' ').trim()); q0.innerHTML='<svg class="jcardsvg" preserveAspectRatio="none" aria-hidden="true"><rect x="0" y="0" width="100%" height="100%" rx="14" ry="14" pathLength="1"/></svg><span class="ty"></span><i class="caret"></i><span class="rest"></span>' }
-    var qn=Math.round(q0._t.length*seg(p,.085,.15)), fr=sm(seg(p,.15,.2));
+    if(!q0._t){ q0._t=nb(q0.textContent.replace(/\s+/g,' ').trim()); q0.innerHTML='<span class="ty"></span><i class="caret"></i><span class="rest"></span>' }
+    var qn=Math.round(q0._t.length*seg(p,.085,.15));
     if(q0._n!==qn){ q0._n=qn; q0.querySelector('.ty').textContent=q0._t.slice(0,qn); q0.querySelector('.rest').textContent=q0._t.slice(qn) }
-    q0.querySelector('rect').style.strokeDashoffset=(1-fr).toFixed(3);
-    q0.querySelector('.caret').style.display=(fr>0||qn<=0)?'none':'';
+    q0.querySelector('.caret').style.display=(qn>=q0._t.length||qn<=0)?'none':'';
     q0.style.opacity=qn>0?'1':'0';
     T(el(1,'.js'),.31,.37); T(el(1,'.jq'),.38,.44);
     T(el(2,'.js'),.57,.63); T(el(2,'.jq'),.64,.70);
