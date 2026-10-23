@@ -808,11 +808,8 @@ footer.colophon h3{margin:var(--gap) 0 calc(var(--gap)/2)!important}
 #mg2 .lt{background:none!important;position:relative;white-space:nowrap}
 #mg2 .lt::after{content:"";position:absolute;left:-.04em;top:56%;height:.1em;width:calc(var(--strike,0)*(100% + .08em));background:#E01B2F;z-index:2;pointer-events:none}
 
-/* открытку отменили; визитка: реплика печатается, затем тонкая рамка с скруглёнными углами вырисовывается вокруг неё */
+/* реплика Маяковского печатается без рамки */
 .jp.grey{background-color:var(--mgrey)!important}
-.jp.grey::before,.jp.grey::after,.j125{display:none!important}
-.jp:first-child .jq{transform:none;position:relative;display:inline-block;padding:.55em .9em;margin-left:-.9em;max-width:min(62vw,46rem)}
-.jq .jcardsvg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
-.jq .jcardsvg rect{fill:none;stroke:#61030D;stroke-width:1.5;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1}
+.jp:first-child .jq{position:relative;display:inline-block;max-width:min(62vw,46rem)}
 .jq .caret{display:inline-block}
-.jp:first-child .jin .jq{margin-left:-.9em!important}
+.jp:first-child .jin .jq{margin-left:0!important}
