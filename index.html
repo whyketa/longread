@@ -1,76 +1,27 @@
-<!doctype html>
-<html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Авангард и вкус</title>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=109">
-</head>
-<body>
+<link rel="stylesheet" href="css/style.css?v=142">
+
 <main>
 
-<!-- ЭКРАН 1: вопрос, картина на гвоздике и ползунок -->
-<!-- ПЕРВЫЙ ЭКРАН: серый кадр → красный кадр с фразой → картина, вопрос и шкала; после движения шкалы печатается текст -->
-<section class="open" id="first" aria-label="Начало">
-  <div class="osc">
-    <div class="ftrack" id="ftrack">
-      <div class="fpanel fgrey" id="fp1">
+<!-- ПЕРВЫЙ ЭКРАН: фото выставки и «Авангард» → красный экран «Авангард»: печатается, как я относилась к авангарду, затем — что он начинался с протеста →
+     на красном по скроллу: «Что вы в нём видите?» и плашки → падают бумажки →
+     печатается и стирается «Каждая из этих версий…» → «Я всегда буду против», вклинивается «не» -->
+<section class="open1" id="first" aria-label="Начало">
+  <div class="ostage">
+    <div class="otrack" id="o1track">
+      <div class="opanel ogrey">
         <div class="fphoto" aria-hidden="true"><img id="fphoto" src="img/exhibition1915.webp" alt=""></div>
-        <div class="fin">
+        <div class="oplate">
           <h1 class="ftitle">Авангард</h1>
-          <p class="fsub">Я узнавала его раньше, чем понимала.<br class="d"> Это рассказ о том, как я полюбила<br class="d"> русский авангард.</p>
+          <p class="fsub">Я узнавала о нём раньше, чем понимала.<br class="d"> Это авторский лонгрид о том,<br class="d"> как я поняла авангард.</p>
         </div>
       </div>
-      <div class="fpanel fred" id="fp2">
-        <p class="fq1" id="fq1">Сначала один вопрос к вам.</p>
-        <div class="fmain" id="fmain">
-          <div class="art">
-    <svg viewBox="0 0 140 160" role="img" aria-label="Чёрный квадрат Малевича в белой раме, висит на гвозде">
-      <defs>
-        <filter id="craq" x="0" y="0" width="100%" height="100%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/>
-          <feColorMatrix in="n" type="matrix" values="0 0 0 0 .55  0 0 0 0 .52  0 0 0 0 .46  0 0 0 .9 -.62"/>
-          <feComposite in2="SourceGraphic" operator="in"/>
-        </filter>
-        <filter id="blur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3.2"/></filter>
-        <filter id="blur2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation=".7"/></filter>
-        <linearGradient id="lit" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#000" stop-opacity=".22"/><stop offset=".35" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".1"/>
-        </linearGradient>
-        <radialGradient id="metal" cx=".35" cy=".3" r=".8">
-          <stop offset="0" stop-color="#f4f1ea"/><stop offset=".5" stop-color="#9c9890"/><stop offset="1" stop-color="#3b3935"/>
-        </radialGradient>
-        <clipPath id="sqclip"><polygon points="35.6,46.4 104.8,45.4 105.6,115.4 36.2,114.6"/></clipPath>
-      </defs>
-
-      <!-- гвоздь: тень на стене и шляпка -->
-      <ellipse cx="72.2" cy="12.4" rx="3.4" ry="1.8" fill="#000" opacity=".4" filter="url(#blur2)"/>
-      <circle cx="70" cy="10" r="2.7" fill="url(#metal)"/>
-      <circle cx="69.3" cy="9.2" r=".8" fill="#fff" opacity=".7"/>
-
-      <g class="sway">
-        <!-- тень рамы на стене -->
-        <rect x="26" y="49" width="88" height="88" fill="#000" opacity=".5" filter="url(#blur)"/>
-        <!-- шнур -->
-        <path d="M70 10 L30 44 M70 10 L110 44" stroke="#1a1210" stroke-width=".9" fill="none" stroke-linecap="round"/>
-        <path d="M70 10 L30 44 M70 10 L110 44" stroke="#6d5a4c" stroke-width=".25" fill="none" stroke-linecap="round" opacity=".7"/>
-        <image href="img/square.jpg" x="20" y="38" width="100" height="100.6" preserveAspectRatio="none"/>
-        <polygon points="20,38 120,38 117,41 23,41" fill="#fff" opacity=".1"/>
-      </g>
-    </svg>
-  </div>
-          <div class="fr">
-            <h2 class="fh" id="fh"><span class="fa">А</span><span class="ft">вы понимаете<br>авангард?</span></h2>
-            <div class="ctl">
-              <div class="slider" id="s1" role="slider" tabindex="0" aria-label="Вы понимаете авангард? От «не понимаю» до «понимаю»" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
-      <div class="bar"></div><i class="thumb fresh"></i>
-    </div>
-    <div class="sl-ends"><span>Не понимаю</span><span>Понимаю</span></div>
-            </div>
-            <div class="ftbox" id="ftbox"><p class="ftext" id="ftext" aria-hidden="true"><span id="fty"></span><i class="caret"></i><span id="ftr" class="rest"></span></p></div>
-            <p class="sr" id="ffull">Я всегда считала, что это нечто советское и безликое… в смысле, лишённое индивидуальности. Как может выражать протест то, что принадлежит всем? Но в этом я ошиблась. Так было не всегда, а вернее никогда так не было. Сейчас расскажу, как поняла авангард я.</p>
-          </div>
+      <div class="opanel ored">
+        <div class="obox">
+          <p class="oh" id="oh">Авангард</p>
+          <div class="ost" id="os3"><p class="otype" aria-hidden="true"><span id="oty"></span><i class="caret"></i><span id="otr" class="rest"></span></p>
+            <p class="sr" id="ot1">Я всегда считала, что это нечто советское и безликое… в смысле, лишённое индивидуальности. Как может выражать протест то, что принадлежит всем?</p><p class="sr" id="ot2">Но в этом я ошиблась. Так было не всегда, а вернее никогда так не было.</p><p class="sr" id="ot3">Это не мазня и не агитация. Он начинался с протеста против привычного вкуса, против власти, против церкви.</p></div>
+          <div class="ost" id="os4"><p class="alw" id="alw">«Я <span class="ne" id="ne"><span>не&nbsp;</span></span>всегда буду против»</p></div>
         </div>
       </div>
     </div>
@@ -79,13 +30,23 @@
 
 <div id="after">
 
+<!-- ЭКРАН: Маяковский смотрит на Пушкина так, как мы — на Маяковского -->
+<section class="hsec" id="mirror" style="--n:1" aria-label="Как мы смотрим на Маяковского">
+  <div class="hstage"><div class="htrack">
+    <div class="hp grey"><div class="hin">
+      <p class="hx big">В 1912 году <span class="hl">Маяковский</span> смотрел на Пушкина как на памятник, который надо сбросить.</p>
+      <p class="hx big">Сегодня мы так же смотрим на самого Маяковского: <span class="hl">школьная программа, бронза, цитаты на плакатах</span>.</p>
+    </div></div>
+  </div></div>
+</section>
+
 <!-- ЭКРАН: подводка и пощёчина -->
 <div class="pin" id="pin-ship">
   <div class="sc">
     <div class="sc-pre" id="sc-pre">
       <div class="pre-in" id="pre-in">
         <div class="pre-b" id="pre-b">
-          <p class="pre-big" id="pre-big"><span class="k">Квадрат Малевича</span><span class="f"> я узнала раньше,</span><br class="d"><span class="f"> чем </span><span class="u">поняла, что он на самом деле значит.</span><br class="d"><span class="k"> Маяковский</span><span class="f"> в школе почти </span><span class="k">терялся</span><br class="d"><span class="f"> среди других писателей.</span><br class="d"><span class="f"> Обе эти небезызвестные фигуры авангарда</span><br class="d"><span class="f"> объединяет одно: оба начинали</span><br class="d"><span class="f"> до революции с разрыва</span><br class="d"><span class="f"> со старым порядком.</span></p>
+          <p class="pre-big" id="pre-big"><span class="f">О </span><span class="k">«Чёрном квадрате» Малевича</span><span class="f"> я узнала раньше,</span><br class="d"><span class="f"> чем </span><span class="u">поняла, что он на самом деле значит.</span><br class="d"><span class="k"> Маяковский</span><span class="f"> в школе почти </span><span class="k">терялся</span><br class="d"><span class="f"> среди других писателей.</span><br class="d"><span class="f"> Обе эти небезызвестные фигуры авангарда</span><br class="d"><span class="f"> объединяет одно: оба начинали</span><br class="d"><span class="f"> до революции с разрыва</span><br class="d"><span class="f"> со старым порядком.</span></p>
           <p class="pre-red" id="pre-red">Начнём с жеста, который знают&nbsp;все.</p>
         </div>
       </div>
@@ -112,11 +73,11 @@
     <div class="rgroup">
       <p class="rtype" id="rtype" aria-hidden="true"><span id="rty">Бросать вызов можно только тому, что все узнают: удар по неизвестному никто бы не заметил. Поэтому жест «против всех» ориентируется на то, что все уже считают ценным. Расстояние до большинства задано тем, где стоит большинство.</span><i class="caret"></i><span id="rtr" class="rest"></span></p>
       <p class="sr" id="rfull" data-d="Бросать вызов можно только тому, что все узнают: удар&#10;по неизвестному никто бы не заметил. Поэтому жест «против&#10;всех» ориентируется на то, что все уже считают&#10;ценным. Расстояние до большинства задано тем, где стоит&#10;большинство.">Бросать вызов можно только тому, что все узнают: удар по неизвестному никто бы не заметил. Поэтому жест «против всех» ориентируется на то, что все уже считают ценным. Расстояние до большинства задано тем, где стоит большинство.</p>
-      <div class="rscale" id="rscale" role="img" aria-label="Схема: слева Маяковский стоит один, справа памятник Пушкину. Между ними отмечено расстояние до большинства. Когда толпа сдвигается, расстояние меняется, хотя Маяковский не двигался.">
+      <div class="rscale" id="rscale" role="img" aria-label="Схема: слева Маяковский стоит один, справа толпа — большинство. Между ними отмечено расстояние до большинства. Когда толпа сдвигается, расстояние меняется, хотя Маяковский не двигался.">
       <svg viewBox="0 -52 640 282" aria-hidden="true">
         <defs>
         </defs>
-        <line class="gr" x1="8" y1="198" x2="632" y2="198"/>
+        <line class="gr" x1="8" y1="198" x2="880" y2="198"/>
         <g class="dist">
           <line id="dline" x1="170" y1="-20" x2="360" y2="-20"/>
           <line x1="170" y1="-28" x2="170" y2="-12"/>
@@ -124,7 +85,7 @@
         </g>
         <image class="cut" href="img/maya_head_new.png" x="8" y="-12" width="150" height="210" preserveAspectRatio="xMidYMax meet"/>
         <g id="crowd">
-          <image class="cut" href="img/pushkin_new.png" x="360" y="-10" width="150" height="208" preserveAspectRatio="xMidYMax meet"/>
+          <image class="cut crowdimg" href="img/crowd.webp" x="-880" y="-30" width="520" height="265" transform="scale(-1 1)" preserveAspectRatio="xMidYMax meet"/>
         </g>
       </svg>
     </div>
@@ -146,6 +107,8 @@
   </div>
 </section>
 
+
+
 <!-- 1924: ЮБИЛЕЙНОЕ -->
 <section class="jubpin" id="jub" aria-label="1924. Юбилейное">
   <div class="jsc">
@@ -160,6 +123,24 @@
   </div>
 </section>
 
+<!-- НОВЫЙ ЭКРАН: Пушкин и Маяковский — живой автор и готовый памятник -->
+<section class="hsec" id="twins" style="--n:3" aria-label="Пушкин и Маяковский">
+  <div class="hstage"><div class="htrack">
+    <div class="hp grey"><div class="hin">
+      <p class="hx big">Для современников Пушкин тоже был новатором, как и Маяковский.</p>
+      <p class="hx quote">«Зима!.. Крестьянин, <span class="up" data-dy="-.22">торжествуя</span>, <br class="d">на <span class="dn" data-dy=".22">дровнях</span> обновляет путь»</p>
+      <p class="hx small">Высокое «торжествуя» рядом с бытовыми «дровнями»: критиков такое соседство раздражало. Сегодня мы этого уже не слышим.</p>
+      <p class="hx srcl">В. Г. Смирнова. А. С. Пушкин и русская языковая картина мира // Пушкинские чтения. 2019. С. 82–83</p>
+    </div></div>
+    <div class="hp red"><div class="hin">
+      <p class="hx big">Пушкин и Маяковский похожи судьбой. Оба начинали против власти: Пушкин за вольнолюбивые стихи попал в ссылку и дружил с декабристами, Маяковский подростком сидел в Бутырской тюрьме за работу на большевиков.</p>
+    </div></div>
+    <div class="hp red"><div class="hin">
+      <p class="hx big">Потом оба служили власти: Пушкин — на государственной службе при Николае I, Маяковский — поэтом революции. Оба погибли от пули: Пушкин на дуэли в 37 лет, Маяковский застрелился в 36. Если рассматривать дуэль как элемент суицидального поведения, то оба погибли от суицида.</p>
+    </div></div>
+  </div></div>
+</section>
+
 <!-- МАЛЕВИЧ: пять экранов по макету (Figma, кадры 15, 16, 10, 18, 19, 20) -->
 <div id="malseq">
 
@@ -167,7 +148,7 @@
 <section class="mpin mgrey" id="mgrey" aria-label="Переход к Малевичу">
   <div class="msc">
     <div class="mshade" id="mshade" aria-hidden="true"></div>
-    <p class="mx" id="mg1">По логике модерна дальше<br class="d"> под вопросом оказывается сакральное:<br class="d"> если можно усомниться в Пушкине<br class="d"> и Толстом, следующим на очереди<br class="d"> будет <span class="acc">Бог</span>.</p>
+    <p class="mx" id="mg1">Логика модерна стремится сломать старый мир.<br class="d"> Если можно усомниться в Пушкине и Толстом,<br class="d"> следующим на очереди будет <span class="acc">Бог</span>.</p>
     <p class="mx" id="mg2">Малевича упрекали в том, что <span class="bq">чёрный квадрат</span> отменяет <span class="lt">всё светлое и доброе</span>.<span class="tt">Так, например, писала Татьяна Толстая в эссе о «Чёрном квадрате».</span></p>
   </div>
 </section>
@@ -177,20 +158,20 @@
 <section class="mpin mhz" id="mhz" aria-label="Бог не скинут и супрематизм">
 <div class="msc"><div class="mtrack">
 <div class="mpanel mred" id="mred">
-    <div class="mbg" aria-hidden="true"><img class="mcross" id="mcross" src="img/cross_bg_red.webp" alt=""></div>
-    <div class="mhead mx" id="mr1"><h2>Бог не скинут</h2><p class="yr">1922</p></div>
+    <div class="mbg" aria-hidden="true"><img class="mcross" id="mcross" src="img/white_bg2.webp" alt=""></div>
+    <div class="mplate"><div class="mhead mx" id="mr1"><h2>Бог не скинут</h2><p class="yr">1922</p></div>
     <p class="mquote mx" id="mr2">«Бог – покой, покой – совершенство»</p>
     <div class="mnote mx" id="mr3">
       <p>Но в 1922 году в Витебске Малевич издаёт брошюру<br class="d"> «Бог не скинут. Искусство, церковь, фабрика». Название<br class="d"> перекликается с «сбросить с парохода». Была ли эта<br class="d"> перекличка намеренной, я не знаю.</p>
       <p class="src"><a href="https://imwerden.de/pdf/malevich_bog_ne_skinut_1922.pdf" target="_blank" rel="noopener">Текст брошюры</a></p>
-    </div>
+    </div></div>
   </div>
 <div class="mpanel msup" id="msup">
     <div class="msup-in">
       <h2 class="mx" id="ms1">Супрематизм</h2>
       <p class="sub mx" id="ms2">от латинского <span class="lat">supremus</span>, «высший»</p>
       <p class="mnote2 mx" id="ms3">Так называя своё направление, Малевич считал его высшей ступенью, когда искусству больше не нужна предметность.</p>
-      <p class="mnote2 mx" id="ms4">О Боге Малевич размышляет в трактате «Супрематизм. Мир как беспредметность, или вечный покой» (1922). Он пытается описать то, что рационально не постижимо, и потому говорит метафорами и парадоксами. Его мысль оставляет место для разных трактовок.</p>
+      <p class="mnote2 mx" id="ms4">В трактате «Супрематизм. Мир как беспредметность, или вечный покой» Малевич размышляет о Боге.</p>
       <p class="src mx" id="ms5"><a href="https://royallib.com/book/malevich_kazimir/tom_3_suprematizm_mir_kak_bespredmetnost.html" target="_blank" rel="noopener">Текст трактата</a></p>
     </div>
   </div>
@@ -204,7 +185,7 @@
       <p class="tline" aria-hidden="true"><span id="ty">Маяковский удивил меня протестом. С «Чёрным квадратом» Малевича было иначе: в Третьяковке я только чувствовала, что стою перед легендарной картиной. Понимать её я начала на курсе истории искусств. Преподавательница рассказала про выставку «0,10» 1915 года: «Чёрный квадрат» висел там в красном углу, где в доме обычно вешали икону.</span><i class="caret"></i><span id="tr" class="rest"></span></p>
       <p class="sr" id="mfull" data-d="Маяковский удивил меня протестом. С «Чёрным квадратом»&#10;Малевича было иначе: в Третьяковке я только&#10;чувствовала, что стою перед легендарной картиной.&#10;Понимать её я начала на курсе истории искусств.&#10;Преподавательница рассказала про выставку «0,10»&#10;1915 года: «Чёрный квадрат» висел там в красном углу,&#10;где в доме обычно вешали икону.">Маяковский удивил меня протестом. С «Чёрным квадратом» Малевича было иначе: в Третьяковке я только чувствовала, что стою перед легендарной картиной. Понимать её я начала на курсе истории искусств. Преподавательница рассказала про выставку «0,10» 1915 года: «Чёрный квадрат» висел там в красном углу, где в доме обычно вешали икону.</p>
     </div>
-    <p class="mq mx" id="mq">Бога нельзя скинуть:<br class="d"> он в каждой частице мира.<br class="d"> Поэтому Малевич не сбрасывает его,<br class="d"> а пишет ему новый образ — чёрный квадрат.</p>
+    <p class="mq mx" id="mq">Бога нельзя скинуть:<br class="d"> он в каждой частице мира.<br class="d"> Поэтому Малевич не сбрасывает его,<br class="d"> а пишет ему новый образ — чёрный квадрат.<span class="mqn" aria-hidden="true"><span id="mpy"></span><span id="mpr" class="rest">Куратор проекта Олег Пащенко предлагает читать «Чёрный квадрат» как апофатическую икону — образ божественного мрака.</span></span></p>
     <p class="sr" id="mfull2" data-d="Меня поразила глубина и широта высказывания,&#10;которая помещена в чёрный квадрат,&#10;помещена в саму личность Малевича.">Меня поразила глубина и широта высказывания, которая помещена в чёрный квадрат, помещена в саму личность Малевича.</p>
     <p class="sr" id="mfull3">Эту связь с Богом действительно было сложно осознать, потому что совсем не сходится с представлением об авангарде как о советском и безликом: ведь советское не может быть про Бога.</p>
   </div>
@@ -213,19 +194,38 @@
 </div>
 
 <!-- ДВА ПУТИ: ЧТО ДЕЛАЛ САМ И ЧТО РЕШИЛИ ДРУГИЕ -->
+<!-- ЭКРАН: поздний Малевич. Цитата с оборота картины переплывает на красный экран и становится крупной,
+     внизу печатается прочтение О. Пащенко, стирается, печатается про гроб -->
+<section class="lmal" id="latemal" aria-label="Поздний Малевич">
+  <div class="lstage">
+    <div class="lbg" aria-hidden="true"></div>
+    <div class="lplate lgreyp">
+      <h2 class="lh lx">Малевич художником власти не стал.</h2>
+      <p class="ls lx">В конце 1920-х он вернулся к фигуре: крестьяне без лиц, люди, похожие на манекены.<br class="d"> В&nbsp;1930&nbsp;году его арестовали и несколько месяцев продержали в&nbsp;тюрьме. Ученики и друзья после этого жгли&nbsp;то, что стало опасно хранить.</p>
+    </div>
+    <div class="lblack" id="lblack" aria-hidden="true"></div>
+    <div class="lcol" id="lcol">
+      <p class="lq" id="lq">«Композиция сложилась из элементов ощущения пустоты, одиночества, безвыходности жизни»</p>
+      <p class="srcl" id="lsrc">Надпись Малевича на обороте картины «Сложное предчувствие (Торс в жёлтой рубашке)», 1928–1932. <a href="https://rusmuseumvrm.ru/data/collections/painting/19_20/zh_9477/index.php" target="_blank" rel="noopener">Русский музей</a></p>
+      <p class="ltype" aria-hidden="true"><span id="lty"></span><i class="caret"></i><span id="ltr" class="rest">Олег Пащенко видит в поздних работах Малевича попытку сохранить себя под давлением. Это его прочтение, но у него есть опора в самой картине: у фигуры нет лица, у дома за ней нет ни окон, ни дверей.</span></p>
+    </div>
+    <p class="sr" id="lt1">Олег Пащенко видит в поздних работах Малевича попытку сохранить себя под давлением. Это его прочтение, но у него есть опора в самой картине: у фигуры нет лица, у дома за ней нет ни окон, ни дверей.</p><p class="sr" id="lt2">Малевич умер в 1935 году. Его похоронили в супрематическом гробу, который сделал ученик Николай Суетин.</p>
+  </div>
+</section>
+
 <section id="orders">
   <!-- подводка ко второй части: кадры 29 и 30 -->
   <div class="mpin mlead" id="mlead" aria-label="Что сделал сам и что решили другие"><div class="msc">
     <div class="ml1">
       <h2 class="mx" id="ml-h">Что сделал сам и что решили другие</h2>
-      <p class="mx" id="ml-p">Дальше обоих ждала разная судьба. Маяковского сначала критиковали, а после 1935 года сделали классиком. Малевичу и его ученикам давали заказы, а потом отказывались от их проектов.</p>
+      <p class="mx" id="ml-p">Маяковского после смерти не только полюбили, но и признали власти. Малевича — нет.</p>
     </div>
-    <p class="ml2 mx" id="ml-t">В обоих случаях решали <b>не сами авторы.</b></p>
+    <p class="ml2 mx" id="ml-t">К концу жизни оба были в <b>глубокой депрессии.</b></p>
   </div></div>
   <div class="ords" id="ords">
    <div class="ordstage">
-    <div class="pfig" id="pf-l"><img class="fig" src="img/malevich_o.webp" alt="Портрет Малевича" width="758" height="794"></div>
-    <div class="pfig" id="pf-m"><img class="fig" src="img/mayakovsky_o.webp" alt="Портрет Маяковского" width="642" height="665"></div>
+    <div class="pfig" id="pf-l"><img class="fig" src="img/malevich_full.webp" alt="Малевич в полный рост" width="916" height="1509"></div>
+    <div class="pfig" id="pf-m"><img class="fig" src="img/mayakovsky_full.webp" alt="Маяковский в полный рост" width="953" height="1536"></div>
     <div class="ordhead" aria-hidden="true"><h3 id="hn-m">Маяковский</h3><h3 id="hn-l">Малевич</h3></div>
     <div class="otrack" id="otrack">
     <div class="opanel"><h3 class="fallh">Маяковский</h3><p class="plab">Сделал сам</p>
@@ -267,11 +267,15 @@
 <section id="shelf-sec">
   <div class="cstage"><div class="ctrack" id="ctrack">
     <div class="cpanel cp1"><div class="col">
-      <p class="conc conc2" id="c1">Оба начинали с&nbsp;разрыва<br class="d"> со&nbsp;старым порядком,<br class="d"> но&nbsp;против разного:<br class="d"> Маяковский бросал вызов<br class="d"> тому, что все узнают,<br class="d"> Малевич искал то, что остаётся,<br class="d"> когда привычные образы уходят.<br class="d"> Они не&nbsp;были частью системы исконно,<br class="d"> но&nbsp;стали ей не&nbsp;по&nbsp;своей вине.</p>
-      <p class="conc conc2" id="c2">Малевич&nbsp;— выдающийся советский художник,<br class="d"> Маяковский&nbsp;— классик.<br class="d"> За&nbsp;этими словами не&nbsp;стоит<br class="d"> перемена порядка постфактум.</p>
+      <p class="conc conc2" id="c2">Сегодня они — самые яркие символы русского авангарда, а для многих — прямая ассоциация с советской пропагандой. Так работает рекуперация: то, что было направлено против системы, система присваивает и показывает как своё.</p>
+      <p class="conc conc2 ctyped" id="c3" aria-label="Пащенко"><span id="c3y"></span><span id="c3r">Куратор проекта Олег Пащенко вспоминает, как в школе выбрал для чтения наизусть раннее, нереволюционное стихотворение Маяковского. Учитель не поверил, что это Маяковский: ждали поэта Ленина и партии. За такое неповиновение — тройка.</span></p>
+    </div></div>
+    <div class="cpanel cp1 cpm"><div class="col">
+      
+      <p class="conc conc2" id="c4">Знакомое успокаивает, непривычное раздражает.<br class="d"> Широкая публика не принимает авангард,<br class="d"> потому что он непонятен: не все владеют контекстом,<br class="d"> чтобы его понять, и не все хотят им владеть.<br class="d"> Многим мешают и негативные установки:<br class="d"> авангард связывают с инструментом советской пропаганды.</p>
     </div></div>
     <div class="cpanel cp2"><div class="col">
-      <p class="conc conc2 ctyped" id="ct" aria-label="Я не понимала авангард…"><span id="cty"></span><span id="ctr">Я не&nbsp;понимала авангард, но&nbsp;всегда ощущала, что за&nbsp;ним стоит больше, чем моё восприятие мира могло вместить.&#10;&#10;Никто не&nbsp;заставлял любить авангард, и&nbsp;в&nbsp;том и&nbsp;в&nbsp;другом случае меня сдвинул контекст, а&nbsp;не&nbsp;любовь. Возможно, из-за отсутствия отвержения полюбить его было действительно проще.</span></p>
+      <p class="conc conc2 ctyped" id="ct" aria-label="Финал"><span id="cty"></span><span id="ctr">Я долго видела в «Чёрном квадрате» безликий советский знак — что-то общее, школьное, ничьё. Теперь я вижу картину, которую в 1915 году повесили в красный угол, на место иконы, чтобы спорить.&#10;&#10;Авангард перестал быть для меня безликим, когда я увидела, против чего он был и как его потом сделали своим.&#10;&#10;«Я всегда буду против» — это «всегда» у авангарда отобрали. Но я понимаю, зачем его сказали.</span></p>
     </div></div>
   </div></div>
 </section>
@@ -281,23 +285,34 @@
 
 <footer class="colophon">
   <div class="col">
-    <h2>Источники и примечания</h2>
+    <div class="fcred">
+      <div><h3>Автор</h3><p class="fname">Дарина Ломухина</p></div>
+      <div><h3>Куратор</h3><p class="fname">Олег Пащенко</p></div>
+      <p class="fproj">Учебный проект «Авангард и вкус», 2026</p>
+    </div>
+    <h2>Источники и примечания</h2>
     <h3>Тексты</h3>
     <ul>
       <li>Манифест «Пощёчина общественному вкусу», 1912. Коллективное авторство: Д. Бурлюк, А. Крученых, В. Маяковский, В. Хлебников. <a href="https://ru.wikisource.org/wiki/%D0%9F%D0%BE%D1%89%D1%91%D1%87%D0%B8%D0%BD%D0%B0_%D0%BE%D0%B1%D1%89%D0%B5%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D0%BE%D0%BC%D1%83_%D0%B2%D0%BA%D1%83%D1%81%D1%83" target="_blank" rel="noopener">Викитека</a>.</li>
       <li>В. Маяковский, «Юбилейное», журнал «ЛЕФ», № 2, 1924. <a href="https://ru.djvu.online/file/FqzuCet769uGD" target="_blank" rel="noopener">Журнал «ЛЕФ», № 2</a>, <a href="https://cyclowiki.org/wiki/%D0%AE%D0%B1%D0%B8%D0%BB%D0%B5%D0%B9%D0%BD%D0%BE%D0%B5_(%D0%9C%D0%B0%D1%8F%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9)" target="_blank" rel="noopener">Справка о стихотворении</a>, тексты в <a href="https://ru.wikisource.org/wiki/%D0%9C%D0%B0%D1%8F%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9" target="_blank" rel="noopener">Викитеке</a>.</li>
       <li>К. Малевич, «Бог не скинут. Искусство, церковь, фабрика», Витебск: УНОВИС, 1922, 2000 экз. <a href="https://imwerden.de/pdf/malevich_bog_ne_skinut_1922.pdf" target="_blank" rel="noopener">Текст брошюры (PDF)</a>, <a href="https://monoskop.org/log/?p=3949" target="_blank" rel="noopener">Monoskop</a>, <a href="https://garagemca.org/en/catalogue/L12163" target="_blank" rel="noopener">каталог Музея «Гараж»</a>, <a href="https://ls.vanabbemuseum.nl/M/malevich/pages/1922bog.htm" target="_blank" rel="noopener">описание издания в Van Abbemuseum</a>.</li>
       <li>К. Малевич, «Супрематизм. Мир как беспредметность, или вечный покой», 1922. <a href="https://royallib.com/book/malevich_kazimir/tom_3_suprematizm_mir_kak_bespredmetnost.html" target="_blank" rel="noopener">Текст трактата</a>.</li>
+      <li>В. Маяковский, «Во весь голос», 1930.</li>
+      <li>А. Пушкин, «Евгений Онегин», глава пятая; «Я памятник себе воздвиг нерукотворный», 1836.</li>
+      <li>В. Г. Смирнова. А. С. Пушкин и русская языковая картина мира // Пушкинские чтения. 2019. С. 82–83.</li>
+      <li>К. Малевич, «Сложное предчувствие (Торс в жёлтой рубашке)», 1928–1932, надпись на обороте. <a href="https://rusmuseumvrm.ru/data/collections/painting/19_20/zh_9477/index.php" target="_blank" rel="noopener">Русский музей</a>.</li>
+      <li>Ги Дебор, «Общество спектакля», 1967 — о присвоении системой направленных против неё форм (рекуперации).</li>
+      <li>Казимир Малевич родился в 1879 году в Киеве, в польской семье. «Русский авангард» здесь — название художественно-исторического поля, а не национальности.</li>
     </ul>
-    <h3>Об иллюстрациях и схемах</h3>
+    <h3>Изображения</h3>
     <ul>
       <li>Фотография экспозиции «Последней футуристической выставки картин 0,10», Петроград, зима 1915/16. Оригинал: РГАЛИ, Москва. <a href="https://artguide.artforum.com/uploads/guide.003/id05477/press_release.pdf" target="_blank" rel="noopener">Пресс-релиз выставки «In Search of 0,10» (Fondation Beyeler)</a>, <a href="https://rusavangard.ru/online/history/poslednyaya-futuristicheskaya-vystavka-kartin-0-10-/" target="_blank" rel="noopener">Русский авангард</a>.</li>
-      <li class="todo">В работе: автор изображений, способ получения (коллаж, ИИ-генерация, архивный источник) и использование ИИ при подготовке проекта.</li>
+      <li>Фон экрана «Бог не скинут» — схема по мотивам картины К. Малевича «Супрематическая композиция: белое на белом», 1918 (Музей современного искусства, Нью-Йорк).</li>
+      <li>Толпа на экране о «большинстве» и фигуры Маяковского и Малевича в полный рост сгенерированы ИИ по архивным фотографиям.</li>
     </ul>
-    <h3>Автор</h3>
-    <p>Дарина Ломухина. Учебный проект «Авангард и вкус».</p>
+    <h3>Использование ИИ</h3>
+    <p>Тексты написаны автором. ИИ (Claude) помогал с вёрсткой, анимацией и редакторской проверкой фактов; часть изображений сгенерирована ИИ, как указано выше.</p>
   </div>
 </footer>
-<script src="js/main.js?v=109"></script>
-</body>
-</html>
+<script src="js/main.js?v=135"></script>
+

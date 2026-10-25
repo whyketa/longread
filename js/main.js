@@ -78,30 +78,26 @@
     return api;
   }
 
-  /* ---------- первый экран: после движения шкалы печатается мой текст ---------- */
-  var TXA=nb('Я всегда считала, что это нечто советское и безликое… в смысле, лишённое индивидуальности.');
-  var TXB=nb('Как может выражать протест то, что принадлежит всем?\nНо в этом я ошиблась. Так было не всегда, а вернее никогда так не было.');
-  var TXC=nb('Сейчас расскажу, как поняла авангард я.');
-  var ftE=$('fty'), frE=$('ftr'), ftBox=$('ftext'), ftWrap=$('ftbox'), tState=0, restoring=false;
-  function setT(t,n){ if(!ftE||!frE) return; ftE.textContent=t.slice(0,n); frE.textContent=t.slice(n) }
-  function typeT(t,done){ var i=0; (function step(){ i++; setT(t,i); if(i<t.length) setTimeout(step,24+Math.random()*26); else if(done) setTimeout(done,2400) })() }
-  function eraseT(t,done){ var i=t.length; (function step(){ i=Math.max(0,i-2); setT(t,i); if(i>0) setTimeout(step,12); else setTimeout(done,350) })() }
-  /* блок под шкалой растёт плавно, колонка с вопросом и шкалой сдвигается вверх сама */
-  function growTo(t){ if(!ftWrap||!ftBox) return; setT(t,0); ftWrap.style.height=ftBox.offsetHeight+'px' }
-  /* место под оба текста освобождаем сразу: вопрос и шкала поднимаются один раз, потом печатаем */
-  function reserve(){ if(!ftWrap||!ftBox) return; setT(TXA,0); var a=ftBox.offsetHeight; setT(TXB,0); var b=ftBox.offsetHeight; setT(TXC,0); var c=ftBox.offsetHeight; ftWrap.style.height=Math.max(a,b,c)+'px'; setT(TXA,0) }
-  function startTyping(){
-    if(tState||!ftE||!ftBox) return; tState=1;
-    setTimeout(function(){ reserve() },900);
-    setTimeout(function(){ typeT(TXA,function(){ eraseT(TXA,function(){ setT(TXB,0); typeT(TXB,function(){ eraseT(TXB,function(){ setT(TXC,0); typeT(TXC,function(){ ftBox.classList.add('done'); tState=2 }) }) }) }) }) },2900);
+  /* ---------- первый экран: фото → красный «Авангард»; под заголовком по скроллу печатается текст, потом «Я (не) всегда буду против» ---------- */
+  var fst=$('first'), otk=$('o1track'), OS3=$('os3'), OS4=$('os4');
+  var oty=$('oty'), otr=$('otr'), OT=[typedText('ot1'),typedText('ot2'),typedText('ot3')], olast='', neE=$('ne'), ohE=$('oh');
+  /* [начало печати, конец печати, начало стирания, конец стирания] — в vh прокрутки */
+  var OTS=[[80,190,205,225],[232,300,315,330],[337,450,465,485]];
+  function drawOpen(){
+    if(!fst||!otk||!document.documentElement.classList.contains('anim')) return;
+    var vh=window.innerHeight/100, s=Math.max(0,-fst.getBoundingClientRect().top/vh);
+    otk.style.transform='translateX('+(-sm(seg(s,30,65))*fst.clientWidth).toFixed(1)+'px)';
+    if(ohE) ohE.style.opacity=seg(s,62,78).toFixed(3);
+    var idx=0; for(var i=0;i<OT.length;i++){ if(s>=OTS[i][0]-6) idx=i }
+    var r=OTS[idx], src=OT[idx], n=Math.round(src.length*(seg(s,r[0],r[1])-seg(s,r[2],r[3])));
+    var key=idx+':'+n; if(key!==olast){ olast=key; var k=idx===2?src.search(/Он\s+начинался/):-1, pre=src.slice(0,n); if(k>=0&&n>k){ oty.innerHTML=''; oty.appendChild(document.createTextNode(pre.slice(0,k))); var hs=document.createElement('span'); hs.className='ohl'; hs.textContent=pre.slice(k); oty.appendChild(hs) } else oty.textContent=pre; otr.textContent=src.slice(n) }
+    var typing=s<490;
+    OS3.style.display=typing?'block':'none'; OS3.style.opacity=seg(s,72,80).toFixed(3);
+    OS4.style.display=typing?'none':'block'; OS4.style.opacity=seg(s,490,515).toFixed(3);
+    if(neE){ var kk=sm(seg(s,560,625)); neE.style.maxWidth=(kk*neE.firstChild.offsetWidth).toFixed(1)+'px'; neE.firstChild.style.opacity=sm(seg(s,580,635)).toFixed(3) }
   }
-  var s1=mkSlider($('s1'),{
-    onInput:function(v,u){ if(!u) return; S.m1=v; revealAfter() },
-    onCommit:function(){ startTyping() },
-    });
-  function revealAfter(){
-    if($('after').hidden){ $('after').hidden=false }
-  }
+
+
 
   /* метки прошлых визитов не восстанавливаем: каждый заход начинается с чистого первого экрана */
 
@@ -127,11 +123,13 @@
     var hd=$('p-hand'); if(!hd) return;
     var bw=pb.offsetWidth, bh=pb.offsetHeight, hw=hd.offsetWidth, hh=hd.offsetHeight, AW=art.clientWidth, AH=art.clientHeight;
     var hx=pb.offsetLeft+bw*.5-.32*hw, hy=pb.offsetTop+bh*.03-.85*hh;
-    var ein=1-Math.pow(1-seg(p,.70,.78),3), lift=sm(seg(p,.80,.85)), fl=sm(seg(p,.86,.90)), th=seg(p,.89,1), ex=sm(seg(p,.94,1)); pb.style.opacity=sm(seg(p,.66,.70)).toFixed(3);
-    var sw=Math.sin(Math.PI*clamp(th/.4,0,1)), fa=sm(clamp((th-.2)/.8,0,1)), fy=Math.pow(clamp((th-.2)/.8,0,1),2);
-    var ox=(1-ein)*.3*AW+fl*.03*AW+.06*AW*sw+ex*.25*AW, oy=-(1-ein)*(hy+hh+40)-lift*.3*bh-fl*.07*AH-ex*.6*AH;
-    hd.style.transform='translate('+(hx+ox).toFixed(1)+'px,'+(hy+oy).toFixed(1)+'px) rotate('+(-fl*7).toFixed(2)+'deg)';
-    var bx=.12*AW*sw-.46*AW*fa, by=-lift*.3*bh-.04*AH*sw+1.3*AH*fy, rot=-lift*7+25*sw-340*fa;
+    /* рука входит сверху и берёт бюст, поднимает, замахивается назад и бросает влево: бюст летит по дуге за край экрана */
+    var ein=1-Math.pow(1-seg(p,.70,.78),3), lift=sm(seg(p,.785,.82)), wind=sm(seg(p,.82,.86)), t0=seg(p,.86,.905), thr=t0*t0, fly=seg(p,.905,1), ex=sm(seg(p,.91,1));
+    pb.style.opacity=sm(seg(p,.66,.70)).toFixed(3);
+    var cx=(wind*.10-thr*.40)*AW, cy=-(lift*.22+wind*.05-thr*.04)*AH, cr=-lift*4+wind*14-thr*34;
+    var ox=(1-ein)*.3*AW+cx-ex*.25*AW, oy=-(1-ein)*(hy+hh+40)+cy-ex*.8*AH;
+    hd.style.transform='translate('+(hx+ox).toFixed(1)+'px,'+(hy+oy).toFixed(1)+'px) rotate('+(cr-ex*20).toFixed(2)+'deg)';
+    var bx=cx-fly*1.0*AW, by=cy-fly*.35*AH+fly*fly*1.6*AH, rot=cr-fly*420;
     pb.style.transform='translate('+bx.toFixed(1)+'px,'+by.toFixed(1)+'px) rotate('+rot.toFixed(1)+'deg)';
   }
 
@@ -160,7 +158,7 @@
     otrack.style.transform='translateX('+(-idx*W).toFixed(1)+'px)';
     var en=1-Math.pow(1-seg(p,0,.04),3), sw=sm(seg(p,.48,.54));
     pfm.style.transform='translate('+((1-en)*110).toFixed(1)+'%,'+(sw*window.innerHeight).toFixed(1)+'px)';
-    pfl.style.transform='translate(0,'+(-(1-sw)*window.innerHeight).toFixed(1)+'px)';
+    var fl=pfl.offsetTop+pfl.offsetHeight; pfl.style.transform='translate(0,'+(-(1-sw)*Math.max(fl,window.innerHeight)).toFixed(1)+'px)';
     var hm=seg(p,0,.04)*(1-seg(p,.46,.52)), hl=seg(p,.5,.56);
     put(hnm,hm,-(1-hm)*14+0); put(hnl,hl,(1-hl)*-24);
     reveal(OP[0].items,.04,.16,p); reveal(OP[1].items,.21,.36,p);
@@ -281,18 +279,19 @@
     mtrack.style.transform='translateX('+(-h*W).toFixed(1)+'px)';
     put(ms1,s1,0,(1-s1)*140); put(ms2,s2,0,(1-s2)*120); put(ms3,s3,0,(1-s3)*100); put(ms4,s4,0,(1-s4)*90); put(ms5,s4,0,(1-s4)*90);
   }
-  var mt=$('mtype'), mf=$('mfield'), mq=$('mq'), tyE=$('ty'), trE=$('tr'), tfull=typedText('mfull'), tfull2=typedText('mfull2'), tfull3=typedText('mfull3'), lastN=-1;
+  var mt=$('mtype'), mf=$('mfield'), mq=$('mq'), tyE=$('ty'), trE=$('tr'), tfull=typedText('mfull'), tfull2=typedText('mfull2'), tfull3=typedText('mfull3'), lastN=-1, mpyE=$('mpy'), mprE=$('mpr'), mpFull=mprE?nb(mprE.textContent):'';
   function drawMtype(){
     if(!mt||!mf||!tfull||!tfull2||!tfull3||!document.documentElement.classList.contains('anim')) return;
-    var p=progressOf(mt), fi=seg(p,0,.04), qi=seg(p,.66,.72)*(1-seg(p,.8,.84));
+    var p=progressOf(mt), fi=seg(p,0,.04), qi=seg(p,.66,.72)*(1-seg(p,.88,.92));
     /* абзац 1 печатается и стирается, на его месте печатается абзац 2, он гаснет, появляется фраза про Бога, она гаснет, печатается абзац 3 */
     var ph=p>=.7?2:(p>=.4?1:0), src=ph===2?tfull3:(ph===1?tfull2:tfull), n;
     if(ph===0) n=Math.round(tfull.length*(seg(p,.04,.24)-seg(p,.3,.4)));
     else if(ph===1) n=Math.round(tfull2.length*seg(p,.42,.56));
-    else n=Math.round(tfull3.length*seg(p,.86,.97));
-    var op=ph===2?seg(p,.84,.86):(1-seg(p,.62,.66));
-    mf.style.opacity=(fi*op).toFixed(3); mf.style.visibility=(p>.66&&p<.84)?'hidden':'visible';
+    else n=Math.round(tfull3.length*seg(p,.94,.995));
+    var op=ph===2?seg(p,.92,.94):(1-seg(p,.62,.66));
+    mf.style.opacity=(fi*op).toFixed(3); mf.style.visibility=(p>.66&&p<.92)?'hidden':'visible';
     var key=ph+':'+n; if(key!==lastN){ lastN=key; tyE.textContent=src.slice(0,n); trE.textContent=src.slice(n) }
+    if(mpyE&&mpFull){ var k2=Math.round(mpFull.length*seg(p,.73,.84)); mpyE.textContent=mpFull.slice(0,k2); mprE.textContent=mpFull.slice(k2) }
     if(mq){ mq.style.opacity=qi.toFixed(3); mq.style.transform='translateY(calc(-50% + '+((1-seg(p,.66,.72))*30).toFixed(1)+'px))' }
   }
   var mld=$('mlead'), mlh=$('ml-h'), mlp=$('ml-p'), mlt=$('ml-t');
@@ -306,29 +305,55 @@
     put(mlt,t,(1-t)*30,0);
   }
   /* ---------- открывающий блок: серый кадр, горизонтальный переход, фраза, затем картина со шкалой ---------- */
-  var fst=$('first'), ftk=$('ftrack'), fq1=$('fq1'), fmain=$('fmain');
-  function drawFirst(){
-    if(!fst||!ftk||!fq1||!fmain) return;
-    var p=progressOf(fst), W=fst.clientWidth;
-    var h=sm(seg(p,.1,.3));
-    ftk.style.transform='translateX('+(-h*W).toFixed(1)+'px)';
-    var a=seg(p,.3,.38), b=seg(p,.48,.56), c=seg(p,.54,.64);
-    put(fq1,a*(1-b),-b*18);
-    put(fmain,c,(1-c)*24);
-    fmain.style.pointerEvents=c>.5?'auto':'none';
-  }
   var csec=$('shelf-sec'), ctrack=$('ctrack');
-  var cc1=$('c1'), cc2=$('c2'), cty=$('cty'), ctr=$('ctr'), ctFull=ctr?ctr.textContent:'';
+  var cc2=$('c2'), c3y=$('c3y'), c3r=$('c3r'), c3Full=c3r?nb(c3r.textContent):'', cty=$('cty'), ctr=$('ctr'), ctFull=ctr?ctr.textContent:'';
   function drawConc(){
     if(!csec||!ctrack||!document.documentElement.classList.contains('anim')) return;
     var p=progressOf(csec), W=csec.clientWidth, d=Math.min(W*.18,260);
-    var a=seg(p,.03,.15), b=seg(p,.1,.22), h=sm(seg(p,.38,.52)), tp=seg(p,.56,.94);
-    var ea=1-Math.pow(1-a,3), eb=1-Math.pow(1-b,3);
-    put(cc1,a,0,-(1-ea)*d); put(cc2,b,0,(1-eb)*d);
-    ctrack.style.transform='translateX('+(-h*W).toFixed(1)+'px)';
+    var b=seg(p,.02,.1), t3=seg(p,.14,.3), h1=sm(seg(p,.38,.46)), dd=seg(p,.48,.56), h2=sm(seg(p,.68,.76)), tp=seg(p,.78,.96);
+    var eb=1-Math.pow(1-b,3), ed=1-Math.pow(1-dd,3);
+    put(cc2,b,0,(1-eb)*d); put($('c4'),dd,0,(1-ed)*d);
+    if(c3y){ var k3=Math.round(c3Full.length*t3); c3y.textContent=c3Full.slice(0,k3); c3r.textContent=c3Full.slice(k3) }
+    ctrack.style.transform='translateX('+(-(h1+h2)*W).toFixed(1)+'px)';
     if(cty&&ctr){ var n=Math.round(ctFull.length*tp); cty.textContent=ctFull.slice(0,n); ctr.textContent=ctFull.slice(n) }
   }
-  var SCENES=[drawFirst,drawShip,drawRed,drawFall,drawJub,drawMgrey,drawMhz,drawMtype,drawMlead,drawOrd,drawConc];
+  /* ---------- новые горизонтальные экраны: панели сменяются по скроллу, текст появляется по очереди ---------- */
+  var HSECS=[].slice.call(document.querySelectorAll('.hsec')).map(function(s){
+    var ps=[].slice.call(s.querySelectorAll('.hp')); return {end:parseFloat(s.getAttribute('data-end')||'1'),s:s,t:s.querySelector('.htrack'),ps:ps,xs:ps.map(function(p){return [].slice.call(p.querySelectorAll('.hx'))}),fg:ps.map(function(p){return p.querySelector('.hfig')})};
+  });
+  function drawH(){
+    if(!document.documentElement.classList.contains('anim')) return;
+    HSECS.forEach(function(o){
+      var p=Math.min(1,progressOf(o.s)/o.end), n=o.ps.length, W=o.s.clientWidth, span=1/n, idx=0;
+      for(var i=1;i<n;i++) idx+=sm(seg(p,i*span-.08,i*span+.02));
+      o.t.style.transform='translateX('+(-idx*W).toFixed(1)+'px)';
+      o.xs.forEach(function(xs,i){
+        var a=i*span+(i?.03:0), b=(i+1)*span-.1, m=xs.length;
+        xs.forEach(function(x,k){ var q=seg(p,a+(b-a)*k/m,a+(b-a)*(k+.8)/m); put(x,q,(1-q)*18) });
+        /* выделенные слова в конце панели краснеют */
+        var dyw=o.ps[i].querySelectorAll('[data-dy]'); if(dyw.length){ var dq=sm(seg(p,a+(b-a)*.55,a+(b-a)*.9)); for(var z2=0;z2<dyw.length;z2++){ dyw[z2].style.transform='translateY('+(parseFloat(dyw[z2].getAttribute('data-dy'))*dq).toFixed(3)+'em)' } }
+        var hls=o.ps[i].querySelectorAll('.hl'); if(hls.length){ var hq=seg(p,a+(b-a)*.92,a+(b-a)*1.08), c0=[12,12,12], c1=[97,3,13];
+          var col='rgb('+c0.map(function(v,t){return Math.round(v+(c1[t]-v)*hq)}).join(',')+')'; for(var z=0;z<hls.length;z++) hls[z].style.color=col }
+        var fg=o.fg[i]; if(fg){ var q=seg(p,a,a+(b-a)*.5); fg.style.opacity=q.toFixed(3); fg.style.transform='translateY('+((1-q)*40).toFixed(1)+'px)' }
+      });
+    });
+  }
+  /* ---------- поздний Малевич: цитата переплывает с серого экрана на красный и растёт ---------- */
+  var lmS=$('latemal'), lmBlk=$('lblack'), lmCol=$('lcol'), lmQ=$('lq'), lmSrc=$('lsrc'), lmTy=$('lty'), lmTr=$('ltr'), LMT=[typedText('lt1'),typedText('lt2')], lmLast='';
+  function lerp(a,b,t){return a+(b-a)*t}
+  function drawLate(){
+    if(!lmS||!lmBlk||!document.documentElement.classList.contains('anim')) return;
+    var p=progressOf(lmS), pl=lmS.querySelector('.lplate');
+    [].slice.call(lmS.querySelectorAll('.lx')).forEach(function(e,i){ var q=seg(p,.02+i*.05,.1+i*.05); put(e,q,(1-q)*18) });
+    var blk=sm(seg(p,.34,.46)); lmBlk.style.opacity=blk.toFixed(3); pl.style.opacity=(1-blk).toFixed(3); pl.style.visibility=blk>=1?'hidden':'visible';
+    var qi=seg(p,.44,.52), si=seg(p,.5,.57); put(lmQ,qi,(1-qi)*14); put(lmSrc,si,(1-si)*10);
+    /* прочтение Пащенко печатается и стирается, потом — про гроб */
+    var idx=p<.8?0:1, src=LMT[idx], n=idx===0?Math.round(src.length*(seg(p,.58,.72)-seg(p,.74,.79))):Math.round(src.length*seg(p,.82,.95));
+    var key=idx+':'+n; if(key!==lmLast){ lmLast=key; lmTy.textContent=src.slice(0,n); lmTr.textContent=src.slice(n) }
+    var lt=lmS.querySelector('.ltype'); if(lt) lt.style.opacity=seg(p,.57,.59).toFixed(3);
+  }
+
+  var SCENES=[drawOpen,drawLate,drawH,drawShip,drawRed,drawFall,drawJub,drawMgrey,drawMhz,drawMtype,drawMlead,drawOrd,drawConc];
   function drawAll(){ for(var i=0;i<SCENES.length;i++){ try{SCENES[i]()}catch(e){} } }
   /* перерисовываем только когда что-то сдвинулось: иначе каждый кадр лишние чтения/записи стилей и лаги */
   var lastSig='';

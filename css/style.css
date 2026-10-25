@@ -813,3 +813,299 @@ footer.colophon h3{margin:var(--gap) 0 calc(var(--gap)/2)!important}
 .jp:first-child .jq{position:relative;display:inline-block;max-width:min(62vw,46rem)}
 .jq .caret{display:inline-block}
 .jp:first-child .jin .jq{margin-left:0!important}
+
+/* ================= доработка по отзыву 23.10 ================= */
+/* планшет: страница не должна уезжать вбок на экранах с горизонтальным скроллом */
+html{overflow-x:hidden}
+@supports (overflow:clip){html{overflow-x:clip}}
+body{max-width:100%}
+
+/* первый экран: фото контрастное, надпись на белой плашке */
+.fphoto img{opacity:1!important;mix-blend-mode:normal!important}
+#fp1 .fin{background:#fff;padding:clamp(1.2rem,2.6vw,2.6rem) clamp(1.4rem,3vw,3rem);max-width:min(46rem,86vw);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+#fp1 .fin>*:last-child{margin-bottom:0!important}
+
+/* вопрос: плашки вместо шкалы */
+.fhint{font-size:var(--t3)!important;line-height:1.4;margin:0 0 var(--gap)!important;opacity:.85}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:0 0 var(--gap)}
+.opt{font:inherit;font-size:var(--t3);line-height:1.3;text-align:left;color:#C0C0C0;background:transparent;border:1px solid rgba(192,192,192,.6);padding:.75em 1em;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.opt:hover{border-color:#C0C0C0}
+.opt[aria-pressed="true"]{background:#C0C0C0;color:var(--mred);border-color:#C0C0C0}
+.opt:focus-visible{outline:2px solid #C0C0C0;outline-offset:3px}
+@media (max-width:860px){.opts{grid-template-columns:1fr}}
+
+/* экран «бумажки» */
+.papers{position:relative;margin-inline:-16px;background:var(--mgrey);color:var(--mink)}
+.papers .psc{position:relative;min-height:calc(100*var(--sv,1svh));overflow:hidden;display:flex;align-items:center;padding:4rem var(--mx)}
+.anim .papers{height:320vh}
+.anim .papers .psc{position:sticky;top:0;height:calc(100*var(--sv,1svh))}
+.pfield{position:absolute;inset:0;pointer-events:none}
+.paper{position:absolute;width:min(34vw,26rem);padding:1.1em 1.3em;background:#EEEBE4;color:var(--mink);font-size:var(--t3);line-height:1.35;box-shadow:0 6px 18px rgba(0,0,0,.18);clip-path:polygon(0 3%,4% 0,30% 2%,60% 0,96% 2%,100% 0,99% 40%,100% 97%,70% 100%,35% 98%,3% 100%,0 70%);opacity:.75}
+.paper.sel{opacity:1;outline:2px solid var(--mred);outline-offset:-6px}
+.ptext{position:relative;z-index:1;max-width:min(66vw,70rem)}
+.ptext p{margin:0 0 var(--gap)}
+.pp1,.pp3{font-size:var(--t2);line-height:1.28}
+.pp2{font-size:var(--t3);line-height:1.4}
+.pp3{color:var(--mred)}
+.anim .pp1,.anim .pp2,.anim .pp3{opacity:0}
+html:not(.anim) .pfield{display:none}
+@media (max-width:860px){.paper{width:70vw}.ptext{max-width:none}}
+
+/* толпа у Пушкина */
+.rscale .crowdimg{filter:drop-shadow(0 5px 7px rgba(0,0,0,.35))}
+
+/* новые горизонтальные экраны */
+.hsec{position:relative;margin-inline:-16px}
+.hstage{position:relative}
+.hp{position:relative;box-sizing:border-box;min-height:calc(100*var(--sv,1svh));display:flex;align-items:center;padding:4rem var(--mx);overflow:hidden}
+.hp.grey{background:var(--mgrey);color:var(--mink)}
+.hp.red{background:var(--mred);color:#C0C0C0}
+.hin{position:relative;z-index:1;max-width:min(62vw,64rem)}
+.hin>*{margin:0 0 var(--gap)!important}.hin>*:last-child{margin-bottom:0!important}
+.hx.big{font-size:var(--t2);line-height:1.28}
+.hx.small{font-size:var(--t3);line-height:1.4}
+.hx.quote{font-size:var(--t2);line-height:1.28;color:var(--mred)}
+.hp.red .hx.quote{color:#C0C0C0}
+.hx .qa{display:block;font-size:var(--t3);color:var(--mink);opacity:.8;margin-top:.3em}
+.hp.red .hx .qa{color:#C0C0C0}
+.hx.srcl{font-size:var(--tf);opacity:.7}
+.hx.srcl a{color:inherit}
+.hfig{position:absolute;right:6vw;bottom:0;height:min(72vh,640px);width:auto;z-index:0;filter:drop-shadow(0 8px 14px rgba(0,0,0,.25))}
+.anim .hsec{height:calc(var(--n,2)*160vh)}
+#twins{--n:3}
+.anim .hstage{position:sticky;top:0;height:calc(100*var(--sv,1svh));overflow:hidden}
+.anim .htrack{display:flex;height:100%;width:calc(var(--n,2)*100%);will-change:transform}
+.anim .hp{flex:0 0 calc(100%/var(--n,2));height:100%;min-height:0;padding-block:0}
+.anim .hx,.anim .hfig{opacity:0}
+@media (max-width:860px){.hin{max-width:none}.hfig{height:40vh;opacity:.35!important;right:-10vw}}
+
+/* «Малевича упрекали»: подпись с прочтением преподавателя на чёрном */
+.mapo{position:relative;z-index:1;grid-area:1/1;align-self:end;margin:0 0 6vh;max-width:min(52rem,86vw);font-size:var(--t3);line-height:1.4;color:#C0C0C0}
+.anim .mapo{opacity:0}
+html:not(.anim) .mapo{color:var(--mink)}
+
+/* «Сделал сам / решили другие»: фигуры в полный рост, на экранах со списками видны по плечи */
+.anim .pfig{--ph:calc(200*var(--sv,1svh));height:var(--ph)!important;max-width:none!important;top:calc(10*var(--sv,1svh));bottom:auto!important;right:-6vw!important}
+.anim .pfig .fig{max-width:none!important;height:100%!important;width:auto!important}
+@media (max-width:860px){.anim .pfig{--ph:calc(150*var(--sv,1svh));right:-30vw!important}}
+
+/* заключение: три панели */
+.anim #shelf-sec{height:640vh}
+.anim #shelf-sec .ctrack{width:300%!important}
+.anim #shelf-sec .cpanel{flex:0 0 calc(100%/3)!important}
+
+/* подвал */
+.fcred{display:grid;grid-template-columns:auto auto 1fr;gap:var(--gap) calc(2*var(--gap));align-items:end;margin:0 0 calc(2*var(--gap));padding-bottom:var(--gap);border-bottom:1px solid currentColor}
+.fcred h3{margin:0 0 .3em!important}
+.fcred .fname{font-size:var(--t2)!important;line-height:1.2;margin:0!important;opacity:1!important}
+.fcred .fproj{justify-self:end;margin:0!important}
+@media (max-width:860px){.fcred{grid-template-columns:1fr 1fr}.fcred .fproj{grid-column:1/-1;justify-self:start}}
+.anim #mirror{height:420vh}
+.mapo{position:absolute!important;left:var(--mx);bottom:calc(10*var(--sv,1svh));margin:0!important;align-self:auto}
+/* выезжающие справа слайды (красный экран, 1917) не должны расширять страницу на планшете и телефоне */
+.redpin,.fallpin,.papers,.hsec,#shelf-sec,#first,#jub,.mpin,#orders{overflow-x:clip}
+/* схема: вместо Пушкина крупная толпа, отодвинуть схему от текста */
+.rtyp .rscale{margin-top:clamp(2rem,8vh,5rem)}
+/* новые экраны — только три стиля: крупный и мелкий текст regular (400), как везде */
+.hx,.hx.big,.hx.small,.hx.quote,.hx .qa,.pp1,.pp2,.pp3,.fhint,.opt,.paper,.mapo,#c3,#c4,.fcred .fname,.fcred .fproj{font-weight:400!important;letter-spacing:normal}
+.hx.big,.hx.quote,.pp1,.pp3,#c3,#c4,.fcred .fname{font-size:var(--t2)!important;line-height:1.28!important}
+.hx.small,.hx .qa,.pp2,.fhint,.opt,.paper,.mapo,.fcred .fproj{font-size:var(--t3)!important;line-height:1.4!important}
+
+/* экран «Я всегда буду против» */
+.always{position:relative;margin-inline:-16px;background:var(--mgrey);overflow-x:clip}
+.always .asc{min-height:calc(100*var(--sv,1svh));display:flex;align-items:center;padding:0 var(--mx)}
+.anim .always{height:260vh}
+.anim .always .asc{position:sticky;top:0;height:calc(100*var(--sv,1svh))}
+.alw{font-size:var(--t2)!important;font-weight:400!important;line-height:1.28;color:var(--mred);margin:0;white-space:nowrap}
+.alw .ne{display:inline-block;vertical-align:bottom;overflow:hidden;white-space:nowrap}
+.anim .alw .ne{max-width:0}
+.anim .alw .ne>span{opacity:0}
+.anim .alw{opacity:0}
+
+/* ===== первый экран одним экраном (24.10) ===== */
+.open1{position:relative;margin-inline:-16px;overflow-x:clip;background:var(--mgrey)}
+.open1 .ostage{position:relative;min-height:calc(100*var(--sv,1svh));overflow:hidden}
+.anim .open1{height:200vh}
+.anim .open1.go{height:800vh}
+.anim .open1 .ostage{position:sticky;top:0;height:calc(100*var(--sv,1svh))}
+.open1 .fphoto{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.pfall{position:absolute;inset:0;z-index:1;pointer-events:none}
+.pfall .paper{position:absolute;opacity:0;width:min(22vw,17rem);will-change:transform}
+.pfall .paper.sel{z-index:2}
+.oplate{position:absolute;z-index:3;left:var(--mx);top:50%;transform:translateY(-50%);background:#fff;color:var(--mink);
+  padding:clamp(1.2rem,2.6vw,2.6rem) clamp(1.4rem,3vw,3rem);width:min(44rem,86vw);box-sizing:border-box;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.oplate>*{margin:0 0 var(--gap)!important}.oplate>*:last-child{margin-bottom:0!important}
+.oplate .ost>*{margin:0 0 var(--gap)!important}.oplate .ost>*:last-child{margin-bottom:0!important}
+.oplate .fsub{color:var(--mred)}
+.oq{font-size:var(--t2)!important;font-weight:400!important;line-height:1.2;text-transform:uppercase;letter-spacing:.02em;color:var(--mred)}
+.oplate .fhint{font-size:var(--t3)!important;opacity:.7}
+.oplate .opts{display:flex;flex-wrap:wrap;gap:.5rem;margin:0}
+.oplate .opt{font-size:var(--t3)!important;color:var(--mink);border:1px solid rgba(12,12,12,.45);background:#fff;padding:.5em .85em;line-height:1.25!important}
+.oplate .opt:hover{border-color:var(--mink)}
+.oplate .opt[aria-pressed="true"]{background:var(--mred);border-color:var(--mred);color:#fff}
+.oplate .opt:focus-visible{outline:2px solid var(--mred)}
+.otype{font-size:var(--t3)!important;font-weight:400!important;line-height:1.4;margin:0;color:var(--mink)}
+.otype .caret{display:inline-block;width:2px;height:1.1em;margin:0 1px -.2em;background:var(--mink);animation:blink 1s steps(1) infinite}
+.oplate .alw{white-space:normal}
+.anim .oplate .alw{opacity:1}
+.anim #os2,.anim #os3,.anim #os4{display:none}
+@media (max-width:860px){.oplate{top:auto;bottom:4vh;transform:none;left:16px;right:16px;width:auto}.pfall .paper{width:42vw}}
+html:not(.anim) .oplate{position:relative;left:auto;top:auto;transform:none;margin:20vh var(--mx)}
+
+/* ===== первый экран: фото → красный, на красном всё по скроллу (24.10, версия 2) ===== */
+.anim .open1{height:250vh}
+.anim .open1.go{height:840vh}
+.open1 .otrack{display:flex;width:200%;height:100%;will-change:transform}
+.open1 .opanel{position:relative;flex:0 0 50%;box-sizing:border-box;min-height:calc(100*var(--sv,1svh));height:100%;overflow:hidden}
+.open1 .ogrey{background:var(--mgrey)}
+.open1 .ored{background:var(--mred);color:#C0C0C0}
+.open1 .ogrey .fphoto{position:absolute;inset:0;z-index:0}
+.open1 .oplate{position:absolute;z-index:2;left:var(--mx);top:50%;transform:translateY(-50%);background:#fff;padding:clamp(1.2rem,2.6vw,2.6rem) clamp(1.4rem,3vw,3rem);width:auto;max-width:min(46rem,86vw)}
+.open1 .oplate .ftitle{color:var(--mred)}
+.open1 .obox{position:absolute;z-index:3;left:var(--mx);top:50%;transform:translateY(-50%);width:min(40rem,84vw)}
+.open1 .ost>*{margin:0 0 var(--gap)!important}.open1 .ost>*:last-child{margin-bottom:0!important}
+.anim .open1 .ost{display:none}
+.open1 .fq1{color:#C0C0C0}
+.open1 .oq{color:#C0C0C0;text-transform:uppercase}
+.open1 .fhint{color:#C0C0C0;opacity:.8}
+.open1 .opts{display:flex;flex-wrap:wrap;gap:.5rem;margin:0}
+.open1 .opt{font-size:var(--t3)!important;color:#C0C0C0;background:transparent;border:1px solid rgba(192,192,192,.6);padding:.5em .85em;line-height:1.25!important}
+.open1 .opt:hover{border-color:#C0C0C0}
+.open1 .opt[aria-pressed="true"]{background:#C0C0C0;color:var(--mred);border-color:#C0C0C0}
+.open1 .otype{color:#C0C0C0}
+.open1 .otype .caret{background:#C0C0C0}
+.open1 .alw{color:#C0C0C0;white-space:normal}
+.open1 .pfall{position:absolute;inset:0;z-index:1;pointer-events:none}
+.open1 .paper{color:var(--mink)}
+.open1 .paper.sel{outline:2px solid var(--mred)}
+@media (max-width:860px){.open1 .obox{top:auto;bottom:6vh;transform:none;left:16px;right:16px;width:auto}.open1 .oplate{left:16px;right:16px}}
+html:not(.anim) .open1 .otrack{display:block;width:auto}
+html:not(.anim) .open1 .obox{position:relative;top:auto;left:auto;transform:none;padding:3rem var(--mx)}
+.anim .open1 .fq1,.anim .open1 .alw{opacity:1!important}
+.open1 .obox{width:min(34rem,84vw)}
+.open1{padding:0!important;max-width:none!important}
+@media (max-width:860px){.open1 .oplate{top:auto!important;bottom:6vh!important;transform:none!important;width:auto!important}}
+/* правки первого экрана: высота постоянная (страница не прыгает при выборе), вопрос — стиль заголовка, печать с прозрачным хвостом */
+html,body{overflow-anchor:none}
+.anim .open1,.anim .open1.go{height:840vh}
+.open1 .obox{width:auto!important;max-width:none}
+.open1 #os0,.open1 #os3,.open1 #os4{max-width:min(34rem,84vw)}
+.open1 #os2{max-width:min(64vw,62rem)}
+.open1 .oq{font-size:var(--t1)!important;font-weight:700!important;line-height:1!important;letter-spacing:-.025em;text-transform:none!important;color:#C0C0C0}
+.otype .rest{color:transparent!important}
+@media (max-width:860px){.open1 #os2{max-width:none}}
+/* первый экран, версия 3: заголовок «Авангард для вас?» стоит на месте, бумажки сеткой справа и не заходят на абзац */
+.anim .open1{height:250vh!important}
+.anim .open1.go{height:840vh!important}
+.open1 .obox{top:22vh!important;transform:none!important;bottom:auto!important}
+.open1 .oh{font-size:var(--t1);font-weight:700;line-height:1;letter-spacing:-.025em;color:#C0C0C0;margin:0 0 var(--gap);max-width:min(48vw,48rem)}
+.anim .open1 .oh{opacity:0}
+.open1 #os0,.open1 #os3,.open1 #os4,.open1 #os2{max-width:min(44vw,40rem)}
+.open1 .pfall .paper{width:min(20vw,16rem)}
+@media (max-width:860px){
+  .open1 .obox{top:58vh!important;left:16px;right:16px}
+  .open1 .oh{max-width:none}
+  .open1 #os0,.open1 #os3,.open1 #os4,.open1 #os2{max-width:none}
+  .open1 .pfall .paper{width:44vw}
+}
+#after[hidden]{display:none!important}
+.open1 #os0,.open1 #os3,.open1 #os4,.open1 #os2{max-width:min(38vw,38rem)}
+.open1 .oh{max-width:min(40vw,40rem)}
+@media (max-width:860px){.open1 #os0,.open1 #os3,.open1 #os4,.open1 #os2,.open1 .oh{max-width:none}}
+footer.colophon[hidden]{display:none!important}
+[data-wait][hidden]{display:none!important}
+@media (max-width:860px){.open1 .obox.early{top:14vh!important}}
+@media (max-width:860px){.open1 .obox{transition:top .6s ease}}
+.open1 .oh{max-width:none!important;white-space:nowrap}
+.open1 .pfall .paper{width:min(17vw,15rem)}
+@media (max-width:860px){.open1 .pfall .paper{width:44vw}}
+.open1 .pfall .paper{width:min(15vw,14rem)}@media (max-width:860px){.open1 .pfall .paper{width:44vw}}
+/* красный «Авангард» без плашек: текст под заголовком шире, экран постоянной длины */
+.anim .open1,.anim .open1.go{height:720vh!important}
+.open1 #os3,.open1 #os4{max-width:min(62vw,60rem)!important}
+@media (max-width:860px){.open1 .obox{top:22vh!important}.open1 #os3,.open1 #os4{max-width:none!important}}
+.anim .open1,.anim .open1.go{height:780vh!important}
+/* экран-параллель: одна панель */
+.anim #mirror{height:240vh!important}
+/* «Бог не скинут»: картина непрозрачная, текст на красной плашке */
+.mpanel.mred .mplate{position:relative;z-index:1;align-self:flex-start;background:var(--mred);color:#C0C0C0;padding:clamp(1.2rem,2.6vw,2.6rem) clamp(1.4rem,3vw,3rem);max-width:min(52rem,86vw);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.mpanel.mred .mplate>*{margin:0 0 var(--gap)!important}.mpanel.mred .mplate>*:last-child{margin-bottom:0!important}
+.mbg .mcross,.mcross{opacity:1!important;mix-blend-mode:normal!important;filter:none!important}
+
+/* ===== поздний Малевич: цитата переплывает на красный ===== */
+.lmal{position:relative;margin-inline:-16px;overflow-x:clip;--lq1:var(--t1)}
+.lmal .lstage{position:relative;overflow:hidden}
+.lmal .ltrack{display:flex;flex-direction:column}
+.lmal .lp{box-sizing:border-box;min-height:calc(100*var(--sv,1svh));display:flex;align-items:center;padding:4rem var(--mx)}
+.lmal .lgrey{background:var(--mgrey);color:var(--mink)}
+.lmal .lred{background:var(--mred)}
+.lmal .lin{max-width:min(66vw,66rem)}
+.lmal .lin>*{margin:0 0 var(--gap)!important}.lmal .lin>*:last-child{margin-bottom:0!important}
+.lmal .lh{font-size:var(--t1)!important;font-weight:700!important;line-height:1!important;letter-spacing:-.025em;color:var(--mink)}
+.lmal .ls{font-size:var(--t3);font-weight:400;line-height:1.4}
+.lmal .lqghost{font-size:var(--t2);font-weight:400;line-height:1.28;margin:0;visibility:hidden}
+.lmal .srcl{font-size:var(--tf);opacity:.7}.lmal .srcl a{color:inherit}
+.lmal .lq{display:none;margin:0}
+.lmal .ltype{display:none}
+.anim .lmal{height:620vh}
+.anim .lmal .lstage{position:sticky;top:0;height:calc(100*var(--sv,1svh))}
+.anim .lmal .ltrack{flex-direction:row;width:200%;height:100%;will-change:transform}
+.anim .lmal .lp{flex:0 0 50%;height:100%;min-height:0;padding-block:0}
+.anim .lmal .lx{opacity:0}
+.anim .lmal .lq{display:block;position:absolute;z-index:2;max-width:min(78vw,72rem);right:var(--mx);font-size:var(--t2);color:var(--mred);pointer-events:none}
+.anim .lmal .ltype{display:block;position:absolute;z-index:2;left:var(--mx);right:var(--mx);bottom:calc(10*var(--sv,1svh));max-width:min(62vw,60rem);margin:0;font-size:var(--t3);font-weight:400;line-height:1.4;color:#C0C0C0;opacity:0}
+.lmal .ltype .rest{visibility:hidden}
+.lmal .ltype .caret{display:inline-block;width:2px;height:1.1em;margin:0 1px -.2em;background:#C0C0C0;animation:blink 1s steps(1) infinite}
+@media (max-width:860px){.lmal .lin{max-width:none}.anim .lmal .ltype{max-width:none}.anim .lmal .lq{max-width:none}}
+.anim #twins{height:640vh}
+
+/* ===== выравнивание отступов (24.10): между блоками везде --gap, сноски — половина --gap ===== */
+.sc-pre .pre-big{margin:0 0 var(--gap)!important}
+.sc-pre .pre-red{margin:0!important}
+.fcred{margin:0 0 var(--gap)!important}
+.lmal .lin .lqslot{margin-bottom:0!important}
+.lmal .lin .lqslot+.srcl{margin-top:calc(.5*var(--gap))!important}
+#mapo{left:0!important}
+/* фон «Бог не скинут»: с запасом по краям, чтобы при параллаксе сбоку не открывалась красная/белая полоса */
+.mbg{inset:0;left:-1px;right:-1px}
+.mbg .mcross,.mcross{left:-10%!important;width:120%!important}
+/* правки 25.10 */
+.mtype .mq .mqn{display:block;margin-top:var(--gap);font-size:var(--t3)!important;line-height:1.4!important;font-weight:400!important;letter-spacing:normal!important;opacity:1!important;max-width:40rem;white-space:normal}
+#shelf-sec p#c3{font-size:var(--t3)!important;line-height:1.4!important;font-weight:400!important;max-width:44rem}
+#shelf-sec #c3r{opacity:0}
+.ords .qbig.qconc,.oq .qbig.qconc{color:#fff!important}
+/* правки 25.10 */
+.mtype .mq .mqn{display:block;margin-top:var(--gap);font-size:var(--t3)!important;line-height:1.4!important;font-weight:400!important;letter-spacing:normal!important;opacity:1!important;max-width:40rem;white-space:normal}
+#shelf-sec p#c3{font-size:var(--t3)!important;line-height:1.4!important;font-weight:400!important;max-width:44rem}
+#shelf-sec #c3r{opacity:0}
+.anim .mtype{height:720vh!important}
+@media(min-width:861px){.anim .oq .qbig.qconc{width:min(40vw,calc(100vw - 32px))!important}}
+/* поздний Малевич: плашка на картине, затем чёрный экран с цитатой */
+.lmal .lstage{background:var(--mgrey)}
+.lmal .lbg{position:absolute;inset:0}
+.lmal .lbg img{width:100%;height:100%;object-fit:cover;display:block}
+.lmal .lplate{position:absolute;left:var(--mx);top:50%;transform:translateY(-50%);z-index:1;background:var(--mred);color:#C0C0C0;padding:clamp(1.2rem,2.6vw,2.6rem) clamp(1.4rem,3vw,3rem);max-width:min(60rem,86vw);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.lmal .lplate>*{margin:0 0 var(--gap)!important}.lmal .lplate>*:last-child{margin-bottom:0!important}
+.lmal .lplate .lh{color:#C0C0C0!important;text-transform:none!important}
+.lmal .lplate .ls{color:#C0C0C0!important}
+.lmal .lblack{position:absolute;inset:0;background:#0C0C0C;opacity:0;z-index:2;pointer-events:none}
+.lmal .lcol{position:absolute;z-index:3;left:var(--mx);top:calc(7*var(--sv,1svh));width:min(62vw,60rem)}
+.lmal .lcol>*{margin:0 0 var(--gap)!important}.lmal .lcol>*:last-child{margin-bottom:0!important}
+.anim .lmal .lcol .lq{display:block!important;position:static!important;max-width:none!important;font-size:var(--t2)!important;font-weight:400!important;line-height:1.28!important;letter-spacing:normal!important;color:#C0C0C0!important;opacity:0}
+.lmal .lcol .srcl{color:#C0C0C0;opacity:0}
+.anim .lmal .lcol .ltype{position:static!important;bottom:auto!important;max-width:none!important;margin:0}
+@media (max-width:860px){.lmal .lcol{width:calc(100vw - 2*var(--mx))}}
+.anim #twins{height:480vh!important}
+.hx.quote .hl.up,.hx.quote .hl.dn{display:inline-block}
+.hx.quote .up,.hx.quote .dn{display:inline-block;color:var(--mink)}
+/* поздний Малевич: серый экран по центру, затем чёрный с цитатой по центру */
+.lmal .lplate.lgreyp{top:50%;transform:translateY(-50%);background:none;box-shadow:none;padding:0;color:var(--mink);width:min(66vw,66rem);max-width:none}
+.lmal .lplate .lh{color:var(--mink)!important}
+.lmal .lplate .ls{color:var(--mink)!important}
+.lmal .lcol{top:50%;transform:translateY(-50%)}
+.lmal .lcol .ltype{min-height:calc(5*1.4em)}
+@media (max-width:860px){.lmal .lplate.lgreyp{width:calc(100vw - 2*var(--mx))}}
+/* 25.10 ночь */
+#oh{display:none!important}
+.lmal .lplate .lh{font-size:var(--t2)!important;font-weight:400!important;letter-spacing:normal!important;line-height:1.28!important}
+.ml2 b{color:var(--mred)!important}
