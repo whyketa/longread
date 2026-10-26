@@ -1109,3 +1109,10 @@ footer.colophon[hidden]{display:none!important}
 #oh{display:none!important}
 .lmal .lplate .lh{font-size:var(--t2)!important;font-weight:400!important;letter-spacing:normal!important;line-height:1.28!important}
 .ml2 b{color:var(--mred)!important}
+.cred{color:var(--mred)}
+#orders{overflow-x:visible!important}
+
+/* подвал на всю ширину (26.10) */
+footer.colophon{padding-inline:var(--mx)!important}
+footer.colophon .col{max-width:none!important;margin:0!important;width:100%}
+footer.colophon .fnote{margin:0!important}
