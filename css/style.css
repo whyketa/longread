@@ -1119,7 +1119,7 @@ footer.colophon .fnote{margin:0!important}
 
 /* ===== телефон (до 860px): крупнее шрифты, фигуры героев справа снизу, бюст и корабль крупнее (26.10) ===== */
 @media (max-width:860px){
-  :root{--t1:clamp(2.5rem,10.5vw,4.5rem);--t2:clamp(1.8rem,7.6vw,3rem);--t3:clamp(1.45rem,6vw,1.85rem);--tf:clamp(1.15rem,4.7vw,1.4rem)}
+  :root{--t1:clamp(2.25rem,9vw,4rem);--t2:clamp(1.55rem,6.4vw,2.5rem);--t3:clamp(1.3rem,5.3vw,1.7rem);--tf:clamp(1.02rem,4.2vw,1.25rem)}
   .sc-text p.rev{font-size:var(--t3)!important;line-height:1.35!important}
   .sc-text h2{font-size:var(--t1)!important}
   .sc-text .yr{font-size:var(--t3)!important}
@@ -1139,3 +1139,8 @@ footer.colophon .fnote{margin:0!important}
   .fship{left:36%;bottom:12%;width:84vw}
   .ftx{top:5%}
 }
+
+
+/* ===== мобильные финальные правки (26.10 вечер) ===== */
+@media (max-width:860px){.open1 .oplate{top:50%!important;bottom:auto!important;transform:translateY(-50%)!important;left:16px;right:16px;width:auto;max-width:none}}
+@media (max-width:860px){.anim #redpin,.anim #fallpin{margin-top:0}}

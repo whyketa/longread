@@ -13,7 +13,7 @@
   },{passive:true});
 })();
 /* высота окна: svh в части браузеров не обновляется при смене масштаба, считаем сами */
-(function(){function f(){document.documentElement.style.setProperty('--sv',(window.innerHeight/100)+'px')} f(); addEventListener('resize',f); addEventListener('orientationchange',f); if(window.visualViewport) visualViewport.addEventListener('resize',f)})();
+(function(){var lw=0;function f(){var w=window.innerWidth;if(w===lw)return;lw=w;document.documentElement.style.setProperty('--sv',(window.innerHeight/100)+'px')} f(); addEventListener('resize',f); addEventListener('orientationchange',function(){lw=0;f()})})();
 /* ---- блок 1 ---- */
 /* ?debug в адресе показывает ошибки скрипта прямо на странице */
 (function(){
@@ -193,7 +193,7 @@
     if(!rp||!rsc||!crowd||!rfull||!rcar||!document.documentElement.classList.contains('anim')) return;
     /* вход: красный слайд приезжает справа поверх закреплённого предыдущего экрана */
     var rr=rp.getBoundingClientRect(), vhh=window.innerHeight;
-    if(rsc2){ if(rr.top>0){ var ent=seg(clamp(1-rr.top/vhh,0,1),.2,.52); rsc2.style.transform='translate('+((1-sm(ent))*window.innerWidth).toFixed(1)+'px,'+(-rr.top).toFixed(1)+'px)' } else rsc2.style.transform='' }
+    if(rsc2){ if(window.innerWidth>860&&rr.top>0){ var ent=seg(clamp(1-rr.top/vhh,0,1),.2,.52); rsc2.style.transform='translate('+((1-sm(ent))*window.innerWidth).toFixed(1)+'px,'+(-rr.top).toFixed(1)+'px)' } else rsc2.style.transform='' }
     var p=clamp(-rr.top/Math.max(1,rr.height-2*vhh),0,1);
     /* текст набирается (.04–.46), держится, стирается (.66–.82), потом набирается вывод */
     var inQ=p>=.83, n=inQ?Math.round(RQ.length*seg(p,.84,.92)):Math.round(rfull.length*(seg(p,.04,.46)-seg(p,.66,.82))), key=(inQ?'q':'a')+n;
@@ -215,7 +215,7 @@
   function drawFall(){
     if(!fp||!ftx||!fheap||!fship||!fmaya||!document.documentElement.classList.contains('anim')) return;
     var fr=fp.getBoundingClientRect(), fsc=fp.querySelector('.fallsc');
-    if(fsc){ if(fr.top>0){ var fe=seg(clamp(1-fr.top/window.innerHeight,0,1),.2,.52); fsc.style.transform='translate('+((1-sm(fe))*window.innerWidth).toFixed(1)+'px,'+(-fr.top).toFixed(1)+'px)' } else fsc.style.transform='' }
+    if(fsc){ if(window.innerWidth>860&&fr.top>0){ var fe=seg(clamp(1-fr.top/window.innerHeight,0,1),.2,.52); fsc.style.transform='translate('+((1-sm(fe))*window.innerWidth).toFixed(1)+'px,'+(-fr.top).toFixed(1)+'px)' } else fsc.style.transform='' }
     var p=progressOf(fp), vw=window.innerWidth/100, vh=window.innerHeight/100;
     var eH=sm(seg(p,0,.05)), eS=sm(seg(p,0,.2)), st=seg(p,.36,.6), stE=st*st*(3-2*st), fl=seg(p,.6,.84), W=window.innerWidth, H=window.innerHeight;
     ftx.style.opacity=sm(seg(p,0,.06)).toFixed(3);
