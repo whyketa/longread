@@ -1119,7 +1119,7 @@ footer.colophon .fnote{margin:0!important}
 
 /* ===== телефон (до 860px): крупнее шрифты, фигуры героев справа снизу, бюст и корабль крупнее (26.10) ===== */
 @media (max-width:860px){
-  :root{--t1:clamp(2.25rem,9.2vw,4rem);--t2:clamp(1.625rem,6.7vw,2.6rem);--t3:clamp(1.25rem,5.1vw,1.6rem);--tf:clamp(1rem,4.1vw,1.2rem)}
+  :root{--t1:clamp(2.5rem,10.5vw,4.5rem);--t2:clamp(1.8rem,7.6vw,3rem);--t3:clamp(1.45rem,6vw,1.85rem);--tf:clamp(1.15rem,4.7vw,1.4rem)}
   .sc-text p.rev{font-size:var(--t3)!important;line-height:1.35!important}
   .sc-text h2{font-size:var(--t1)!important}
   .sc-text .yr{font-size:var(--t3)!important}
