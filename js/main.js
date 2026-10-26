@@ -121,6 +121,10 @@
     var on=p>=.66; scols.forEach(function(el){el.classList.toggle('on',on)});
     /* рука берёт бюст Пушкина двумя пальцами, поднимает и выбрасывает */
     var hd=$('p-hand'); if(!hd) return;
+    if(W<=860){ /* телефон: бюст занимает всё место под текстом, рука крупнее вместе с ним */
+      var fr=art.getBoundingClientRect().bottom-stx.getBoundingClientRect().bottom-window.innerHeight*.05, nbw=Math.max(.32*W,Math.min(.56*W,fr/1.388));
+      pb.style.width=nbw.toFixed(1)+'px'; pb.style.left=(W*.5-nbw*.3).toFixed(1)+'px'; hd.style.width=Math.min(1.12*W,nbw*2.17).toFixed(1)+'px';
+    } else { pb.style.width=''; pb.style.left=''; hd.style.width='' }
     var bw=pb.offsetWidth, bh=pb.offsetHeight, hw=hd.offsetWidth, hh=hd.offsetHeight, AW=art.clientWidth, AH=art.clientHeight;
     var hx=pb.offsetLeft+bw*.5-.32*hw, hy=pb.offsetTop+bh*.03-.85*hh;
     /* рука входит сверху и берёт бюст, поднимает, замахивается назад и бросает влево: бюст летит по дуге за край экрана */

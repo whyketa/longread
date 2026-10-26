@@ -1116,3 +1116,26 @@ footer.colophon[hidden]{display:none!important}
 footer.colophon{padding-inline:var(--mx)!important}
 footer.colophon .col{max-width:none!important;margin:0!important;width:100%}
 footer.colophon .fnote{margin:0!important}
+
+/* ===== телефон (до 860px): крупнее шрифты, фигуры героев справа снизу, бюст и корабль крупнее (26.10) ===== */
+@media (max-width:860px){
+  :root{--t1:clamp(2.25rem,9.2vw,4rem);--t2:clamp(1.625rem,6.7vw,2.6rem);--t3:clamp(1.25rem,5.1vw,1.6rem);--tf:clamp(1rem,4.1vw,1.2rem)}
+  .sc-text p.rev{font-size:var(--t3)!important;line-height:1.35!important}
+  .sc-text h2{font-size:var(--t1)!important}
+  .sc-text .yr{font-size:var(--t3)!important}
+  .ftx,.jr{font-size:var(--t2)!important}
+
+  /* Маяковский и Малевич: ниже текста, справа выглядывают плечи и лицо */
+  .anim .pfig{--ph:auto;height:auto!important;width:92vw;max-width:none!important;top:calc(54*var(--sv,1svh))!important;bottom:auto!important;right:-20vw!important;opacity:.75}
+  .anim .pfig .fig{width:100%!important;height:auto!important;max-width:none!important}
+  #pf-m,#pf-l{height:auto!important}
+  .anim .pane{bottom:calc(47*var(--sv,1svh))}
+
+  /* бюст внизу, рука над ним */
+  .anim .sc-art .shipl .pb{left:44%;top:auto;bottom:4svh;width:48vw}
+
+  /* корабль с горой крупнее */
+  .fheap{width:200vw;right:-52vw;bottom:-22vw}
+  .fship{left:36%;bottom:12%;width:84vw}
+  .ftx{top:5%}
+}
