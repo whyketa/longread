@@ -1144,3 +1144,16 @@ footer.colophon .fnote{margin:0!important}
 /* ===== мобильные финальные правки (26.10 вечер) ===== */
 @media (max-width:860px){.open1 .oplate{top:50%!important;bottom:auto!important;transform:translateY(-50%)!important;left:16px;right:16px;width:auto;max-width:none}}
 @media (max-width:860px){.anim #redpin,.anim #fallpin{margin-top:0}}
+
+/* моб: высоты закреплённых секций от зафиксированной высоты, чтобы адресная строка телефона не дёргала сцену */
+@media (max-width:860px){
+  .anim .rtyp{height:calc(620*var(--sv,1vh))}
+  .fallpin{height:calc(340*var(--sv,1vh))}
+  .anim #pin-ship{height:calc(580*var(--sv,1vh))}
+}
+/* мобильные переносы строк */
+br.m{display:none}
+@media (max-width:860px){br.m{display:inline}}
+
+/* телефон: цитата «Александр Сергеевич…» на всю ширину, чтобы имя было в одну строку */
+@media (max-width:860px){.jp:first-child .jq{max-width:none;width:100%}}
