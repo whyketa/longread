@@ -80,7 +80,7 @@
 
   /* ---------- первый экран: фото → красный «Авангард»; под заголовком по скроллу печатается текст, потом «Я (не) всегда буду против» ---------- */
   var fst=$('first'), otk=$('o1track'), OS3=$('os3'), OS4=$('os4');
-  var oty=$('oty'), otr=$('otr'), OT=[typedText('ot1'),typedText('ot2'),typedText('ot3')], olast='', neE=$('ne'), ohE=$('oh');
+  var oty=$('oty'), otr=$('otr'), OT=[typedText('ot1'),typedText('ot2'),typedText('ot3')], olast='', neE=$('ne'), ohE=$('oh'), onamesE=$('onames');
   /* [начало печати, конец печати, начало стирания, конец стирания] — в vh прокрутки */
   var OTS=[[80,190,205,225],[232,300,315,330],[337,450,465,485]];
   function drawOpen(){
@@ -95,6 +95,7 @@
     OS3.style.display=typing?'block':'none'; OS3.style.opacity=seg(s,72,80).toFixed(3);
     OS4.style.display=typing?'none':'block'; OS4.style.opacity=seg(s,490,515).toFixed(3);
     if(neE){ var kk=sm(seg(s,560,625)); neE.style.maxWidth=(kk*neE.firstChild.offsetWidth).toFixed(1)+'px'; neE.firstChild.style.opacity=sm(seg(s,580,635)).toFixed(3) }
+    if(onamesE){ onamesE.style.opacity=seg(s,4,11).toFixed(3); onamesE.style.transform='translateY('+((1-sm(seg(s,4,22)))*10).toFixed(1)+'px)' }
   }
 
 

@@ -1157,3 +1157,15 @@ br.m{display:none}
 
 /* телефон: цитата «Александр Сергеевич…» на всю ширину, чтобы имя было в одну строку */
 @media (max-width:860px){.jp:first-child .jq{max-width:none;width:100%}}
+
+/* первый экран: заголовок-плашка + вторая белая плашка с именами, которая появляется при скролле */
+.open1 .ohero{position:absolute;z-index:2;left:var(--mx);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:flex-start;gap:16px;max-width:min(46rem,86vw)}
+.open1 .ohero .oplate{position:static;transform:none;left:auto;top:auto;max-width:none;width:auto}
+.onames{background:#fff;color:var(--mink);padding:clamp(.75rem,1.5vw,1.1rem) clamp(1.1rem,2.4vw,1.8rem);opacity:0;will-change:opacity,transform;align-self:flex-start;max-width:100%}
+.onames p{margin:0;font-size:var(--t3);line-height:1.4;color:var(--mink)}
+html:not(.anim) .onames{opacity:1}
+@media (max-width:860px){
+  .open1 .ohero{top:50%!important;bottom:auto!important;transform:translateY(-50%)!important;left:16px;right:16px;width:auto;max-width:none}
+  .open1 .ohero .oplate{position:static!important;transform:none!important;left:auto!important;top:auto!important}
+}
+
