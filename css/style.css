@@ -895,7 +895,7 @@ html:not(.anim) .mapo{color:var(--mink)}
 .anim #shelf-sec .cpanel{flex:0 0 calc(100%/3)!important}
 
 /* подвал */
-.fcred{display:grid;grid-template-columns:auto auto 1fr;gap:var(--gap) calc(2*var(--gap));align-items:end;margin:0 0 calc(2*var(--gap));padding-bottom:var(--gap);border-bottom:1px solid currentColor}
+.fcred{display:grid;grid-template-columns:auto auto 1fr;gap:var(--gap) calc(2*var(--gap));align-items:end;margin:0 0 calc(2*var(--gap))}
 .fcred h3{margin:0 0 .3em!important}
 .fcred .fname{font-size:var(--t2)!important;line-height:1.2;margin:0!important;opacity:1!important}
 .fcred .fproj{justify-self:end;margin:0!important}
